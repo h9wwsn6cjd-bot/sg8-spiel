@@ -40,6 +40,14 @@
     button {
       border: 0;
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    button.is-touching {
+      filter: brightness(0.9);
     }
 
     .flappy-app {
@@ -978,7 +986,8 @@
         0 7px 0 rgba(24, 32, 51, 0.72);
       font-size: 0.9rem;
       font-weight: 900;
-      touch-action: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
 
@@ -991,6 +1000,7 @@
 
     .mini-move-btn {
       font-size: 1.4rem;
+      touch-action: none;
     }
 
     .mini-decision-btn.stop {
@@ -4112,7 +4122,7 @@
             miniBriefingText.textContent = "Oben siehst du die Reihenfolge TF, FA, ZA, AW und AB. Fange die großen Aktenkarten in genau dieser Reihenfolge. Die gesuchte Akte leuchtet; eine falsche Akte kostet ein Leben.";
           } else {
             miniBriefingTitle.textContent = "Zivilfahndung";
-            miniBriefingText.textContent = "Prüfe die vier Fahndungsmerkmale. Grün bedeutet Treffer, Rot bedeutet Abweichung. Drücke nur bei vier grünen Feldern auf ZUGRIFF, sonst auf WEITERFAHREN.";
+            miniBriefingText.textContent = "Prüfe die vier Fahndungsmerkmale und lies immer die gelbe Einsatzregel. Sonderlagen können die normale Entscheidung ändern. Tippe auf ZUGRIFF oder WEITERFAHREN.";
           }
           miniBriefing.classList.remove("is-hidden");
           return;
@@ -4125,7 +4135,7 @@
           miniBriefingText.textContent = "Fange die Zutaten in der angezeigten Reihenfolge. Eine falsche Burgerlage kostet ein Leben.";
         } else {
           miniBriefingTitle.textContent = "Fahrzeugeinlasskontrolle";
-          miniBriefingText.textContent = "Prüfe Ausweis, Termin, Freigabe und Ladung. Erlaube die Einfahrt nur, wenn alle nötigen Angaben stimmen.";
+          miniBriefingText.textContent = "Prüfe Ausweis, Termin, Freigabe und Ladung. Lies zusätzlich die gelbe Tagesregel: Sperrlisten und Ausnahmen können die richtige Entscheidung verändern.";
         }
         miniBriefing.classList.remove("is-hidden");
       }
@@ -4215,8 +4225,8 @@
         if (miniGameMode === "burger") miniMessage.textContent = miniSequencePrompt(burgerOrder[0]);
         if (miniGameMode === "wach") {
           miniMessage.textContent = isKlerRole()
-            ? "Nur bei 4 grünen Treffern: ZUGRIFF"
-            : "Vier Angaben prüfen und Einfahrt entscheiden";
+            ? "Merkmale + gelbe Einsatzregel prüfen"
+            : "Angaben + gelbe Tagesregel prüfen";
           spawnGateCard();
         }
         startBackgroundMusic();
@@ -4266,6 +4276,45 @@
         { id: "lieferwagen", label: "GRAUER TRANSPORTER", cargoRequired: true, color: "#5b6670" },
         { id: "werkbus", label: "ZIVILBUS", cargoRequired: true, color: "#374653" }
       ];
+      const gateRules = {
+        schutzmann: [
+          { id: "standard", title: "STANDARD", hint: "ALLE NÖTIGEN ANGABEN PRÜFEN" },
+          { id: "lu-block", title: "SPERRLISTE", hint: "LU-KENNZEICHEN IMMER STOPP" },
+          { id: "night", title: "NACHTSCHICHT", hint: "TERMIN IST HEUTE EGAL" },
+          { id: "pkw-pass", title: "PKW-AUSNAHME", hint: "PKW: AUSWEIS + TERMIN REICHEN" }
+        ],
+        kler: [
+          { id: "standard", title: "STANDARD", hint: "4 TREFFER = ZUGRIFF" },
+          { id: "urgent", title: "EILBESCHLUSS", hint: "KENNZEICHEN + PERSON + OBS REICHEN" },
+          { id: "mz-abort", title: "ABBRUCHCODE", hint: "MZ-KENNZEICHEN: NIE ZUGREIFEN" },
+          { id: "evidence", title: "BEWEISFOKUS", hint: "PERSON + BEWEIS MÜSSEN TREFFEN" }
+        ]
+      };
+
+      function chooseGateRule() {
+        const rules = isKlerRole() ? gateRules.kler : gateRules.schutzmann;
+        if (Math.random() < 0.38) return rules[0];
+        return rules[1 + Math.floor(Math.random() * (rules.length - 1))];
+      }
+
+      function evaluateGatePermit(card) {
+        const standard = card.idOk && card.appointmentOk && card.accessOk &&
+          (!card.vehicle.cargoRequired || card.cargoOk);
+        if (isKlerRole()) {
+          if (card.rule.id === "urgent") return card.idOk && card.appointmentOk && card.accessOk;
+          if (card.rule.id === "mz-abort") return !card.plate.startsWith("MZ ") && standard;
+          if (card.rule.id === "evidence") return card.appointmentOk && card.cargoOk;
+          return standard;
+        }
+        if (card.rule.id === "lu-block") return !card.plate.startsWith("LU ") && standard;
+        if (card.rule.id === "night") {
+          return card.idOk && card.accessOk && (!card.vehicle.cargoRequired || card.cargoOk);
+        }
+        if (card.rule.id === "pkw-pass" && card.vehicle.id === "pkw") {
+          return card.idOk && card.appointmentOk;
+        }
+        return standard;
+      }
 
       function randomGatePlate() {
         const prefixes = ["KL", "KIB", "MZ", "LU", "NW"];
@@ -4283,10 +4332,12 @@
         const appointmentOk = Math.random() >= 0.28;
         const cargoOk = !vehicle.cargoRequired || Math.random() >= 0.3;
         const accessOk = Math.random() >= 0.24;
-        miniGateTimeLimit = Math.max(2.8, 5.8 - (miniLevel - 1) * 0.3);
+        const rule = chooseGateRule();
+        const thinkingBonus = rule.id === "standard" ? 0 : 1.7;
+        miniGateTimeLimit = Math.max(4.1, 6.2 + thinkingBonus - (miniLevel - 1) * 0.25);
         miniGateTimer = miniGateTimeLimit;
         miniGateFlash = "";
-        miniGateCard = {
+        const card = {
           x: 350,
           vehicle,
           plate: randomGatePlate(),
@@ -4294,11 +4345,14 @@
           appointmentOk,
           cargoOk,
           accessOk,
-          permit: idOk && appointmentOk && cargoOk && accessOk,
+          rule,
+          permit: false,
           speed: 50 + miniLevel * 4,
           resolved: false,
           outcome: ""
         };
+        card.permit = evaluateGatePermit(card);
+        miniGateCard = card;
         miniGateDelay = 0;
       }
 
@@ -4425,6 +4479,7 @@
       function decideGate(allow) {
         if (!miniRunning || miniGameMode !== "wach" || !miniGateCard || miniGateCard.resolved) return;
         const correct = allow === miniGateCard.permit;
+        const specialRule = miniGateCard.rule.id !== "standard";
         const quickDecision = miniGateTimer > miniGateTimeLimit * 0.55;
         miniGateCard.resolved = true;
         miniGateDelay = 0.82;
@@ -4438,16 +4493,21 @@
           const successMessage = isKlerRole()
             ? (allow ? "Zugriff erfolgreich" : "Richtig weiterfahren lassen")
             : (allow ? "Einfahrt freigegeben" : "Richtig zurückgewiesen");
-          miniMessage.textContent = `${successMessage} · Serie ${miniGateStreak} · +${points}`;
+          const ruleMessage = specialRule ? " · Sonderlage gelöst" : "";
+          miniMessage.textContent = `${successMessage}${ruleMessage} · Serie ${miniGateStreak} · +${points}`;
         } else {
           miniGateStreak = 0;
           miniScore = Math.max(0, miniScore - 2);
           miniGateCard.outcome = "error";
           miniGateFlash = "error";
           if (isKlerRole()) {
-            loseMiniLife(allow ? "Falsches Fahrzeug · -2 Punkte" : "Ziel entkommen · -2 Punkte");
+            loseMiniLife(specialRule
+              ? `${miniGateCard.rule.title} falsch angewendet · -2 Punkte`
+              : (allow ? "Falsches Fahrzeug · -2 Punkte" : "Ziel entkommen · -2 Punkte"));
           } else {
-            loseMiniLife(allow ? "Unterlagen unvollständig · -2 Punkte" : "Einfahrt wäre zulässig · -2 Punkte");
+            loseMiniLife(specialRule
+              ? `${miniGateCard.rule.title} übersehen · -2 Punkte`
+              : (allow ? "Unterlagen unvollständig · -2 Punkte" : "Einfahrt wäre zulässig · -2 Punkte"));
           }
         }
         updateMiniHud();
@@ -4892,7 +4952,7 @@
         miniCtx.fillStyle = "#8fdcff";
         miniCtx.font = "900 6px Inter, sans-serif";
         miniCtx.textAlign = "right";
-        miniCtx.fillText("4 TREFFER = ZUGRIFF", 301, 49.5);
+        miniCtx.fillText(miniGateCard ? miniGateCard.rule.title : "REGEL LESEN", 301, 49.5);
 
         if (!miniGateCard) {
           miniCtx.fillStyle = "#b9ced7";
@@ -4918,18 +4978,22 @@
         miniCtx.textAlign = "center";
         miniCtx.fillText(card.plate, 246.5, 73);
 
-        drawKlerStatusTile("KENNZEICHEN", card.idOk, 12, 88);
-        drawKlerStatusTile("PERSON", card.appointmentOk, 165, 88);
-        drawKlerStatusTile("OBSERVATION", card.accessOk, 12, 119);
-        drawKlerStatusTile("BEWEIS", card.cargoOk, 165, 119);
+        miniCtx.fillStyle = "#ffd85c";
+        miniCtx.font = "900 6.5px Inter, sans-serif";
+        miniCtx.fillText(card.rule.hint, 160, 86, 286);
+
+        drawKlerStatusTile("KENNZEICHEN", card.idOk, 12, 92);
+        drawKlerStatusTile("PERSON", card.appointmentOk, 165, 92);
+        drawKlerStatusTile("OBSERVATION", card.accessOk, 12, 122);
+        drawKlerStatusTile("BEWEIS", card.cargoOk, 165, 122);
 
         const timerRatio = card.resolved ? 0 : Math.max(0, miniGateTimer / miniGateTimeLimit);
         miniCtx.fillStyle = "#27333d";
-        roundRect(miniCtx, 13, 151, 294, 5, 2);
+        roundRect(miniCtx, 13, 153, 294, 4, 2);
         miniCtx.fill();
         miniCtx.fillStyle = timerRatio > 0.34 ? "#7ec8e3" : "#e56a78";
         if (timerRatio > 0) {
-          roundRect(miniCtx, 13, 151, 294 * timerRatio, 5, 2);
+          roundRect(miniCtx, 13, 153, 294 * timerRatio, 4, 2);
           miniCtx.fill();
         }
 
@@ -5010,29 +5074,41 @@
           miniCtx.fillStyle = "rgba(255, 255, 255, 0.96)";
           miniCtx.strokeStyle = panelColor;
           miniCtx.lineWidth = 3;
-          roundRect(miniCtx, 105, 43, 205, 101, 6);
+          roundRect(miniCtx, 105, 38, 205, 114, 6);
           miniCtx.fill();
           miniCtx.stroke();
           miniCtx.fillStyle = "#182033";
           miniCtx.font = "900 10px Inter, sans-serif";
           miniCtx.textAlign = "left";
-          miniCtx.fillText(`${card.vehicle.label} · ${card.plate}`, 115, 57);
+          miniCtx.fillText(`${card.vehicle.label} · ${card.plate}`, 115, 52);
           miniCtx.fillStyle = "#15479a";
           miniCtx.font = "900 8px Inter, sans-serif";
           miniCtx.textAlign = "right";
-          miniCtx.fillText(`SERIE ${miniGateStreak}`, 300, 57);
-          drawGateStatusRow(kler ? "KENNZEICHEN" : "AUSWEIS", card.idOk, true, 71);
-          drawGateStatusRow(kler ? "PERSON" : "TERMIN", card.appointmentOk, true, 86);
-          drawGateStatusRow(kler ? "OBSERVATION" : "FREIGABE", card.accessOk, true, 101);
-          drawGateStatusRow(kler ? "BEWEIS" : "LADUNG", card.cargoOk, card.vehicle.cargoRequired, 116);
+          miniCtx.fillText(`SERIE ${miniGateStreak}`, 300, 52);
+
+          miniCtx.fillStyle = "#ffd85c";
+          miniCtx.strokeStyle = "#182033";
+          miniCtx.lineWidth = 1.5;
+          roundRect(miniCtx, 113, 60, 189, 15, 3);
+          miniCtx.fill();
+          miniCtx.stroke();
+          miniCtx.fillStyle = "#182033";
+          miniCtx.font = "900 6.5px Inter, sans-serif";
+          miniCtx.textAlign = "center";
+          miniCtx.fillText(card.rule.hint, 207.5, 67.5, 177);
+
+          drawGateStatusRow("AUSWEIS", card.idOk, true, 84);
+          drawGateStatusRow("TERMIN", card.appointmentOk, true, 98);
+          drawGateStatusRow("FREIGABE", card.accessOk, true, 112);
+          drawGateStatusRow("LADUNG", card.cargoOk, card.vehicle.cargoRequired, 126);
 
           const timerRatio = card.resolved ? 0 : Math.max(0, miniGateTimer / miniGateTimeLimit);
           miniCtx.fillStyle = "#dfe8f4";
-          roundRect(miniCtx, 115, 128, 185, 7, 3);
+          roundRect(miniCtx, 115, 140, 185, 6, 3);
           miniCtx.fill();
           miniCtx.fillStyle = timerRatio > 0.34 ? "#20a464" : "#d22630";
           if (timerRatio > 0) {
-            roundRect(miniCtx, 115, 128, 185 * timerRatio, 7, 3);
+            roundRect(miniCtx, 115, 140, 185 * timerRatio, 6, 3);
             miniCtx.fill();
           }
         }
@@ -6628,12 +6704,93 @@
       }
 
       function bindPress(element, handler) {
-        element.addEventListener("pointerdown", handler);
-        element.addEventListener("touchstart", (event) => {
-          event.preventDefault();
+        let lastPress = -Infinity;
+        const press = (event) => {
+          const now = performance.now();
+          if (now - lastPress < 180) {
+            if (event.cancelable) event.preventDefault();
+            return;
+          }
+          lastPress = now;
+          if (event.type.indexOf("touch") === 0 && event.cancelable) event.preventDefault();
           handler(event);
-        }, false);
-        element.addEventListener("click", handler);
+        };
+        element.addEventListener("pointerdown", press);
+        element.addEventListener("touchstart", press, { passive: false });
+        element.addEventListener("click", press);
+      }
+
+      function bindTouchButton(button, handler) {
+        let lastActivation = -Infinity;
+        const activate = (event) => {
+          const now = performance.now();
+          if (now - lastActivation < 500) {
+            if (event.cancelable) event.preventDefault();
+            return;
+          }
+          lastActivation = now;
+          if (event.cancelable) event.preventDefault();
+          handler(event);
+        };
+        button.addEventListener("pointerup", activate);
+        button.addEventListener("touchend", activate, { passive: false });
+        button.addEventListener("click", activate);
+      }
+
+      function installMobileTapFallback() {
+        let gesture = null;
+        const findButton = (target) => target && target.closest ? target.closest("button") : null;
+
+        document.addEventListener("touchstart", (event) => {
+          if (event.touches.length !== 1) {
+            gesture = null;
+            return;
+          }
+          const button = findButton(event.target);
+          if (!button || button.disabled || button.classList.contains("mini-move-btn")) {
+            gesture = null;
+            return;
+          }
+          const touch = event.touches[0];
+          gesture = {
+            button,
+            identifier: touch.identifier,
+            x: touch.clientX,
+            y: touch.clientY,
+            moved: false
+          };
+        }, { passive: true, capture: true });
+
+        document.addEventListener("touchmove", (event) => {
+          if (!gesture) return;
+          const touch = Array.prototype.find.call(event.touches, (entry) => entry.identifier === gesture.identifier);
+          if (!touch) {
+            gesture.moved = true;
+            return;
+          }
+          if (Math.abs(touch.clientX - gesture.x) > 12 || Math.abs(touch.clientY - gesture.y) > 12) {
+            gesture.moved = true;
+          }
+        }, { passive: true, capture: true });
+
+        document.addEventListener("touchcancel", () => {
+          gesture = null;
+        }, { passive: true, capture: true });
+
+        document.addEventListener("touchend", (event) => {
+          if (!gesture) return;
+          const completedGesture = gesture;
+          gesture = null;
+          const touch = Array.prototype.find.call(event.changedTouches, (entry) => (
+            entry.identifier === completedGesture.identifier
+          ));
+          const button = findButton(event.target);
+          if (!touch || completedGesture.moved || button !== completedGesture.button || button.disabled) return;
+          event.preventDefault();
+          button.classList.add("is-touching");
+          window.setTimeout(() => button.classList.remove("is-touching"), 120);
+          button.click();
+        }, { passive: false, capture: true });
       }
 
       function bindMiniHold(button, direction) {
@@ -6671,6 +6828,8 @@
         requestAnimationFrame(loop);
       }
 
+      installMobileTapFallback();
+
       homeStartBtn.addEventListener("click", () => {
         if (homeReady) showRoleSelect();
       });
@@ -6689,13 +6848,13 @@
       miniGamesOpenBtn.addEventListener("click", openMiniGames);
       miniGamesBackBtn.addEventListener("click", handleMiniGamesBack);
       miniGameChoices.forEach((choice) => {
-        choice.addEventListener("click", () => openSelectedMiniGame(choice.dataset.miniGame));
+        bindTouchButton(choice, () => openSelectedMiniGame(choice.dataset.miniGame));
       });
-      miniStartBtn.addEventListener("click", startMiniGame);
+      bindTouchButton(miniStartBtn, startMiniGame);
       bindMiniHold(miniLeftBtn, -1);
       bindMiniHold(miniRightBtn, 1);
-      miniApproveBtn.addEventListener("click", () => decideGate(true));
-      miniRejectBtn.addEventListener("click", () => decideGate(false));
+      bindTouchButton(miniApproveBtn, () => decideGate(true));
+      bindTouchButton(miniRejectBtn, () => decideGate(false));
       miniCanvas.addEventListener("pointerdown", (event) => {
         event.preventDefault();
         placeMiniPlayer(event);
