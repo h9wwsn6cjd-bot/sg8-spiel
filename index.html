@@ -500,6 +500,190 @@
         linear-gradient(180deg, #f8fcff 0%, #eef7ff 100%);
     }
 
+    .minigame-screen {
+      overflow: hidden;
+    }
+
+    .mini-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .mini-tab {
+      min-height: 42px;
+      padding: 5px;
+      border-radius: 8px;
+      color: #182033;
+      background: rgba(247, 250, 252, 0.9);
+      border: 2px solid rgba(24, 32, 51, 0.72);
+      font-size: 0.72rem;
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .mini-tab[aria-selected="true"] {
+      color: #ffffff;
+      background: linear-gradient(135deg, #15479a, #2f7aff 58%, #d22630);
+      box-shadow: 0 0 18px rgba(47, 122, 255, 0.34);
+    }
+
+    .mini-hud {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .mini-hud span {
+      min-width: 0;
+      padding: 7px 4px;
+      border-radius: 8px;
+      color: #182033;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(24, 32, 51, 0.2);
+      text-align: center;
+      font-size: 0.74rem;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mini-stage {
+      position: relative;
+      flex: 1;
+      min-height: 300px;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 3px solid #182033;
+      background:
+        repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.2) 0 3px, transparent 3px 18px),
+        linear-gradient(180deg, #b8ecff, #fff3c9);
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.4) inset,
+        0 14px 30px rgba(24, 32, 51, 0.2);
+    }
+
+    .mini-message {
+      position: absolute;
+      z-index: 3;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      color: #12336f;
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.05;
+      font-weight: 800;
+      text-shadow: 0 2px 0 #ffffff;
+      pointer-events: none;
+    }
+
+    .mini-target {
+      position: absolute;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      border: 3px solid #182033;
+      color: #182033;
+      font-weight: 900;
+      letter-spacing: 0;
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.42) inset,
+        5px 7px 0 rgba(24, 32, 51, 0.74);
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    .mini-stage.bollo .mini-target {
+      width: 84px;
+      height: 84px;
+      left: calc(50% - 42px);
+      top: calc(54% - 42px);
+      border-radius: 50%;
+      color: #a5131c;
+      background:
+        repeating-radial-gradient(ellipse at center, #ffd85c 0 4px, #d22630 5px 7px, #fff7dc 8px 11px);
+      font-size: 0.78rem;
+    }
+
+    .mini-stage.burger {
+      background:
+        linear-gradient(90deg, transparent 48%, rgba(24, 32, 51, 0.1) 49% 51%, transparent 52%),
+        linear-gradient(180deg, #b8ecff 0%, #f7fafc 70%, #dfe8f4 70%);
+    }
+
+    .mini-stage.burger .mini-target {
+      width: 132px;
+      height: 48px;
+      left: calc(50% - 66px);
+      bottom: 18px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #d22630, #ffd85c);
+    }
+
+    .burger-stack {
+      position: absolute;
+      left: 50%;
+      bottom: 82px;
+      width: 150px;
+      min-height: 42px;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      transform: translateX(-50%);
+    }
+
+    .burger-layer {
+      width: 122px;
+      height: 16px;
+      margin-top: -2px;
+      border: 2px solid #182033;
+      border-radius: 8px;
+      background: #ffd85c;
+      box-shadow: 0 3px 0 rgba(24, 32, 51, 0.18);
+    }
+
+    .burger-layer:nth-child(3n + 2) {
+      width: 132px;
+      background: #67dfc8;
+    }
+
+    .burger-layer:nth-child(3n) {
+      width: 126px;
+      background: #a64b2a;
+    }
+
+    .mini-stage.wach {
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 216, 92, 0.44) 0 24px, rgba(24, 32, 51, 0.14) 24px 48px),
+        linear-gradient(180deg, #dfe8f4, #f7fafc);
+    }
+
+    .mini-stage.wach .mini-target {
+      width: 126px;
+      height: 126px;
+      left: calc(50% - 63px);
+      top: calc(54% - 63px);
+      border-radius: 50%;
+      color: #ffffff;
+      background: #586175;
+      font-size: 1rem;
+    }
+
+    .mini-stage.wach.is-ready .mini-target {
+      background: #20a464;
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.42) inset,
+        0 0 34px rgba(32, 164, 100, 0.72),
+        5px 7px 0 rgba(24, 32, 51, 0.74);
+    }
+
+    .mini-stage.wach.is-false-start .mini-target {
+      background: #d22630;
+    }
+
     .memorial-stage {
       position: relative;
       min-height: 410px;
@@ -1702,9 +1886,36 @@
         <button class="menu-action" id="memorialOpenBtn" type="button">Monumentary</button>
       </li>
       <li class="menu-card">
+        <button class="menu-action" id="miniGamesOpenBtn" type="button">Mini Games</button>
+      </li>
+      <li class="menu-card">
         <button class="menu-action" id="newGameBtn" type="button">Neues Spiel</button>
       </li>
     </ul>
+    <div class="app-footer">#immerda</div>
+  </section>
+
+  <section class="detail-screen minigame-screen app-screen is-hidden" id="miniGamesScreen" aria-label="Mini Games">
+    <header class="menu-head">
+      <h1>Mini Games</h1>
+      <button class="icon-btn" id="miniGamesBackBtn" type="button" aria-label="Zurück">←</button>
+    </header>
+    <div class="mini-tabs" role="tablist" aria-label="Mini Game auswählen">
+      <button class="mini-tab" type="button" data-mini-game="bollo" role="tab">Spaghetti Bollo</button>
+      <button class="mini-tab" type="button" data-mini-game="burger" role="tab">Burger King</button>
+      <button class="mini-tab" type="button" data-mini-game="wach" role="tab">Wachschutz</button>
+    </div>
+    <div class="mini-hud" aria-live="polite">
+      <span id="miniScoreLabel">Punkte 0</span>
+      <span id="miniBestLabel">Best 0</span>
+      <span id="miniTimeLabel">Zeit 12</span>
+    </div>
+    <div class="mini-stage bollo" id="miniStage">
+      <div class="mini-message" id="miniMessage">Bereit</div>
+      <div class="burger-stack" id="burgerStack" aria-hidden="true"></div>
+      <button class="mini-target" id="miniTarget" type="button">BOLLO</button>
+    </div>
+    <button class="menu-action" id="miniStartBtn" type="button">Mini Game starten</button>
     <div class="app-footer">#immerda</div>
   </section>
 
@@ -1830,6 +2041,7 @@
       const menuScreen = document.getElementById("menuScreen");
       const highscoreScreen = document.getElementById("highscoreScreen");
       const memorialScreen = document.getElementById("memorialScreen");
+      const miniGamesScreen = document.getElementById("miniGamesScreen");
       const settingsScreen = document.getElementById("settingsScreen");
       const playScreen = document.getElementById("playScreen");
       const homeStartBtn = document.getElementById("homeStartBtn");
@@ -1837,6 +2049,17 @@
       const highscoreBackBtn = document.getElementById("highscoreBackBtn");
       const memorialOpenBtn = document.getElementById("memorialOpenBtn");
       const memorialBackBtn = document.getElementById("memorialBackBtn");
+      const miniGamesOpenBtn = document.getElementById("miniGamesOpenBtn");
+      const miniGamesBackBtn = document.getElementById("miniGamesBackBtn");
+      const miniGameTabs = Array.prototype.slice.call(document.querySelectorAll("[data-mini-game]"));
+      const miniStage = document.getElementById("miniStage");
+      const miniMessage = document.getElementById("miniMessage");
+      const miniTarget = document.getElementById("miniTarget");
+      const miniStartBtn = document.getElementById("miniStartBtn");
+      const miniScoreLabel = document.getElementById("miniScoreLabel");
+      const miniBestLabel = document.getElementById("miniBestLabel");
+      const miniTimeLabel = document.getElementById("miniTimeLabel");
+      const burgerStack = document.getElementById("burgerStack");
       const settingsBtn = document.getElementById("settingsBtn");
       const settingsBackBtn = document.getElementById("settingsBackBtn");
       const settingsPasswordInput = document.getElementById("settingsPasswordInput");
@@ -1890,7 +2113,8 @@
         playersVersion: "sg8SpielPlayersVersion",
         highscores: "sg8SpielHighscores",
         best: "sg8SpielBest",
-        memorial: "sg8MemorialImages"
+        memorial: "sg8MemorialImages",
+        miniBests: "sg8MiniGameBests"
       };
       const playerPalette = [
         { bg: "#ff7f6e", fg: "#32110e" },
@@ -1927,6 +2151,15 @@
       let memorialIntroTimer = 0;
       let memorialSlideTimer = 0;
       let memorialSlideIndex = 0;
+      let miniGameMode = "bollo";
+      let miniRunning = false;
+      let miniReactionReady = false;
+      let miniReactionStartedAt = 0;
+      let miniGameDeadline = 0;
+      let miniTicker = 0;
+      let miniReactionTimer = 0;
+      let miniScore = 0;
+      let miniBests = loadMiniBests();
       let score = 0;
       let elapsed = 0;
       let spawnTimer = 0;
@@ -2088,6 +2321,176 @@
           row.appendChild(value);
           highscoreList.appendChild(row);
         });
+      }
+
+      function loadMiniBests() {
+        const saved = safeParse(storageKeys.miniBests, {});
+        return saved && typeof saved === "object" ? saved : {};
+      }
+
+      function miniGameDuration() {
+        return miniGameMode === "burger" ? 10 : 12;
+      }
+
+      function miniBestText() {
+        const value = Number(miniBests[miniGameMode]) || 0;
+        if (miniGameMode === "wach") return value ? `Best ${value} ms` : "Best --";
+        return `Best ${value}`;
+      }
+
+      function updateMiniHud() {
+        miniScoreLabel.textContent = miniGameMode === "wach"
+          ? (miniScore ? `${miniScore} ms` : "Reaktion")
+          : `Punkte ${miniScore}`;
+        miniBestLabel.textContent = miniBestText();
+      }
+
+      function saveMiniBest() {
+        if (miniScore <= 0) return;
+        const previous = Number(miniBests[miniGameMode]) || 0;
+        const isBetter = miniGameMode === "wach"
+          ? previous === 0 || miniScore < previous
+          : miniScore > previous;
+        if (!isBetter) return;
+        miniBests[miniGameMode] = miniScore;
+        safeSave(storageKeys.miniBests, miniBests);
+      }
+
+      function clearMiniTimers() {
+        clearInterval(miniTicker);
+        clearTimeout(miniReactionTimer);
+        miniTicker = 0;
+        miniReactionTimer = 0;
+      }
+
+      function renderBurgerStack() {
+        burgerStack.innerHTML = "";
+        const visibleLayers = Math.min(miniScore, 11);
+        for (let index = 0; index < visibleLayers; index += 1) {
+          const layer = document.createElement("span");
+          layer.className = "burger-layer";
+          burgerStack.appendChild(layer);
+        }
+      }
+
+      function moveBolloTarget() {
+        miniTarget.style.left = `${6 + Math.random() * 68}%`;
+        miniTarget.style.top = `${18 + Math.random() * 48}%`;
+      }
+
+      function resetMiniStage() {
+        miniStage.className = `mini-stage ${miniGameMode}`;
+        miniTarget.style.left = "";
+        miniTarget.style.top = "";
+        miniTarget.disabled = false;
+        burgerStack.innerHTML = "";
+        miniMessage.textContent = "Bereit";
+        miniTarget.textContent = miniGameMode === "bollo"
+          ? "BOLLO"
+          : (miniGameMode === "burger" ? "STAPELN" : "WARTEN");
+      }
+
+      function stopMiniGame() {
+        clearMiniTimers();
+        miniRunning = false;
+        miniReactionReady = false;
+        miniStartBtn.disabled = false;
+      }
+
+      function selectMiniGame(mode) {
+        stopMiniGame();
+        miniGameMode = mode;
+        miniScore = 0;
+        miniGameTabs.forEach((tab) => {
+          tab.setAttribute("aria-selected", String(tab.dataset.miniGame === mode));
+        });
+        resetMiniStage();
+        miniTimeLabel.textContent = miniGameMode === "wach" ? "Zeit --" : `Zeit ${miniGameDuration()}`;
+        miniStartBtn.textContent = "Mini Game starten";
+        updateMiniHud();
+      }
+
+      function openMiniGames() {
+        selectMiniGame(miniGameMode);
+        showScreen("minigames");
+        setStatus("Mini Games geöffnet.");
+      }
+
+      function finishMiniGame(message) {
+        if (!miniRunning) return;
+        clearMiniTimers();
+        miniRunning = false;
+        miniReactionReady = false;
+        saveMiniBest();
+        updateMiniHud();
+        miniMessage.textContent = message;
+        miniTarget.disabled = true;
+        miniStartBtn.disabled = false;
+        miniStartBtn.textContent = "Nochmal";
+      }
+
+      function updateMiniCountdown() {
+        const remaining = Math.max(0, Math.ceil((miniGameDeadline - Date.now()) / 1000));
+        miniTimeLabel.textContent = `Zeit ${remaining}`;
+        if (remaining <= 0) finishMiniGame(`${miniScore} Punkte`);
+      }
+
+      function startMiniGame() {
+        stopMiniGame();
+        miniScore = 0;
+        miniRunning = true;
+        miniStartBtn.disabled = true;
+        resetMiniStage();
+        updateMiniHud();
+
+        if (miniGameMode === "wach") {
+          miniTimeLabel.textContent = "Zeit --";
+          miniMessage.textContent = "Warten...";
+          miniTarget.textContent = "WARTEN";
+          miniReactionTimer = setTimeout(() => {
+            if (!miniRunning) return;
+            miniReactionReady = true;
+            miniReactionStartedAt = performance.now();
+            miniStage.classList.add("is-ready");
+            miniMessage.textContent = "JETZT";
+            miniTarget.textContent = "TIPPEN";
+          }, 1200 + Math.random() * 2200);
+          return;
+        }
+
+        miniMessage.textContent = miniGameMode === "bollo" ? "Spaghetti Bollo" : "Burger King";
+        if (miniGameMode === "bollo") moveBolloTarget();
+        miniGameDeadline = Date.now() + miniGameDuration() * 1000;
+        updateMiniCountdown();
+        miniTicker = setInterval(updateMiniCountdown, 200);
+      }
+
+      function handleMiniTarget() {
+        if (!miniRunning) return;
+        if (miniGameMode === "bollo") {
+          miniScore += 1;
+          moveBolloTarget();
+          updateMiniHud();
+          return;
+        }
+        if (miniGameMode === "burger") {
+          miniScore += 1;
+          renderBurgerStack();
+          updateMiniHud();
+          return;
+        }
+        if (!miniReactionReady) {
+          clearMiniTimers();
+          miniRunning = false;
+          miniStage.classList.add("is-false-start");
+          miniMessage.textContent = "Fehlstart";
+          miniTarget.textContent = "ZU FRÜH";
+          miniStartBtn.disabled = false;
+          miniStartBtn.textContent = "Nochmal";
+          return;
+        }
+        miniScore = Math.max(1, Math.round(performance.now() - miniReactionStartedAt));
+        finishMiniGame(`${miniScore} ms`);
       }
 
       function loadMemorialImages() {
@@ -2298,10 +2701,12 @@
 
       function showScreen(screen) {
         if (screen !== "memorial") stopMemorialSlideshow();
+        if (screen !== "minigames") stopMiniGame();
         startScreen.classList.toggle("is-hidden", screen !== "start");
         menuScreen.classList.toggle("is-hidden", screen !== "menu");
         highscoreScreen.classList.toggle("is-hidden", screen !== "highscores");
         memorialScreen.classList.toggle("is-hidden", screen !== "memorial");
+        miniGamesScreen.classList.toggle("is-hidden", screen !== "minigames");
         settingsScreen.classList.toggle("is-hidden", screen !== "settings");
         playScreen.classList.toggle("is-hidden", screen !== "play");
         if (screen === "menu") {
@@ -3091,6 +3496,13 @@
       highscoreBackBtn.addEventListener("click", showMenu);
       memorialOpenBtn.addEventListener("click", openMemorial);
       memorialBackBtn.addEventListener("click", showMenu);
+      miniGamesOpenBtn.addEventListener("click", openMiniGames);
+      miniGamesBackBtn.addEventListener("click", showMenu);
+      miniGameTabs.forEach((tab) => {
+        tab.addEventListener("click", () => selectMiniGame(tab.dataset.miniGame));
+      });
+      miniStartBtn.addEventListener("click", startMiniGame);
+      miniTarget.addEventListener("click", handleMiniTarget);
       newGameBtn.addEventListener("click", enterCharacterSelect);
       settingsBtn.addEventListener("click", openSettings);
       settingsBackBtn.addEventListener("click", showMenu);
@@ -3134,6 +3546,7 @@
       renderAvatarList();
       renderHighscores();
       renderMemorialSlide();
+      selectMiniGame("bollo");
       resetGame("selecting");
       updateOverlay();
       updateMenuState();
