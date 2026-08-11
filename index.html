@@ -1055,6 +1055,25 @@
 
     .overlay.is-gameover .overlay-score {
       font-size: 0.74rem;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .mini-message.is-loss {
+      top: 7px;
+      left: 8px;
+      right: 8px;
+      min-height: 46px;
+      padding: 7px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: rgba(143, 17, 26, 0.94);
+      border: 2px solid #ffffff;
+      border-radius: 7px;
+      font-size: 0.68rem;
+      line-height: 1.12;
+      text-shadow: 0 2px 0 #182033;
     }
 
     .overlay.is-gameover .wanted-poster {
@@ -4326,6 +4345,13 @@
         "Trichter spielt Clash of Clans.",
         "Eierohle trinkt Energy Drinks und isst alle Essensreste."
       ];
+      const lossMessages = [
+        "Verloren! Du wirst zur Polizei Saarland geschickt!",
+        "Loser! Du musst 1 Monat lang Schrankendienst auf dem Hahn machen!",
+        "Verloren! Du musst ein halbes Jahr beim Schwerlastkontrolltrupp hospitieren!",
+        "Verloren! Du wirst zur WaPo abgeordnet!",
+        "Verloren! Du wirst in SG9 exekutiert!"
+      ];
       const sockPatterns = [
         { id: "blue", base: "#2f7aff", accent: "#ffffff", mark: "B" },
         { id: "red", base: "#d22630", accent: "#ffd85c", mark: "R" },
@@ -4538,6 +4564,8 @@
       let nextBossScore = 15;
       let bossRoundIndex = 0;
       let lastLossReason = "Absperrung gerammt";
+      let lastLossMessage = lossMessages[0];
+      let previousLossMessageIndex = -1;
       let bird = createBird();
 
       bestValue.textContent = String(best);
@@ -4576,6 +4604,15 @@
         } catch (error) {
           return false;
         }
+      }
+
+      function randomLossMessage() {
+        let index = Math.floor(Math.random() * lossMessages.length);
+        if (lossMessages.length > 1 && index === previousLossMessageIndex) {
+          index = (index + 1 + Math.floor(Math.random() * (lossMessages.length - 1))) % lossMessages.length;
+        }
+        previousLossMessageIndex = index;
+        return lossMessages[index];
       }
 
       function currentDayKey() {
@@ -5367,6 +5404,7 @@
         miniBarrierOpen = 0;
         miniGateFlash = "";
         miniEffectTimer = 0;
+        miniMessage.classList.remove("is-loss");
         miniSockCards = miniGameMode === "socken" ? shuffledSockCards() : [];
         miniSockSelected = [];
         miniSockResolveTimer = 0;
@@ -5489,6 +5527,8 @@
         renderMiniGamePicker();
         updateMiniHud();
         miniMessage.textContent = message;
+        miniMessage.classList.toggle("is-loss", !won);
+        if (!won) speakVoiceLine(message);
         miniStartBtn.disabled = false;
         miniStartBtn.textContent = "Nochmal";
       }
@@ -5528,7 +5568,7 @@
         playSoundEffect("error");
         miniMessage.textContent = message;
         updateMiniHud();
-        if (miniLives <= 0) finishMiniGame("Verloren! Du wirst zur WaPo abgeordnet");
+        if (miniLives <= 0) finishMiniGame(randomLossMessage());
       }
 
       function sockCardRect(index) {
@@ -5562,7 +5602,7 @@
       function updateSockMiniGame(dt) {
         miniSockTime = Math.max(0, miniSockTime - dt);
         if (miniSockTime <= 0) {
-          finishMiniGame("Zeit vorbei! Du wirst zur WaPo abgeordnet");
+          finishMiniGame(randomLossMessage());
           return;
         }
         if (miniSockResolveTimer > 0) {
@@ -6719,7 +6759,7 @@
             miniCtx.font = "900 25px Inter, sans-serif";
             miniCtx.fillText("VERLOREN!", 160, 126);
             miniCtx.font = "900 13px Inter, sans-serif";
-            miniCtx.fillText("Du wirst zur WaPo abgeordnet", 160, 157);
+            miniCtx.fillText("Strafe oben lesen", 160, 157);
           } else {
             miniCtx.font = "900 25px Inter, sans-serif";
             miniCtx.fillText("BEREIT", 160, 138);
@@ -7406,12 +7446,13 @@
       function gameOver(reason = "Absperrung gerammt") {
         state = "gameover";
         lastLossReason = reason;
+        lastLossMessage = randomLossMessage();
         bossMode = "";
         bossRoundTimer = 0;
         bossBanner.classList.remove("is-active");
         stopBackgroundMusic();
         playSoundEffect("error");
-        speakVoiceLine("Verloren! Du wirst zur WaPo abgeordnet");
+        speakVoiceLine(lastLossMessage);
         recordHighscore();
         if (partyMode && partyPlayers[partyIndex]) {
           partyPlayers[partyIndex].score = score;
@@ -7504,7 +7545,7 @@
           overlayTitle.textContent = partyMode ? `${partyPlayers[partyIndex].name}: Runde beendet` : "Du hast verloren.";
           overlayScore.textContent = partyMode
             ? `Score ${score}`
-            : "Du wirst in SG9 exekutiert";
+            : lastLossMessage;
           overlayBtn.textContent = partyMode
             ? (partyIndex < partyPlayers.length - 1 ? "Nächster Spieler" : "Siegerehrung")
             : "Nochmal spielen";
