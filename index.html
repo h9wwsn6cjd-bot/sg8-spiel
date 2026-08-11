@@ -556,85 +556,6 @@
       font-weight: 700;
     }
 
-    .memorial-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .memorial-name {
-      min-width: 0;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      color: #15479a;
-      font-size: 1.12rem;
-      font-weight: 800;
-    }
-
-    .menu-upload-btn {
-      position: relative;
-      min-height: 34px;
-      padding: 0 10px;
-      border-radius: 8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #182033;
-      background: #f7fafc;
-      border: 1px solid rgba(24, 32, 51, 0.14);
-      font-weight: 800;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .menu-upload-btn input {
-      position: absolute;
-      inline-size: 1px;
-      block-size: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .memorial-gallery {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      min-height: 54px;
-    }
-
-    .memorial-photo,
-    .memorial-placeholder {
-      aspect-ratio: 1;
-      border-radius: 8px;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(47, 122, 255, 0.16), rgba(255, 216, 92, 0.22));
-      border: 1px solid rgba(24, 32, 51, 0.12);
-    }
-
-    .memorial-photo img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    .memorial-placeholder {
-      display: grid;
-      place-items: center;
-      color: #586175;
-      font-weight: 800;
-    }
-
-    .memorial-slide .memorial-placeholder {
-      width: 100%;
-      height: 100%;
-      aspect-ratio: auto;
-      font-size: 2rem;
-    }
-
     .menu-action {
       position: relative;
       overflow: hidden;
@@ -1017,77 +938,6 @@
       gap: 8px;
     }
 
-    .memorial-stage {
-      position: relative;
-      min-height: 410px;
-      display: grid;
-      gap: 12px;
-      align-content: center;
-      overflow: hidden;
-    }
-
-    .memorial-tribute {
-      margin: 0;
-      color: #15479a;
-      font-size: 1.68rem;
-      line-height: 1.14;
-      text-align: center;
-      font-weight: 800;
-      letter-spacing: 0;
-      opacity: 0;
-      transform: translateY(12px);
-    }
-
-    .memorial-tribute.is-visible {
-      animation: memorialTextIn 2200ms ease forwards;
-    }
-
-    .memorial-slideshow {
-      display: grid;
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 500ms ease, transform 500ms ease;
-    }
-
-    .memorial-slideshow.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .memorial-slide {
-      aspect-ratio: 4 / 5;
-      border-radius: 8px;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, rgba(47, 122, 255, 0.16), rgba(255, 216, 92, 0.22));
-      border: 3px solid #182033;
-      box-shadow: 6px 7px 0 rgba(24, 32, 51, 0.86);
-    }
-
-    .memorial-slide img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    @keyframes memorialTextIn {
-      0% {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      22%,
-      78% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-8px);
-      }
-    }
-
     .settings-lock,
     .settings-editor {
       display: grid;
@@ -1223,18 +1073,6 @@
       min-height: 0;
       margin-top: 216px;
       overflow: auto;
-    }
-
-    .memorial-character {
-      top: 138px;
-      right: -16px;
-      width: 154px;
-      height: 270px;
-      animation: memorialCharacterBreathe 4600ms ease-in-out infinite;
-    }
-
-    #memorialScreen:not(.showing-slides) .memorial-stage {
-      padding-right: 108px;
     }
 
     .character-speech {
@@ -1464,18 +1302,6 @@
       }
       42% {
         transform: translateY(-7px) rotate(1deg) scale(1.02);
-      }
-    }
-
-    @keyframes memorialCharacterBreathe {
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-        filter: saturate(0.88) drop-shadow(-5px 0 10px rgba(47, 122, 255, 0.24));
-      }
-      50% {
-        transform: translateY(-4px) scale(1.012);
-        filter: saturate(1) drop-shadow(5px 0 12px rgba(210, 38, 48, 0.14));
       }
     }
 
@@ -3024,8 +2850,7 @@
     .flappy-app[data-role="kler"] .control-btn:not(.primary),
     .flappy-app[data-role="kler"] .icon-btn,
     .flappy-app[data-role="kler"] .mini-control-btn,
-    .flappy-app[data-role="kler"] .upload-btn,
-    .flappy-app[data-role="kler"] .menu-upload-btn {
+    .flappy-app[data-role="kler"] .upload-btn {
       color: #dcebf1;
       border-color: #4b6170;
       background: #141c24;
@@ -3234,9 +3059,6 @@
         <button class="menu-action" id="highscoreOpenBtn" type="button">Highscores</button>
       </li>
       <li class="menu-card">
-        <button class="menu-action" id="memorialOpenBtn" type="button">Monumentary</button>
-      </li>
-      <li class="menu-card">
         <button class="menu-action" id="miniGamesOpenBtn" type="button">Mini Games</button>
       </li>
       <li class="menu-card">
@@ -3306,26 +3128,6 @@
     </header>
     <div class="menu-card">
       <ol class="highscore-list" id="highscoreList"></ol>
-    </div>
-    <div class="app-footer">#immerda</div>
-  </section>
-
-  <section class="detail-screen app-screen with-character is-hidden" id="memorialScreen" aria-label="Monumentary">
-    <img class="screen-character memorial-character" id="memorialCharacter" src="assets/sg8-pose-memorial.png" alt="" aria-hidden="true">
-    <header class="menu-head">
-      <h1>Monumentary</h1>
-      <button class="icon-btn" id="memorialBackBtn" type="button" aria-label="Zurück">←</button>
-    </header>
-    <div class="menu-card memorial-stage">
-      <p class="memorial-tribute" id="memorialTribute">Hebet eure Colabiere in Gedanken an den Weizenbaron</p>
-      <div class="memorial-slideshow is-hidden" id="memorialSlideshow">
-        <div class="memorial-slide" id="memorialSlide"></div>
-        <div class="memorial-name">Weizenbaron</div>
-      </div>
-      <label class="menu-upload-btn">
-        Bilder
-        <input id="memorialInput" type="file" accept="image/*" multiple>
-      </label>
     </div>
     <div class="app-footer">#immerda</div>
   </section>
@@ -3446,7 +3248,6 @@
       const roleScreen = document.getElementById("roleScreen");
       const menuScreen = document.getElementById("menuScreen");
       const highscoreScreen = document.getElementById("highscoreScreen");
-      const memorialScreen = document.getElementById("memorialScreen");
       const miniGamesScreen = document.getElementById("miniGamesScreen");
       const settingsScreen = document.getElementById("settingsScreen");
       const playScreen = document.getElementById("playScreen");
@@ -3458,8 +3259,6 @@
       const menuCharacter = document.getElementById("menuCharacter");
       const highscoreOpenBtn = document.getElementById("highscoreOpenBtn");
       const highscoreBackBtn = document.getElementById("highscoreBackBtn");
-      const memorialOpenBtn = document.getElementById("memorialOpenBtn");
-      const memorialBackBtn = document.getElementById("memorialBackBtn");
       const miniGamesOpenBtn = document.getElementById("miniGamesOpenBtn");
       const miniGamesBackBtn = document.getElementById("miniGamesBackBtn");
       const menuCharacterSpeech = document.getElementById("menuCharacterSpeech");
@@ -3510,11 +3309,6 @@
       const menuPlayerNameInput = document.getElementById("menuPlayerNameInput");
       const highscoreList = document.getElementById("highscoreList");
       const highscoreCharacter = document.getElementById("highscoreCharacter");
-      const memorialInput = document.getElementById("memorialInput");
-      const memorialTribute = document.getElementById("memorialTribute");
-      const memorialSlideshow = document.getElementById("memorialSlideshow");
-      const memorialSlide = document.getElementById("memorialSlide");
-      const memorialCharacter = document.getElementById("memorialCharacter");
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
       const gameShell = document.getElementById("gameShell");
@@ -3593,7 +3387,6 @@
         playersVersion: "sg8SpielPlayersVersion",
         highscores: "sg8SpielHighscores",
         best: "sg8SpielBest",
-        memorial: "sg8MemorialImages",
         miniBests: "sg8MiniArcadeBestsV2",
         map: "sg8SpielMap",
         music: "sg8SpielMusic"
@@ -3680,9 +3473,6 @@
       let musicNextNoteTime = 0;
       let musicStep = 0;
       let musicEnabled = safeGet(storageKeys.music, "on") !== "off";
-      let memorialIntroTimer = 0;
-      let memorialSlideTimer = 0;
-      let memorialSlideIndex = 0;
       let miniGameMode = "bollo";
       let miniRunning = false;
       let miniScore = 0;
@@ -4122,7 +3912,7 @@
             miniBriefingText.textContent = "Oben siehst du die Reihenfolge TF, FA, ZA, AW und AB. Fange die großen Aktenkarten in genau dieser Reihenfolge. Die gesuchte Akte leuchtet; eine falsche Akte kostet ein Leben.";
           } else {
             miniBriefingTitle.textContent = "Zivilfahndung";
-            miniBriefingText.textContent = "Prüfe die vier Fahndungsmerkmale und lies immer die gelbe Einsatzregel. Sonderlagen können die normale Entscheidung ändern. Tippe auf ZUGRIFF oder WEITERFAHREN.";
+            miniBriefingText.textContent = "Prüfe die vier Fahndungsmerkmale und lies immer die gelbe Einsatzregel. Achte zusätzlich auf Kennzeichen-Endziffer und Code. Sonderlagen können die normale Entscheidung ändern. Tippe auf ZUGRIFF oder WEITERFAHREN.";
           }
           miniBriefing.classList.remove("is-hidden");
           return;
@@ -4294,7 +4084,12 @@
           { id: "standard", title: "STANDARD", hint: "4 TREFFER = ZUGRIFF" },
           { id: "urgent", title: "EILBESCHLUSS", hint: "KENNZEICHEN + PERSON + OBS REICHEN" },
           { id: "mz-abort", title: "ABBRUCHCODE", hint: "MZ-KENNZEICHEN: NIE ZUGREIFEN" },
-          { id: "evidence", title: "BEWEISFOKUS", hint: "PERSON + BEWEIS MÜSSEN TREFFEN" }
+          { id: "evidence", title: "BEWEISFOKUS", hint: "PERSON + BEWEIS MÜSSEN TREFFEN" },
+          { id: "plate-even", title: "AKTENCODE", hint: "GERADE ENDZIFFER + 4 TREFFER" },
+          { id: "observation-only", title: "VERDECKTE LAGE", hint: "OBS + BEWEIS REICHEN FÜR ZUGRIFF" },
+          { id: "kl-abort", title: "QUELLENSCHUTZ", hint: "KL-KENNZEICHEN: NIE ZUGREIFEN" },
+          { id: "one-mismatch", title: "RESTVERDACHT", hint: "MAXIMAL 1 ABWEICHUNG ERLAUBT" },
+          { id: "code-match", title: "CODEABGLEICH", hint: "CODE + ENDZIFFER: GLEICHE PARITÄT" }
         ]
       };
 
@@ -4308,10 +4103,21 @@
       function evaluateGatePermit(card) {
         const standard = card.idOk && card.appointmentOk && card.accessOk &&
           (!card.vehicle.cargoRequired || card.cargoOk);
+        const plateNumber = Number(card.plate.split(" ").pop()) || 0;
         if (isKlerRole()) {
           if (card.rule.id === "urgent") return card.idOk && card.appointmentOk && card.accessOk;
           if (card.rule.id === "mz-abort") return !card.plate.startsWith("MZ ") && standard;
           if (card.rule.id === "evidence") return card.appointmentOk && card.cargoOk;
+          if (card.rule.id === "plate-even") return plateNumber % 2 === 0 && standard;
+          if (card.rule.id === "observation-only") return card.accessOk && card.cargoOk;
+          if (card.rule.id === "kl-abort") return !card.plate.startsWith("KL ") && standard;
+          if (card.rule.id === "one-mismatch") {
+            return [card.idOk, card.appointmentOk, card.accessOk, card.cargoOk]
+              .filter(Boolean).length >= 3;
+          }
+          if (card.rule.id === "code-match") {
+            return plateNumber % 2 === card.sealCode % 2 && standard;
+          }
           return standard;
         }
         if (card.rule.id === "lu-block") return !card.plate.startsWith("LU ") && standard;
@@ -4321,7 +4127,6 @@
         if (card.rule.id === "pkw-pass" && card.vehicle.id === "pkw") {
           return card.idOk && card.appointmentOk;
         }
-        const plateNumber = Number(card.plate.split(" ").pop()) || 0;
         if (card.rule.id === "odd-stop") return plateNumber % 2 === 0 && standard;
         if (card.rule.id === "delivery-only") {
           return (card.vehicle.id === "lieferwagen" || card.vehicle.id === "lkw") && standard;
@@ -4359,7 +4164,10 @@
         const accessOk = Math.random() >= 0.24;
         const rule = chooseGateRule();
         const thinkingBonus = rule.id === "standard" ? 0 : 1.7;
-        miniGateTimeLimit = Math.max(4.1, 6.2 + thinkingBonus - (miniLevel - 1) * 0.25);
+        const baseTimeLimit = 6.2 + thinkingBonus - (miniLevel - 1) * 0.25;
+        miniGateTimeLimit = isKlerRole()
+          ? Math.max(4.1, baseTimeLimit)
+          : Math.max(8.2, baseTimeLimit * 2);
         miniGateTimer = miniGateTimeLimit;
         miniGateFlash = "";
         const card = {
@@ -4992,7 +4800,7 @@
         miniCtx.fillStyle = "#dcebf1";
         miniCtx.font = "900 8px Inter, sans-serif";
         miniCtx.textAlign = "left";
-        miniCtx.fillText(card.vehicle.label, 17, 72);
+        miniCtx.fillText(`${card.vehicle.label} · C${card.sealCode}`, 17, 72, 168);
         miniCtx.fillStyle = "#eef6f9";
         miniCtx.strokeStyle = "#7ec8e3";
         miniCtx.lineWidth = 1.5;
@@ -5214,95 +5022,9 @@
         }
       }
 
-      function loadMemorialImages() {
-        const images = safeParse(storageKeys.memorial, []);
-        return Array.isArray(images) ? images.filter(Boolean).slice(0, 9) : [];
-      }
-
-      function saveMemorialImages(images) {
-        safeSave(storageKeys.memorial, images.slice(0, 9));
-      }
-
-      function renderMemorialSlide() {
-        memorialSlide.innerHTML = "";
-        const images = loadMemorialImages();
-        if (!images.length) {
-          const placeholder = document.createElement("div");
-          placeholder.className = "memorial-placeholder";
-          placeholder.textContent = "+";
-          memorialSlide.appendChild(placeholder);
-          return;
-        }
-        memorialSlideIndex = memorialSlideIndex % images.length;
-        const image = document.createElement("img");
-        image.src = images[memorialSlideIndex];
-        image.alt = "";
-        memorialSlide.appendChild(image);
-      }
-
-      function stopMemorialSlideshow() {
-        clearTimeout(memorialIntroTimer);
-        clearTimeout(memorialSlideTimer);
-        memorialScreen.classList.remove("showing-slides");
-        memorialCharacter.classList.remove("is-hidden");
-        memorialTribute.classList.remove("is-visible");
-        memorialSlideshow.classList.add("is-hidden");
-        memorialSlideshow.classList.remove("is-visible");
-      }
-
-      function scheduleNextMemorialSlide() {
-        clearTimeout(memorialSlideTimer);
-        memorialSlideTimer = setTimeout(() => {
-          const images = loadMemorialImages();
-          if (images.length) {
-            memorialSlideIndex = (memorialSlideIndex + 1) % images.length;
-            renderMemorialSlide();
-          }
-          scheduleNextMemorialSlide();
-        }, 2600);
-      }
-
-      function openMemorial() {
-        showScreen("memorial");
-        stopMemorialSlideshow();
-        memorialSlideIndex = 0;
-        void memorialTribute.offsetWidth;
-        memorialTribute.classList.add("is-visible");
-        memorialIntroTimer = setTimeout(() => {
-          memorialScreen.classList.add("showing-slides");
-          memorialCharacter.classList.add("is-hidden");
-          renderMemorialSlide();
-          memorialSlideshow.classList.remove("is-hidden");
-          requestAnimationFrame(() => memorialSlideshow.classList.add("is-visible"));
-          scheduleNextMemorialSlide();
-        }, 2200);
-      }
-
       function openHighscores() {
         renderHighscores();
         showScreen("highscores");
-      }
-
-      function handleMemorialFiles(files) {
-        const incoming = Array.prototype.slice.call(files || [])
-          .filter((file) => file.type.indexOf("image/") === 0)
-          .slice(0, 9);
-        if (!incoming.length) return;
-        const existing = loadMemorialImages();
-        let remaining = incoming.length;
-        incoming.forEach((file) => {
-          const reader = new FileReader();
-          reader.addEventListener("load", () => {
-            existing.push(reader.result);
-            remaining -= 1;
-            if (remaining === 0) {
-              saveMemorialImages(existing.slice(-9));
-              renderMemorialSlide();
-              memorialInput.value = "";
-            }
-          });
-          reader.readAsDataURL(file);
-        });
       }
 
       function openSettings() {
@@ -5439,8 +5161,7 @@
         const screenSources = [
           [menuCharacter, "assets/sg8-pose-menu.png"],
           [miniGamesCharacter, "assets/sg8-pose-minigames.png"],
-          [highscoreCharacter, "assets/sg8-pose-highscore.png"],
-          [memorialCharacter, "assets/sg8-pose-memorial.png"]
+          [highscoreCharacter, "assets/sg8-pose-highscore.png"]
         ];
         screenSources.forEach(([element, protectionSource]) => {
           const nextSource = kler ? klerCharacterSource : protectionSource;
@@ -5525,7 +5246,6 @@
       }
 
       function showScreen(screen) {
-        if (screen !== "memorial") stopMemorialSlideshow();
         if (screen !== "minigames") stopMiniGame();
         if (screen !== "play" && screen !== "minigames") stopBackgroundMusic();
         if (screen === "menu") startMenuSpeechCycle();
@@ -5534,7 +5254,6 @@
         roleScreen.classList.toggle("is-hidden", screen !== "role");
         menuScreen.classList.toggle("is-hidden", screen !== "menu");
         highscoreScreen.classList.toggle("is-hidden", screen !== "highscores");
-        memorialScreen.classList.toggle("is-hidden", screen !== "memorial");
         miniGamesScreen.classList.toggle("is-hidden", screen !== "minigames");
         settingsScreen.classList.toggle("is-hidden", screen !== "settings");
         playScreen.classList.toggle("is-hidden", screen !== "play");
@@ -6879,8 +6598,6 @@
       roleSwitchBtn.addEventListener("click", showRoleSelect);
       highscoreOpenBtn.addEventListener("click", openHighscores);
       highscoreBackBtn.addEventListener("click", showMenu);
-      memorialOpenBtn.addEventListener("click", openMemorial);
-      memorialBackBtn.addEventListener("click", showMenu);
       miniGamesOpenBtn.addEventListener("click", openMiniGames);
       miniGamesBackBtn.addEventListener("click", handleMiniGamesBack);
       miniGameChoices.forEach((choice) => {
@@ -6928,7 +6645,6 @@
       newPlayerNameInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") addEditablePlayer();
       });
-      memorialInput.addEventListener("change", (event) => handleMemorialFiles(event.target.files));
       menuPlayerNameInput.addEventListener("input", () => {
         updateMenuState();
         updateOverlay();
@@ -6990,7 +6706,6 @@
       renderAvatarList();
       renderMapOptions();
       renderHighscores();
-      renderMemorialSlide();
       selectMiniGame("bollo");
       showMiniGamePicker();
       resetGame("selecting");
