@@ -3750,7 +3750,7 @@
       };
       const introDuration = 3600;
       const settingsPassword = "Bacardi";
-      const playersVersion = "sg8-characters-v2";
+      const playersVersion = "sg8-characters-v3";
       const storageKeys = {
         players: "sg8SpielPlayers",
         playersVersion: "sg8SpielPlayersVersion",
@@ -3816,13 +3816,14 @@
 
       const avatarSeed = [
         { id: "niki-gay-boy", name: "NikiGayBoy", initials: "NG", bg: "#ff7f6e", fg: "#32110e" },
-        { id: "weizenbaron", name: "Weizenbaron", initials: "W", bg: "#67dfc8", fg: "#06342f" },
         { id: "elfbar-lucie", name: "ElfbarLucie", initials: "EL", bg: "#ffcf5f", fg: "#342505" },
         { id: "prachtarsch", name: "Prachtarsch", initials: "P", bg: "#8ca5ff", fg: "#101941" },
         { id: "eierohle", name: "Eierohle", initials: "E", bg: "#2f7aff", fg: "#ffffff" },
         { id: "wuetschkoffer", name: "WÜtschkoffer", initials: "WÜ", bg: "#d22630", fg: "#ffffff" },
         { id: "haenger", name: "Hänger", initials: "H", bg: "#ffd85c", fg: "#342505" },
-        { id: "plenum", name: "Plenum", initials: "P", bg: "#15479a", fg: "#ffffff" }
+        { id: "trichter", name: "Trichter", initials: "T", bg: "#15479a", fg: "#ffffff" },
+        { id: "terres", name: "Terres", initials: "T", bg: "#67dfc8", fg: "#06342f" },
+        { id: "merinowolle", name: "Merinowolle", initials: "M", bg: "#a8d8ea", fg: "#182033" }
       ];
 
       if (!ctx || !miniCtx) {
@@ -4234,8 +4235,8 @@
         const image = new Image();
         const avatar = {
           id: "sg8-main-character",
-          name: "SG8 Main",
-          initials: "SG8",
+          name: "Weizenbaron",
+          initials: "WB",
           bg: "#15479a",
           fg: "#ffffff",
           type: "main",
