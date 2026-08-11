@@ -3956,17 +3956,18 @@
     }
 
     .mini-stage.lka .mini-message {
-      top: 7px;
-      left: 7px;
-      right: 7px;
-      min-height: 30px;
-      padding: 5px 8px;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      min-height: 42px;
+      padding: 7px 9px;
       color: #ffffff;
-      background: rgba(9, 13, 18, 0.86);
-      border: 2px solid rgba(126, 200, 227, 0.72);
+      background: rgba(9, 13, 18, 0.96);
+      border: 3px solid #7ec8e3;
       border-radius: 6px;
-      font-size: 0.65rem;
-      line-height: 1.08;
+      font-size: 0.76rem;
+      line-height: 1.18;
+      font-weight: 900;
       text-shadow: none;
     }
 
@@ -4019,8 +4020,8 @@
       left: 8px;
       right: 8px;
       bottom: 8px;
-      max-height: 194px;
-      padding: 9px;
+      max-height: 218px;
+      padding: 10px;
       overflow-y: auto;
       display: grid;
       gap: 7px;
@@ -4035,24 +4036,24 @@
     .lka-result h2 {
       margin: 0;
       color: #12336f;
-      font-size: 0.86rem;
-      line-height: 1.08;
+      font-size: 0.96rem;
+      line-height: 1.16;
     }
 
     .lka-dialog-options {
       display: grid;
-      gap: 5px;
+      gap: 7px;
     }
 
     .lka-dialog-option {
-      min-height: 32px;
-      padding: 5px 7px;
+      min-height: 40px;
+      padding: 7px 9px;
       border: 2px solid #182033;
       border-radius: 6px;
       color: #182033;
       background: #ffd85c;
-      font-size: 0.63rem;
-      line-height: 1.1;
+      font-size: 0.73rem;
+      line-height: 1.18;
       font-weight: 900;
       text-align: left;
     }
@@ -4147,6 +4148,46 @@
       background:
         radial-gradient(circle at 30% 28%, #7ec8e3 0 5px, transparent 6px),
         repeating-linear-gradient(45deg, #171d24 0 10px, #536273 10px 18px, #8a2732 18px 25px);
+    }
+
+    .flappy-app[data-role="kler"] .story-scene {
+      color: #f7fafc;
+      background:
+        repeating-linear-gradient(112deg, rgba(126, 200, 227, 0.04) 0 2px, transparent 2px 22px),
+        linear-gradient(150deg, #111a24, #202d39);
+      border-color: #7ec8e3;
+      box-shadow: 6px 7px 0 rgba(0, 0, 0, 0.58);
+    }
+
+    .flappy-app[data-role="kler"] .story-scene h2 {
+      color: #ffffff;
+      text-shadow: 0 2px 0 #05080c;
+    }
+
+    .flappy-app[data-role="kler"] .story-scene p {
+      color: #dce8ef;
+    }
+
+    .flappy-app[data-role="kler"] .story-kicker {
+      color: #ffd85c;
+    }
+
+    .flappy-app[data-role="kler"] .story-meter {
+      color: #ffffff;
+      background: #263542;
+      border-color: #7ec8e3;
+    }
+
+    .flappy-app[data-role="kler"] .story-choice {
+      color: #071019;
+      background: #7ec8e3;
+      border-color: #f7fafc;
+      box-shadow: 0 5px 0 #05080c;
+    }
+
+    .flappy-app[data-role="kler"] .story-choice:nth-child(even) {
+      color: #182033;
+      background: #ffd85c;
     }
 
     .mini-stage.socken .mini-message {
@@ -4832,7 +4873,7 @@
         { id: "jam", title: "BOSSLAGE: KONTROLL-STAU", line: "Werkscitz! Alles steht!" }
       ];
       const introDuration = 3600;
-      const poweredDuration = 3600;
+      const poweredDuration = 5500;
       const poweredMessages = [
         "Funkkanal wird geöffnet ...",
         "Blaulicht wird synchronisiert ...",
@@ -4854,7 +4895,7 @@
       };
       const lossMessages = [
         "Verloren! Du wirst zur Polizei Saarland geschickt!",
-        "Loser! Du musst 1 Monat lang Schrankendienst auf dem Hahn machen!",
+        "Loser! Du musst einen Monat lang Schrankendienst auf dem Hahn machen!",
         "Verloren! Du musst ein halbes Jahr beim Schwerlastkontrolltrupp hospitieren!",
         "Verloren! Du wirst zur WaPo abgeordnet!",
         "Verloren! Du wirst in SG9 exekutiert!"
@@ -5170,6 +5211,10 @@
       let lkaPanicCooldown = 0;
       let lkaPanicTimer = 0;
       let lkaDialogueDepth = 0;
+      let lkaDialogueTurns = 0;
+      let lkaRequiredDialogueTurns = 2;
+      let lkaMentorVisits = 0;
+      let lkaEventsSinceMentor = 0;
       let lkaMentorFooled = 0;
       let lkaAlmostCaught = 0;
       let lkaCaught = 0;
@@ -6085,13 +6130,17 @@
         lkaLastShakeAt = 0;
         lkaShakePulse = 0;
         lkaShakeDirection = 1;
-        lkaEventTimer = 4.5 + Math.random() * 2;
+        lkaEventTimer = 2.4 + Math.random() * 0.8;
         lkaHallState = "";
         lkaHallText = "";
         lkaHallTimer = 0;
         lkaPanicCooldown = 0;
         lkaPanicTimer = 0;
         lkaDialogueDepth = 0;
+        lkaDialogueTurns = 0;
+        lkaRequiredDialogueTurns = 2;
+        lkaMentorVisits = 0;
+        lkaEventsSinceMentor = 0;
         lkaMentorFooled = 0;
         lkaAlmostCaught = 0;
         lkaCaught = 0;
@@ -6701,9 +6750,9 @@
       }
 
       function nextLkaEventDelay() {
-        const pressureFactor = Math.max(0.48, 1 - lkaPressure / 170);
-        const suspicionFactor = Math.max(0.62, 1 - lkaSuspicion / 240);
-        return Math.max(2.6, (5 + Math.random() * 5) * pressureFactor * suspicionFactor);
+        const pressureFactor = Math.max(0.52, 1 - lkaPressure / 185);
+        const suspicionFactor = Math.max(0.68, 1 - lkaSuspicion / 260);
+        return Math.max(2.15, (3.4 + Math.random() * 2.8) * pressureFactor * suspicionFactor);
       }
 
       function shakeLkaBottle() {
@@ -6720,7 +6769,7 @@
         lkaClickTimes.push(now);
         lkaClickTimes = lkaClickTimes.filter((time) => now - time <= 1000);
         lkaMaxCps = Math.max(lkaMaxCps, lkaClickTimes.length);
-        lkaPressure = Math.min(100, lkaPressure + 0.72 + lkaCombo * 0.46);
+        lkaPressure = Math.min(100, lkaPressure + 0.52 + lkaCombo * 0.35);
         miniScore = Math.max(0, Math.floor(lkaPressure * 2 + lkaClicks * 0.3 - lkaSuspicion));
         playSoundEffect(lkaCombo >= 5 ? "point" : "flap");
         updateMiniHud();
@@ -6728,8 +6777,8 @@
 
       function activateLkaPanic() {
         if (!miniRunning || miniGameMode !== "lka" || lkaPhase !== "playing" || lkaPanicCooldown > 0) return;
-        lkaPanicTimer = 1.9;
-        lkaPanicCooldown = 7.5;
+        lkaPanicTimer = 1.45;
+        lkaPanicCooldown = 10.5;
         lkaLastShakeAt = 0;
         lkaShakePulse = 0;
         lkaCombo = 1;
@@ -6745,15 +6794,17 @@
 
       function triggerLkaHallEvent(forceMentor = false, fakeReturn = false) {
         if (lkaPhase !== "playing" || lkaHallState) return;
-        const mentorChance = Math.min(0.76, 0.22 + lkaPressure * 0.004 + lkaSuspicion * 0.003);
-        if (forceMentor || Math.random() < mentorChance) {
+        const mentorChance = Math.min(0.88, 0.48 + lkaPressure * 0.0035 + lkaSuspicion * 0.0025);
+        const mentorRequired = lkaMentorVisits === 0 || lkaEventsSinceMentor >= 1;
+        if (forceMentor || mentorRequired || Math.random() < mentorChance) {
           lkaHallState = "mentor-warning";
           lkaHallText = fakeReturn ? "Ach, noch was ..." : ["Schritte kommen näher.", "Ein Schatten bleibt an der Tür.", "Die Türklinke bewegt sich.", "Stimme auf dem Flur."][Math.floor(Math.random() * 4)];
-          lkaHallTimer = fakeReturn ? 0.85 : 1.35 + Math.random() * 0.55;
-          miniMessage.textContent = `${lkaHallText} · STOPP!`;
+          lkaHallTimer = fakeReturn ? 0.62 : 0.92 + Math.random() * 0.36;
+          miniMessage.textContent = `ACHTUNG: ${lkaHallText} Sofort aufhören!`;
           playSoundEffect("boss");
           return;
         }
+        lkaEventsSinceMentor += 1;
         lkaHallState = "ambient";
         lkaHallText = lkaHallEvents[Math.floor(Math.random() * lkaHallEvents.length)];
         lkaHallTimer = 1.4 + Math.random() * 1.2;
@@ -6763,7 +6814,8 @@
 
       function showLkaDialogue(question, followup = false) {
         lkaPhase = "dialog";
-        lkaDialogQuestion.textContent = question;
+        const currentTurn = Math.min(lkaRequiredDialogueTurns, lkaDialogueTurns + 1);
+        lkaDialogQuestion.textContent = `${question} · Ausrede ${currentTurn} von ${lkaRequiredDialogueTurns}`;
         lkaDialogOptions.innerHTML = "";
         const options = shuffledOptions(followup ? lkaFollowupAnswers : lkaExcuses, 3);
         options.forEach((answer) => {
@@ -6784,12 +6836,16 @@
         lkaHallState = "mentor";
         lkaHallTimer = 0;
         lkaDialogueDepth = 0;
+        lkaDialogueTurns = 0;
+        lkaMentorVisits += 1;
+        lkaEventsSinceMentor = 0;
+        lkaRequiredDialogueTurns = 2 + (lkaPressure >= 40 ? 1 : 0) + (lkaPressure >= 75 ? 1 : 0) + (caught ? 1 : 0);
         if (caught) {
           lkaCaught += 1;
-          lkaSuspicion = Math.min(100, lkaSuspicion + 22);
+          lkaSuspicion = Math.min(100, lkaSuspicion + 28);
           showLkaDialogue(["Äh ... was machst du da?", "Was passiert da unter dem Tisch?", "Was genau machst du gerade?"][Math.floor(Math.random() * 3)]);
         } else {
-          lkaSuspicion = Math.min(100, lkaSuspicion + 2);
+          lkaSuspicion = Math.min(100, lkaSuspicion + 4);
           showLkaDialogue(lkaQuestions[Math.floor(Math.random() * lkaQuestions.length)]);
         }
         playSoundEffect(caught ? "error" : "choice");
@@ -6805,25 +6861,33 @@
         lkaShakeBtn.disabled = false;
         lkaPanicBtn.disabled = lkaPanicCooldown > 0;
         lkaEventTimer = nextLkaEventDelay();
-        if (Math.random() < 0.24) lkaFakeReturnTimer = 2 + Math.random();
+        if (Math.random() < 0.36) lkaFakeReturnTimer = 1.8 + Math.random() * 0.8;
         miniMessage.textContent = "Praxisanleiter geht weiter · unauffällig bleiben";
       }
 
       function answerLkaDialogue(answer) {
         if (!miniRunning || lkaPhase !== "dialog") return;
         lkaExcusesUsed += 1;
-        lkaSuspicion = Math.max(0, Math.min(100, lkaSuspicion + answer.risk - 3));
+        lkaDialogueTurns += 1;
+        lkaSuspicion = Math.max(0, Math.min(100, lkaSuspicion + answer.risk - 1));
         playSoundEffect(answer.risk <= 4 ? "point" : "error");
         if (lkaSuspicion >= 100) {
           finishLkaGame(false);
           return;
         }
-        const followupChance = answer.followup ? 0.88 : Math.min(0.76, 0.18 + lkaSuspicion / 150 + lkaDialogueDepth * 0.2);
-        if (lkaDialogueDepth < 2 && Math.random() < followupChance) {
+        const mustContinue = lkaDialogueTurns < lkaRequiredDialogueTurns;
+        const extraFollowup = lkaDialogueTurns < lkaRequiredDialogueTurns + 1 &&
+          Math.random() < (answer.followup ? 0.82 : Math.min(0.62, 0.16 + lkaSuspicion / 180));
+        if (mustContinue || extraFollowup) {
           lkaDialogueDepth += 1;
-          const question = lkaDialogueDepth === 1
-            ? (answer.followup ? "Doch, bei mir funktioniert Artus. Zeig mal." : "Und warum ist der Status noch in Bearbeitung?")
-            : "Mach ruhig weiter, ich guck kurz zu.";
+          const followupQuestions = [
+            answer.followup ? "Doch, bei mir funktioniert Artus. Zeig mal." : "Und warum ist der Status noch in Bearbeitung?",
+            "Was genau hast du dem DGL geschickt?",
+            "Dann öffne den Vorgang bitte kurz.",
+            "Mach ruhig weiter, ich guck kurz zu.",
+            "Welche Information fehlt dir denn noch?"
+          ];
+          const question = followupQuestions[Math.min(lkaDialogueDepth - 1, followupQuestions.length - 1)];
           showLkaDialogue(question, true);
         } else {
           leaveLkaMentor();
@@ -6913,10 +6977,10 @@
         }
 
         const sinceShake = performance.now() - lkaLastShakeAt;
-        if (sinceShake > 620) {
-          lkaPressure = Math.max(0, lkaPressure - dt * (0.65 + lkaPressure * 0.006));
+        if (sinceShake > 430) {
+          lkaPressure = Math.max(0, lkaPressure - dt * (1.15 + lkaPressure * 0.012));
         }
-        if (sinceShake > 850) {
+        if (sinceShake > 680) {
           lkaCombo = 1;
           lkaComboStreak = 0;
           lkaClickTimes = [];
@@ -8508,7 +8572,7 @@
         poweredFactIndex = Math.floor(Math.random() * poweredMessages.length);
         showScreen("powered");
         showNextPoweredFact();
-        poweredFactTimer = setInterval(showNextPoweredFact, 560);
+        poweredFactTimer = setInterval(showNextPoweredFact, 1700);
         poweredTimer = setTimeout(() => {
           stopPoweredSequence();
           showRoleSelect();
