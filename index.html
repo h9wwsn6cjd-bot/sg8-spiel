@@ -504,28 +504,102 @@
       overflow: hidden;
     }
 
-    .mini-tabs {
+    .mini-game-picker {
+      flex: 1;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
+      gap: 10px;
+      align-content: center;
+      min-height: 0;
     }
 
-    .mini-tab {
-      min-height: 42px;
-      padding: 5px;
+    .mini-game-choice {
+      min-height: 104px;
+      padding: 10px;
       border-radius: 8px;
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
       color: #182033;
-      background: rgba(247, 250, 252, 0.9);
-      border: 2px solid rgba(24, 32, 51, 0.72);
-      font-size: 0.72rem;
-      line-height: 1.05;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(223, 232, 244, 0.88));
+      border: 3px solid #182033;
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.56) inset,
+        0 9px 0 rgba(24, 32, 51, 0.72),
+        -5px 0 16px rgba(47, 122, 255, 0.28),
+        5px 0 16px rgba(210, 38, 48, 0.18);
+      text-align: left;
       font-weight: 800;
     }
 
-    .mini-tab[aria-selected="true"] {
+    .mini-game-choice:active {
+      transform: translateY(5px);
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.56) inset,
+        0 4px 0 rgba(24, 32, 51, 0.72);
+    }
+
+    .mini-choice-art {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #182033;
       color: #ffffff;
-      background: linear-gradient(135deg, #15479a, #2f7aff 58%, #d22630);
-      box-shadow: 0 0 18px rgba(47, 122, 255, 0.34);
+      text-shadow: 0 2px 0 rgba(24, 32, 51, 0.44);
+      font-size: 0.9rem;
+      font-weight: 900;
+      box-shadow: 4px 5px 0 rgba(24, 32, 51, 0.64);
+    }
+
+    .mini-choice-art.bollo {
+      color: #a5131c;
+      background: repeating-radial-gradient(ellipse at center, #ffd85c 0 4px, #d22630 5px 7px, #fff7dc 8px 11px);
+    }
+
+    .mini-choice-art.burger {
+      background: linear-gradient(180deg, #d99a43 0 24%, #4fbf74 24% 38%, #ffd85c 38% 52%, #713c2c 52% 72%, #d99a43 72% 100%);
+    }
+
+    .mini-choice-art.wach {
+      background:
+        repeating-linear-gradient(145deg, transparent 0 9px, rgba(255, 255, 255, 0.76) 9px 14px),
+        linear-gradient(135deg, #15479a 0 58%, #d22630 59% 100%);
+    }
+
+    .mini-choice-copy {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .mini-choice-copy strong {
+      font-size: 1.04rem;
+      line-height: 1.05;
+    }
+
+    .mini-choice-copy small {
+      color: #586175;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .mini-choice-best {
+      min-width: 58px;
+      padding: 6px;
+      border-radius: 8px;
+      color: #12336f;
+      background: #ffffff;
+      border: 2px solid #15479a;
+      text-align: center;
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    .mini-arcade {
+      display: grid;
+      gap: 8px;
     }
 
     .mini-hud {
@@ -2041,32 +2115,46 @@
 
   <section class="detail-screen minigame-screen app-screen is-hidden" id="miniGamesScreen" aria-label="Mini Games">
     <header class="menu-head">
-      <h1>Mini Games</h1>
+      <h1 id="miniGamesTitle">Mini Games</h1>
       <button class="icon-btn" id="miniGamesBackBtn" type="button" aria-label="Zurück">←</button>
     </header>
-    <div class="mini-tabs" role="tablist" aria-label="Mini Game auswählen">
-      <button class="mini-tab" type="button" data-mini-game="bollo" role="tab">Spaghetti Bollo</button>
-      <button class="mini-tab" type="button" data-mini-game="burger" role="tab">Burger King</button>
-      <button class="mini-tab" type="button" data-mini-game="wach" role="tab">Wachschutz</button>
+    <div class="mini-game-picker" id="miniGamePicker">
+      <button class="mini-game-choice" type="button" data-mini-game="bollo">
+        <span class="mini-choice-art bollo" aria-hidden="true">SB</span>
+        <span class="mini-choice-copy"><strong>Spaghetti Bollo</strong><small>Fangen</small></span>
+        <span class="mini-choice-best" data-mini-best="bollo">Best 0</span>
+      </button>
+      <button class="mini-game-choice" type="button" data-mini-game="burger">
+        <span class="mini-choice-art burger" aria-hidden="true">BK</span>
+        <span class="mini-choice-copy"><strong>Burger King</strong><small>Stapeln</small></span>
+        <span class="mini-choice-best" data-mini-best="burger">Best 0</span>
+      </button>
+      <button class="mini-game-choice" type="button" data-mini-game="wach">
+        <span class="mini-choice-art wach" aria-hidden="true">WS</span>
+        <span class="mini-choice-copy"><strong>Wachschutz</strong><small>Werkscitz</small></span>
+        <span class="mini-choice-best" data-mini-best="wach">Best 0</span>
+      </button>
     </div>
-    <div class="mini-hud" aria-live="polite">
-      <span id="miniScoreLabel">Punkte 0</span>
-      <span id="miniBestLabel">Best 0</span>
-      <span id="miniLivesLabel">Leben 3</span>
+    <div class="mini-arcade is-hidden" id="miniArcadePanel">
+      <div class="mini-hud" aria-live="polite">
+        <span id="miniScoreLabel">Punkte 0</span>
+        <span id="miniBestLabel">Best 0</span>
+        <span id="miniLivesLabel">Leben 3</span>
+      </div>
+      <div class="mini-stage bollo" id="miniStage">
+        <div class="mini-message" id="miniMessage">Bereit</div>
+        <canvas class="mini-canvas" id="miniCanvas" width="320" height="260" aria-label="Mini Game Spielfeld"></canvas>
+      </div>
+      <div class="mini-controls" id="miniMoveControls" aria-label="Bewegen">
+        <button class="mini-control-btn mini-move-btn" id="miniLeftBtn" type="button" aria-label="Nach links">←</button>
+        <button class="mini-control-btn mini-move-btn" id="miniRightBtn" type="button" aria-label="Nach rechts">→</button>
+      </div>
+      <div class="mini-controls is-hidden" id="miniGateControls" aria-label="Ausweis entscheiden">
+        <button class="mini-control-btn mini-decision-btn" id="miniApproveBtn" type="button">Durchlassen</button>
+        <button class="mini-control-btn mini-decision-btn stop" id="miniRejectBtn" type="button">Stopp</button>
+      </div>
+      <button class="menu-action" id="miniStartBtn" type="button">Mini Game starten</button>
     </div>
-    <div class="mini-stage bollo" id="miniStage">
-      <div class="mini-message" id="miniMessage">Bereit</div>
-      <canvas class="mini-canvas" id="miniCanvas" width="320" height="260" aria-label="Mini Game Spielfeld"></canvas>
-    </div>
-    <div class="mini-controls" id="miniMoveControls" aria-label="Bewegen">
-      <button class="mini-control-btn mini-move-btn" id="miniLeftBtn" type="button" aria-label="Nach links">←</button>
-      <button class="mini-control-btn mini-move-btn" id="miniRightBtn" type="button" aria-label="Nach rechts">→</button>
-    </div>
-    <div class="mini-controls is-hidden" id="miniGateControls" aria-label="Ausweis entscheiden">
-      <button class="mini-control-btn mini-decision-btn" id="miniApproveBtn" type="button">Durchlassen</button>
-      <button class="mini-control-btn mini-decision-btn stop" id="miniRejectBtn" type="button">Stopp</button>
-    </div>
-    <button class="menu-action" id="miniStartBtn" type="button">Mini Game starten</button>
     <div class="app-footer">#immerda</div>
   </section>
 
@@ -2202,7 +2290,11 @@
       const memorialBackBtn = document.getElementById("memorialBackBtn");
       const miniGamesOpenBtn = document.getElementById("miniGamesOpenBtn");
       const miniGamesBackBtn = document.getElementById("miniGamesBackBtn");
-      const miniGameTabs = Array.prototype.slice.call(document.querySelectorAll("[data-mini-game]"));
+      const miniGameChoices = Array.prototype.slice.call(document.querySelectorAll("[data-mini-game]"));
+      const miniGameBestLabels = Array.prototype.slice.call(document.querySelectorAll("[data-mini-best]"));
+      const miniGamesTitle = document.getElementById("miniGamesTitle");
+      const miniGamePicker = document.getElementById("miniGamePicker");
+      const miniArcadePanel = document.getElementById("miniArcadePanel");
       const miniStage = document.getElementById("miniStage");
       const miniMessage = document.getElementById("miniMessage");
       const miniCanvas = document.getElementById("miniCanvas");
@@ -2503,6 +2595,19 @@
         return `Best ${value}`;
       }
 
+      function miniGameTitle(mode) {
+        if (mode === "burger") return "Burger King";
+        if (mode === "wach") return "Wachschutz";
+        return "Spaghetti Bollo";
+      }
+
+      function renderMiniGamePicker() {
+        miniGameBestLabels.forEach((label) => {
+          const value = Number(miniBests[label.dataset.miniBest]) || 0;
+          label.textContent = `Best ${value}`;
+        });
+      }
+
       function updateMiniHud() {
         miniScoreLabel.textContent = `Punkte ${miniScore}`;
         miniBestLabel.textContent = miniBestText();
@@ -2540,9 +2645,6 @@
         stopMiniGame();
         miniGameMode = mode;
         miniScore = 0;
-        miniGameTabs.forEach((tab) => {
-          tab.setAttribute("aria-selected", String(tab.dataset.miniGame === mode));
-        });
         resetMiniStage();
         miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach");
         miniGateControls.classList.toggle("is-hidden", miniGameMode !== "wach");
@@ -2553,9 +2655,35 @@
         drawMiniGame();
       }
 
+      function showMiniGamePicker() {
+        stopMiniGame();
+        renderMiniGamePicker();
+        miniGamesTitle.textContent = "Mini Games";
+        miniGamePicker.classList.remove("is-hidden");
+        miniArcadePanel.classList.add("is-hidden");
+        miniGamesBackBtn.setAttribute("aria-label", "Zurück zum Menü");
+      }
+
+      function openSelectedMiniGame(mode) {
+        selectMiniGame(mode);
+        miniGamesTitle.textContent = miniGameTitle(mode);
+        miniGamePicker.classList.add("is-hidden");
+        miniArcadePanel.classList.remove("is-hidden");
+        miniGamesBackBtn.setAttribute("aria-label", "Zurück zu Mini Games");
+        requestAnimationFrame(drawMiniGame);
+      }
+
+      function handleMiniGamesBack() {
+        if (!miniArcadePanel.classList.contains("is-hidden")) {
+          showMiniGamePicker();
+          return;
+        }
+        showMenu();
+      }
+
       function openMiniGames() {
-        selectMiniGame(miniGameMode);
         showScreen("minigames");
+        showMiniGamePicker();
         setStatus("Mini Games geöffnet.");
       }
 
@@ -2564,6 +2692,7 @@
         miniRunning = false;
         miniMoveDirection = 0;
         saveMiniBest();
+        renderMiniGamePicker();
         updateMiniHud();
         miniMessage.textContent = message;
         miniStartBtn.disabled = false;
@@ -3945,9 +4074,9 @@
       memorialOpenBtn.addEventListener("click", openMemorial);
       memorialBackBtn.addEventListener("click", showMenu);
       miniGamesOpenBtn.addEventListener("click", openMiniGames);
-      miniGamesBackBtn.addEventListener("click", showMenu);
-      miniGameTabs.forEach((tab) => {
-        tab.addEventListener("click", () => selectMiniGame(tab.dataset.miniGame));
+      miniGamesBackBtn.addEventListener("click", handleMiniGamesBack);
+      miniGameChoices.forEach((choice) => {
+        choice.addEventListener("click", () => openSelectedMiniGame(choice.dataset.miniGame));
       });
       miniStartBtn.addEventListener("click", startMiniGame);
       bindMiniHold(miniLeftBtn, -1);
@@ -3998,7 +4127,7 @@
       window.addEventListener("keydown", (event) => {
         const activeTag = document.activeElement && document.activeElement.tagName;
         if (activeTag === "INPUT") return;
-        if (!miniGamesScreen.classList.contains("is-hidden")) {
+        if (!miniGamesScreen.classList.contains("is-hidden") && !miniArcadePanel.classList.contains("is-hidden")) {
           if (event.code === "ArrowLeft" || event.code === "KeyA") {
             event.preventDefault();
             miniMoveDirection = -1;
@@ -4037,6 +4166,7 @@
       renderHighscores();
       renderMemorialSlide();
       selectMiniGame("bollo");
+      showMiniGamePicker();
       resetGame("selecting");
       updateOverlay();
       updateMenuState();
