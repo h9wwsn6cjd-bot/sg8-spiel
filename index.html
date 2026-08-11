@@ -592,7 +592,7 @@
     .leaderboard-tabs,
     .leaderboard-scope {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 4px;
     }
 
@@ -840,7 +840,6 @@
 
     .story-progress {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
       gap: 5px;
       padding-right: 82px;
     }
@@ -879,6 +878,214 @@
       font-size: 0.68rem;
       font-weight: 900;
       text-transform: uppercase;
+    }
+
+    .story-animation {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2.15 / 1;
+      min-height: 118px;
+      overflow: hidden;
+      border: 3px solid #182033;
+      border-radius: 7px;
+      background:
+        linear-gradient(180deg, #9ddfff 0 64%, #dfe8f4 65% 100%);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45) inset;
+    }
+
+    .story-animation::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 35%;
+      background: repeating-linear-gradient(90deg, #586175 0 42px, #f7fafc 42px 64px);
+      border-top: 3px solid #182033;
+    }
+
+    .story-figure,
+    .story-car,
+    .story-target,
+    .story-file,
+    .story-clock {
+      position: absolute;
+      display: none;
+    }
+
+    .story-figure {
+      z-index: 3;
+      bottom: 18px;
+      width: 38px;
+      height: 72px;
+      border-radius: 15px 15px 8px 8px;
+      background: linear-gradient(90deg, #15479a 0 45%, #f7fafc 45% 55%, #2f7aff 55% 100%);
+      border: 3px solid #182033;
+      transform-origin: 50% 100%;
+    }
+
+    .story-figure::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: -27px;
+      width: 22px;
+      height: 24px;
+      border-radius: 50%;
+      background: #d7a37f;
+      border: 3px solid #182033;
+    }
+
+    .story-figure.student {
+      left: 38px;
+      background: linear-gradient(90deg, #ffd85c, #f7fafc);
+    }
+
+    .story-figure.mentor {
+      right: 42px;
+    }
+
+    .story-bubble {
+      position: absolute;
+      z-index: 5;
+      top: 8px;
+      left: 82px;
+      right: 12px;
+      min-height: 36px;
+      padding: 6px 8px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #182033;
+      border-radius: 7px;
+      color: #182033;
+      background: #ffffff;
+      font-size: 0.58rem;
+      line-height: 1.08;
+      font-weight: 900;
+      text-align: center;
+      animation: storyBubblePop 1.25s ease-in-out infinite alternate;
+    }
+
+    .story-car {
+      z-index: 3;
+      left: -110px;
+      bottom: 25px;
+      width: 104px;
+      height: 40px;
+      border: 3px solid #182033;
+      border-radius: 16px 24px 8px 8px;
+      background: linear-gradient(180deg, #ffffff 0 48%, #15479a 49% 74%, #ffffff 75%);
+      animation: storyCarDrive 3.8s linear infinite;
+    }
+
+    .story-car::before,
+    .story-car::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #182033;
+      border: 3px solid #7b8794;
+    }
+
+    .story-car::before { left: 15px; }
+    .story-car::after { right: 15px; }
+
+    .story-target {
+      z-index: 2;
+      right: 34px;
+      bottom: 22px;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 4px solid #182033;
+      background: repeating-radial-gradient(circle, #d22630 0 10px, #ffffff 11px 21px, #15479a 22px 32px, #ffffff 33px 40px);
+      animation: storyTargetWobble 1.4s ease-in-out infinite alternate;
+    }
+
+    .story-file {
+      z-index: 2;
+      left: 38px;
+      bottom: 27px;
+      width: 116px;
+      height: 70px;
+      border: 3px solid #182033;
+      border-radius: 5px;
+      background: repeating-linear-gradient(0deg, #f7fafc 0 10px, #dfe8f4 10px 12px);
+      animation: storyFileLoad 2.4s steps(4, end) infinite;
+    }
+
+    .story-clock {
+      z-index: 4;
+      right: 24px;
+      top: 19px;
+      padding: 9px;
+      border: 3px solid #182033;
+      border-radius: 7px;
+      color: #ffffff;
+      background: #d22630;
+      font-size: 1rem;
+      font-weight: 900;
+      animation: storyClockPulse 720ms steps(2, end) infinite;
+    }
+
+    .story-animation[data-scene="intern"] .story-figure,
+    .story-animation[data-scene="intern"] .story-bubble,
+    .story-animation[data-scene="office"] .story-file,
+    .story-animation[data-scene="office"] .story-clock,
+    .story-animation[data-scene="artus"] .story-file,
+    .story-animation[data-scene="phone"] .story-figure,
+    .story-animation[data-scene="clock"] .story-clock,
+    .story-animation[data-scene="hahn"] .story-car,
+    .story-animation[data-scene="range"] .story-figure.mentor,
+    .story-animation[data-scene="range"] .story-target {
+      display: block;
+    }
+
+    .story-animation[data-scene="intern"] .story-figure.student {
+      animation: storyStudentAsk 800ms ease-in-out infinite alternate;
+    }
+
+    .story-animation[data-scene="range"] .story-figure.mentor {
+      left: 48px;
+      right: auto;
+      animation: storyRangePose 520ms ease-in-out infinite alternate;
+    }
+
+    @keyframes storyBubblePop {
+      from { transform: scale(0.96) rotate(-1deg); }
+      to { transform: scale(1.02) rotate(1deg); }
+    }
+
+    @keyframes storyStudentAsk {
+      from { transform: rotate(-3deg); }
+      to { transform: rotate(4deg) translateY(-3px); }
+    }
+
+    @keyframes storyCarDrive {
+      from { transform: translateX(0); }
+      to { transform: translateX(440px); }
+    }
+
+    @keyframes storyTargetWobble {
+      from { transform: rotate(-4deg); }
+      to { transform: rotate(5deg); }
+    }
+
+    @keyframes storyRangePose {
+      from { transform: rotate(-2deg); }
+      to { transform: rotate(4deg) translateY(-2px); }
+    }
+
+    @keyframes storyFileLoad {
+      from { box-shadow: 0 -8px 0 #ffd85c inset; }
+      to { box-shadow: 0 -58px 0 rgba(47, 122, 255, 0.25) inset; }
+    }
+
+    @keyframes storyClockPulse {
+      50% { filter: brightness(1.45); transform: scale(1.05); }
     }
 
     .story-scene h2,
@@ -2308,8 +2515,30 @@
     }
 
     .roster.selection-map .upload-btn,
-    .roster.selection-map .avatar-list {
+    .roster.selection-map .avatar-list,
+    .roster.selection-map .character-dossier {
       display: none;
+    }
+
+    .character-dossier {
+      margin: 0;
+      padding: 9px 10px;
+      border: 2px solid #182033;
+      border-radius: 7px;
+      color: #182033;
+      background: linear-gradient(135deg, #ffffff, #dfe8f4);
+      box-shadow: 4px 5px 0 rgba(24, 32, 51, 0.58);
+      font-size: 0.7rem;
+      line-height: 1.22;
+      font-weight: 800;
+    }
+
+    .character-dossier strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #15479a;
+      font-size: 0.64rem;
+      text-transform: uppercase;
     }
 
     .roster.selection-map .map-selector {
@@ -3705,6 +3934,214 @@
         repeating-linear-gradient(45deg, #2f7aff 0 9px, #ffffff 9px 16px, #d22630 16px 25px);
     }
 
+    .mini-choice-art.lka {
+      color: #ffd85c;
+      background:
+        linear-gradient(90deg, transparent 0 44%, rgba(126, 200, 227, 0.32) 44% 48%, transparent 48%),
+        repeating-linear-gradient(0deg, #171d24 0 8px, #303c48 8px 15px);
+    }
+
+    #miniGamePicker {
+      align-content: start;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    #miniGamePicker .mini-game-choice {
+      min-height: 88px;
+    }
+
+    .mini-stage.lka {
+      background: #17212b;
+    }
+
+    .mini-stage.lka .mini-message {
+      top: 7px;
+      left: 7px;
+      right: 7px;
+      min-height: 30px;
+      padding: 5px 8px;
+      color: #ffffff;
+      background: rgba(9, 13, 18, 0.86);
+      border: 2px solid rgba(126, 200, 227, 0.72);
+      border-radius: 6px;
+      font-size: 0.65rem;
+      line-height: 1.08;
+      text-shadow: none;
+    }
+
+    .lka-controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+      gap: 8px;
+    }
+
+    .lka-shake-btn,
+    .lka-panic-btn {
+      min-height: 54px;
+      border: 3px solid #182033;
+      border-radius: 8px;
+      color: #ffffff;
+      font-weight: 900;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .lka-shake-btn {
+      background: linear-gradient(135deg, #15479a 0 64%, #7ec8e3 65% 76%, #d22630 77% 100%);
+      box-shadow: 0 7px 0 #080d12, -5px 0 15px rgba(47, 122, 255, 0.42);
+      font-size: 1rem;
+    }
+
+    .lka-shake-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #080d12;
+    }
+
+    .lka-panic-btn {
+      background: linear-gradient(135deg, #8f111a, #d22630 72%, #ffd85c 73%);
+      box-shadow: 0 7px 0 #080d12, 5px 0 15px rgba(210, 38, 48, 0.36);
+      font-size: 0.78rem;
+    }
+
+    .lka-panic-btn:disabled,
+    .lka-shake-btn:disabled {
+      opacity: 0.48;
+      transform: none;
+      box-shadow: 0 3px 0 #080d12;
+    }
+
+    .lka-dialog,
+    .lka-result {
+      position: absolute;
+      z-index: 8;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      max-height: 194px;
+      padding: 9px;
+      overflow-y: auto;
+      display: grid;
+      gap: 7px;
+      color: #182033;
+      background: rgba(247, 250, 252, 0.98);
+      border: 3px solid #182033;
+      border-radius: 8px;
+      box-shadow: 0 7px 0 rgba(8, 13, 18, 0.8), -5px 0 16px rgba(47, 122, 255, 0.4), 5px 0 16px rgba(210, 38, 48, 0.28);
+    }
+
+    .lka-dialog strong,
+    .lka-result h2 {
+      margin: 0;
+      color: #12336f;
+      font-size: 0.86rem;
+      line-height: 1.08;
+    }
+
+    .lka-dialog-options {
+      display: grid;
+      gap: 5px;
+    }
+
+    .lka-dialog-option {
+      min-height: 32px;
+      padding: 5px 7px;
+      border: 2px solid #182033;
+      border-radius: 6px;
+      color: #182033;
+      background: #ffd85c;
+      font-size: 0.63rem;
+      line-height: 1.1;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .lka-result p {
+      margin: 0;
+      font-size: 0.68rem;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .lka-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .lka-stat-grid span {
+      padding: 4px;
+      border: 1px solid rgba(24, 32, 51, 0.3);
+      border-radius: 5px;
+      background: #dfe8f4;
+      font-size: 0.58rem;
+      font-weight: 900;
+    }
+
+    .lka-flash {
+      position: absolute;
+      z-index: 10;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lka-flash.is-active {
+      animation: lkaFinalFlash 760ms ease-out both;
+    }
+
+    .lka-adult-warning {
+      position: absolute;
+      z-index: 40;
+      inset: 0;
+      padding: 22px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      background: #020304;
+    }
+
+    .lka-warning-content {
+      width: 100%;
+      display: grid;
+      gap: 13px;
+      text-align: center;
+    }
+
+    .lka-warning-content h2 {
+      margin: 0;
+      color: #d22630;
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .lka-warning-content p {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.28;
+      font-weight: 800;
+    }
+
+    .lka-warning-content small {
+      color: #a9b3bf;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .lka-warning-actions {
+      display: grid;
+      gap: 9px;
+    }
+
+    @keyframes lkaFinalFlash {
+      0% { opacity: 0; }
+      18% { opacity: 1; }
+      48% { opacity: 0.92; }
+      100% { opacity: 0; }
+    }
+
     .flappy-app[data-role="kler"] .mini-choice-art.socken {
       color: #ffffff;
       background:
@@ -3773,7 +4210,7 @@
         <span class="powered-kicker">SG8 Anime Arcade</span>
         <h1 class="powered-title">Powered by<br>SockenDerrick</h1>
       </div>
-      <div class="powered-info" id="poweredInfo" aria-live="polite">NikiGayBoy macht Schießtraining.</div>
+      <div class="powered-info" id="poweredInfo" aria-live="polite">Funkkanal wird geöffnet ...</div>
     </div>
     <div class="app-footer">#immerda</div>
   </section>
@@ -3846,12 +4283,21 @@
   <section class="detail-screen story-screen app-screen with-character is-hidden" id="storyScreen" aria-label="Eine Schicht in SG8">
     <img class="screen-character story-character" id="storyCharacter" alt="" aria-hidden="true">
     <header class="menu-head">
-      <h1>Eine Schicht in SG8</h1>
+      <h1 id="storyHeading">Eine Schicht in SG8</h1>
       <button class="icon-btn" id="storyBackBtn" type="button" aria-label="Zurück">←</button>
     </header>
     <div class="story-progress" id="storyProgress" aria-label="Fortschritt"></div>
     <div class="story-scene">
       <span class="story-kicker" id="storyKicker">Schichtbeginn</span>
+      <div class="story-animation" id="storyAnimation" data-scene="office" aria-hidden="true">
+        <span class="story-figure student"></span>
+        <span class="story-figure mentor"></span>
+        <span class="story-bubble" id="storyBubble">SG8 ist bereit.</span>
+        <span class="story-car"></span>
+        <span class="story-target"></span>
+        <span class="story-file"></span>
+        <span class="story-clock">13:00</span>
+      </div>
       <h2 id="storyTitle">Bereit für die Gasse?</h2>
       <p id="storyText">Vier Lagen, deine Entscheidungen und drei mögliche Enden. Der Weizenbaron wartet bereits.</p>
       <div class="story-meters">
@@ -3912,8 +4358,13 @@
       </button>
       <button class="mini-game-choice" type="button" data-mini-game="socken">
         <span class="mini-choice-art socken" aria-hidden="true">SD</span>
-        <span class="mini-choice-copy"><strong>SockenDerricks Paarprüfung</strong><small>Finde sechs Sockenpaare</small></span>
+        <span class="mini-choice-copy"><strong>SockenDerricks Paarprüfung</strong><small>5 Level · unendlich Versuche</small></span>
         <span class="mini-choice-best" data-mini-best="socken">Best 0</span>
+      </button>
+      <button class="mini-game-choice is-hidden" id="lkaMiniChoice" type="button" data-mini-game="lka">
+        <span class="mini-choice-art lka" aria-hidden="true">LKA</span>
+        <span class="mini-choice-copy"><strong>Praxisphase: Drucksache</strong><small>Ego-Büro · nur für K´ler</small></span>
+        <span class="mini-choice-best" data-mini-best="lka">Best 0</span>
       </button>
     </div>
     <div class="mini-arcade is-hidden" id="miniArcadePanel">
@@ -3930,6 +4381,17 @@
           <span class="mini-briefing-hint">Zum Starten unten auf START drücken</span>
         </div>
         <canvas class="mini-canvas" id="miniCanvas" width="320" height="260" aria-label="Mini Game Spielfeld"></canvas>
+        <div class="lka-dialog is-hidden" id="lkaDialog" role="dialog" aria-live="assertive">
+          <strong id="lkaDialogQuestion">Na, wie läuft's?</strong>
+          <div class="lka-dialog-options" id="lkaDialogOptions"></div>
+        </div>
+        <div class="lka-result is-hidden" id="lkaResult" role="dialog" aria-live="assertive">
+          <h2 id="lkaResultTitle">DU HAST ERFOLGREICH ABGEBUMT.</h2>
+          <p id="lkaResultSubtitle">Du bist jetzt Tarifbeschäftigter beim LKA.</p>
+          <div class="lka-stat-grid" id="lkaResultStats"></div>
+          <button class="menu-action" id="lkaResultBackBtn" type="button">Zurück zu Mini Games</button>
+        </div>
+        <div class="lka-flash" id="lkaFlash" aria-hidden="true"></div>
       </div>
       <div class="mini-controls" id="miniMoveControls" aria-label="Bewegen">
         <button class="mini-control-btn mini-move-btn" id="miniLeftBtn" type="button" aria-label="Nach links">←</button>
@@ -3939,7 +4401,22 @@
         <button class="mini-control-btn mini-decision-btn" id="miniApproveBtn" type="button">Einfahrt erlauben</button>
         <button class="mini-control-btn mini-decision-btn stop" id="miniRejectBtn" type="button">Zurückweisen</button>
       </div>
+      <div class="lka-controls is-hidden" id="lkaControls" aria-label="LKA Bürosteuerung">
+        <button class="lka-shake-btn" id="lkaShakeBtn" type="button">SCHÜTTELN</button>
+        <button class="lka-panic-btn" id="lkaPanicBtn" type="button">PANIK</button>
+      </div>
       <button class="menu-action" id="miniStartBtn" type="button">START</button>
+    </div>
+    <div class="lka-adult-warning is-hidden" id="lkaAdultWarning" role="dialog" aria-modal="true" aria-labelledby="lkaWarningTitle">
+      <div class="lka-warning-content">
+        <h2 id="lkaWarningTitle">FSK 18</h2>
+        <p>Dieses Minigame enthält obszönen Humor, zweideutige Handbewegungen und Szenen, die für manche Personen unangemessen wirken könnten.</p>
+        <small>Alle dargestellten Personen sind volljährig.</small>
+        <div class="lka-warning-actions">
+          <button class="menu-action" id="lkaAdultContinueBtn" type="button">Ich bin 18 oder älter – Fortfahren</button>
+          <button class="control-btn" id="lkaAdultBackBtn" type="button">Zurück</button>
+        </div>
+      </div>
     </div>
     <div class="app-footer">#immerda</div>
   </section>
@@ -3985,6 +4462,8 @@
           <button class="leaderboard-tab" type="button" data-board-mode="bollo" aria-pressed="false">Bollo</button>
           <button class="leaderboard-tab" type="button" data-board-mode="burger" aria-pressed="false">Burger</button>
           <button class="leaderboard-tab" type="button" data-board-mode="wach" aria-pressed="false">Wach</button>
+          <button class="leaderboard-tab" type="button" data-board-mode="socken" aria-pressed="false">Socken</button>
+          <button class="leaderboard-tab" type="button" data-board-mode="lka" aria-pressed="false">LKA</button>
         </div>
         <div class="leaderboard-scope" aria-label="Zeitraum auswählen">
           <button class="leaderboard-tab" type="button" data-board-scope="week" aria-pressed="true">Diese Woche</button>
@@ -4080,6 +4559,7 @@
         </div>
       </div>
       <div class="avatar-list" id="avatarList"></div>
+      <p class="character-dossier" id="characterDossier"><strong>SG8-Personalakte</strong>Tippe eine Figur an, um ihre Aktennotiz zu öffnen.</p>
     </section>
   </aside>
 
@@ -4146,9 +4626,12 @@
       const menuCharacter = document.getElementById("menuCharacter");
       const storyOpenBtn = document.getElementById("storyOpenBtn");
       const storyBackBtn = document.getElementById("storyBackBtn");
+      const storyHeading = document.getElementById("storyHeading");
       const storyCharacter = document.getElementById("storyCharacter");
       const storyProgress = document.getElementById("storyProgress");
       const storyKicker = document.getElementById("storyKicker");
+      const storyAnimation = document.getElementById("storyAnimation");
+      const storyBubble = document.getElementById("storyBubble");
       const storyTitle = document.getElementById("storyTitle");
       const storyText = document.getElementById("storyText");
       const storyOrderMeter = document.getElementById("storyOrderMeter");
@@ -4187,6 +4670,7 @@
       const miniGamesTitle = document.getElementById("miniGamesTitle");
       const miniGamePicker = document.getElementById("miniGamePicker");
       const miniArcadePanel = document.getElementById("miniArcadePanel");
+      const lkaMiniChoice = document.getElementById("lkaMiniChoice");
       const miniGamesCharacter = document.getElementById("miniGamesCharacter");
       const miniGamesSpeech = document.getElementById("miniGamesSpeech");
       const miniChoiceArtBollo = document.getElementById("miniChoiceArtBollo");
@@ -4215,6 +4699,21 @@
       const miniRightBtn = document.getElementById("miniRightBtn");
       const miniApproveBtn = document.getElementById("miniApproveBtn");
       const miniRejectBtn = document.getElementById("miniRejectBtn");
+      const lkaControls = document.getElementById("lkaControls");
+      const lkaShakeBtn = document.getElementById("lkaShakeBtn");
+      const lkaPanicBtn = document.getElementById("lkaPanicBtn");
+      const lkaAdultWarning = document.getElementById("lkaAdultWarning");
+      const lkaAdultContinueBtn = document.getElementById("lkaAdultContinueBtn");
+      const lkaAdultBackBtn = document.getElementById("lkaAdultBackBtn");
+      const lkaDialog = document.getElementById("lkaDialog");
+      const lkaDialogQuestion = document.getElementById("lkaDialogQuestion");
+      const lkaDialogOptions = document.getElementById("lkaDialogOptions");
+      const lkaResult = document.getElementById("lkaResult");
+      const lkaResultTitle = document.getElementById("lkaResultTitle");
+      const lkaResultSubtitle = document.getElementById("lkaResultSubtitle");
+      const lkaResultStats = document.getElementById("lkaResultStats");
+      const lkaResultBackBtn = document.getElementById("lkaResultBackBtn");
+      const lkaFlash = document.getElementById("lkaFlash");
       const settingsBtn = document.getElementById("settingsBtn");
       const settingsBackBtn = document.getElementById("settingsBackBtn");
       const settingsPasswordInput = document.getElementById("settingsPasswordInput");
@@ -4261,6 +4760,7 @@
       const selectionRoleStepLabel = document.getElementById("selectionRoleStepLabel");
       const selectionMapStepLabel = document.getElementById("selectionMapStepLabel");
       const avatarList = document.getElementById("avatarList");
+      const characterDossier = document.getElementById("characterDossier");
       const photoInput = document.getElementById("photoInput");
       const mapSelector = document.getElementById("mapSelector");
       const mapSelectionHeading = document.getElementById("mapSelectionHeading");
@@ -4333,18 +4833,25 @@
       ];
       const introDuration = 3600;
       const poweredDuration = 3600;
-      const insiderFacts = [
-        "NikiGayBoy macht Schießtraining.",
-        "Weizenbaron verliert sein ganzes Geld bei Fußballwetten.",
-        "ElfbarLucie raucht den ganzen Tag Elfbar.",
-        "Prachtarsch verstopft den Abfluss mit Haaren.",
-        "Terres lutscht Füße.",
-        "Merinowolle schmeißt die Waffe weg.",
-        "Hänger ist Lehrerin.",
-        "WÜtschkoffer ist Hooligan auf dem Betze.",
-        "Trichter spielt Clash of Clans.",
-        "Eierohle trinkt Energy Drinks und isst alle Essensreste."
+      const poweredMessages = [
+        "Funkkanal wird geöffnet ...",
+        "Blaulicht wird synchronisiert ...",
+        "Dienstgebiete werden geladen ...",
+        "SockenDerrick prüft die Einsatzakte ...",
+        "SG8 Anime Arcade fährt hoch ..."
       ];
+      const characterDossiers = {
+        "sg8-main-character": "Verliert sein ganzes Geld bei Fußballwetten.",
+        "niki-gay-boy": "Trainiert am comicartigen Schießstand.",
+        "elfbar-lucie": "Raucht den ganzen Tag Elfbar.",
+        prachtarsch: "Verstopft den Abfluss mit Haaren.",
+        terres: "Lutscht Füße.",
+        merinowolle: "Schmeißt die Waffe weg.",
+        haenger: "Ist Lehrerin.",
+        wuetschkoffer: "Ist Hooligan auf dem Betze.",
+        trichter: "Spielt Clash of Clans.",
+        eierohle: "Trinkt Energy Drinks und isst alle Essensreste."
+      };
       const lossMessages = [
         "Verloren! Du wirst zur Polizei Saarland geschickt!",
         "Loser! Du musst 1 Monat lang Schrankendienst auf dem Hahn machen!",
@@ -4358,7 +4865,56 @@
         { id: "night", base: "#182033", accent: "#7ec8e3", mark: "N" },
         { id: "betze", base: "#ffffff", accent: "#d22630", mark: "K" },
         { id: "signal", base: "#ffd85c", accent: "#15479a", mark: "S" },
-        { id: "mint", base: "#67dfc8", accent: "#182033", mark: "M" }
+        { id: "mint", base: "#67dfc8", accent: "#182033", mark: "M" },
+        { id: "blue-light", base: "#3c86ff", accent: "#dfe8f4", mark: "1" },
+        { id: "blue-dark", base: "#266ad8", accent: "#f7fafc", mark: "2" },
+        { id: "red-light", base: "#e23b45", accent: "#ffd85c", mark: "3" },
+        { id: "red-dark", base: "#b91f29", accent: "#fff3b8", mark: "4" }
+      ];
+      const sockLevels = [
+        { pairs: 6, time: 44 },
+        { pairs: 8, time: 38 },
+        { pairs: 8, time: 31 },
+        { pairs: 10, time: 27 },
+        { pairs: 10, time: 22 }
+      ];
+      const lkaQuestions = [
+        "Na, wie läuft's?",
+        "Wie weit bist du mit dem Vorgang?",
+        "Ist das Ding fertig?",
+        "Hast du das schon dem DGL geschickt?",
+        "Was machst du gerade?",
+        "Brauchst du Hilfe?"
+      ];
+      const lkaExcuses = [
+        { text: "Ich bin mit dem Vorgang eigentlich fertig.", risk: 2 },
+        { text: "Ich wurde noch nicht in Artus beschult.", risk: 7 },
+        { text: "Artus funktioniert gerade nicht.", risk: 11, followup: true },
+        { text: "Ich hab's schon fertig gemacht und dem DGL geschickt.", risk: 4 },
+        { text: "Ich warte gerade noch auf eine Rückmeldung.", risk: 3 },
+        { text: "Ich muss nur noch kurz was nachtragen.", risk: 2 },
+        { text: "Ich hab nochmal die Verfügung überprüft.", risk: 1 },
+        { text: "Der Vorgang lädt gerade.", risk: 9, followup: true },
+        { text: "Ich wollte das gerade abschließen.", risk: 5 },
+        { text: "Ich bin gleich fertig.", risk: 6 },
+        { text: "Mir fehlt noch eine Information.", risk: 3 },
+        { text: "Ich hab mit einer anderen Dienststelle telefoniert.", risk: 4 }
+      ];
+      const lkaFollowupAnswers = [
+        { text: "Bei mir kommt eine Fehlermeldung.", risk: 8 },
+        { text: "Vielleicht fehlt mir eine Berechtigung.", risk: 4 },
+        { text: "Ich starte den Rechner nochmal neu.", risk: 3 },
+        { text: "Komisch, eben ging es nicht.", risk: 10 },
+        { text: "Jetzt ist sie natürlich weg.", risk: 12 },
+        { text: "Der Rechner hängt.", risk: 6 }
+      ];
+      const lkaHallEvents = [
+        "Telefon klingelt.",
+        "Der Drucker startet plötzlich.",
+        "Jemand ruft: Wo ist eigentlich der Praktikant?",
+        "Ein Kollege öffnet die falsche Tür.",
+        "Kaffee?",
+        "Ein Schatten läuft am Büro vorbei."
       ];
       const settingsPassword = "Bacardi";
       const playersVersion = "sg8-characters-v3";
@@ -4372,6 +4928,7 @@
         miniBests: "sg8MiniArcadeBestsV2",
         career: "sg8SpielCareerV1",
         storyEndings: "sg8SpielStoryEndingsV1",
+        lkaAdultAccepted: "sg8LkaAdultAcceptedV1",
         map: "sg8SpielMap",
         music: "sg8SpielMusic"
       };
@@ -4439,39 +4996,85 @@
       ];
       const storyScenes = [
         {
-          kicker: "08:01 · Funkauftrag",
-          title: "Unklare Lage an der Gasse",
-          text: "Ein ziviler Wagen kreist zum dritten Mal um den Block. Wie beginnt deine Schicht?",
+          visual: "intern",
+          bubble: "Wenn ihr in Zivil fahrt, seid ihr dann privat?",
+          kicker: "Tag 1 · Schülerpraktikant",
+          title: "Die Fragerunde beginnt",
+          text: "Der Schülerpraktikant kommt ins Büro und stellt mit maximalem Selbstvertrauen eine bemerkenswert dumme Frage: „Wenn ihr in Zivil fahrt, seid ihr dann privat?“",
           choices: [
-            { label: "Kennzeichen notieren und Lage ruhig prüfen", order: 2, chaos: 0, line: "Observation läuft!" },
-            { label: "Mit Blaulicht hinterher: Saarbriggeeee!", order: 0, chaos: 2, line: "Saarbriggeeee!" }
+            { label: "Ruhig erklären, was ein ziviles Dienstfahrzeug ist", order: 2, chaos: 0, line: "Des is trotzdem Dienst." },
+            { label: "Ja. Und das Blaulicht ist nur Dekoration.", order: 0, chaos: 2, line: "Des Blaulicht is nur Deko." },
+            { label: "Gegenfrage: Darf man Funk eigentlich essen?", order: 0, chaos: 3, line: "Kann mer Funk esse?" }
           ]
         },
         {
-          kicker: "10:37 · Versorgungslage",
-          title: "Bollo oder Burger King?",
-          text: "Der Einsatz zieht sich. Die Besatzung fordert eine taktische Verpflegungspause.",
+          visual: "hahn",
+          bubble: "Seminarroute wird berechnet ...",
+          kicker: "Tag 2 · Seminar auf dem Hahn",
+          title: "Dienstreise mit Betze-Navigation",
+          text: "Für ein Seminar geht es auf den Hahn. Die Navigation schlägt drei Umwege und eine taktische Verpflegungspause vor.",
           choices: [
-            { label: "Spaghetti Bollo für die ganze Schicht", order: 1, chaos: 1, line: "Ich liebe Colabier!" },
-            { label: "Burger King mit Sonderweg durch den Drive-in", order: 0, chaos: 2, line: "Bacardi Cola!" }
+            { label: "Pünktlich losfahren und tatsächlich am Seminar teilnehmen", order: 2, chaos: 0, line: "Uff de Hahne, aber pünktlich." },
+            { label: "Burger-King-Umweg als dienstliche Notwendigkeit melden", order: 0, chaos: 2, line: "Taktische Verpflegung." },
+            { label: "Dem Navi folgen, obwohl es zum Betze abbiegt", order: 0, chaos: 3, line: "Des Navi will uff de Betze." }
           ]
         },
         {
-          kicker: "14:12 · Enkenbach",
-          title: "Fahrzeugkontrolle am Werkscitz",
-          text: "Ein Lieferwagen zeigt einen geraden Code, aber der Termin fehlt. Die Schlange wird länger.",
+          visual: "range",
+          bubble: "Comic-Zielscheibe bereit!",
+          kicker: "Tag 3 · Schießtraining",
+          title: "Die Zielscheibe wackelt verdächtig",
+          text: "Beim comicartigen Schießtraining behauptet NikiGayBoy, der Betze-Wind sei für jeden Fehlschuss verantwortlich.",
           choices: [
-            { label: "Unterlagen vollständig nachprüfen", order: 2, chaos: 0, line: "Kontrollblick aktiviert." },
-            { label: "Schranke hoch und laut Werkscitz rufen", order: 0, chaos: 2, line: "Werkscitz!" }
+            { label: "Stand, Atmung und Zielbild sauber kontrollieren", order: 2, chaos: 0, line: "Ganz ruhig, dann passt des." },
+            { label: "Jeden Fehlschuss offiziell als Betze-Wind verbuchen", order: 0, chaos: 2, line: "Des war de Betze-Wind." },
+            { label: "Die Zielscheibe einfach näher stellen", order: 0, chaos: 3, line: "So trifft mer besser." }
+          ]
+        }
+      ];
+      const klerStoryScenes = [
+        {
+          visual: "office",
+          bubble: "Zuständigkeit wird weitergeleitet ...",
+          kicker: "08:47 · Zuständigkeitsprüfung",
+          title: "Eine Akte betritt den Flur",
+          text: "Ein Vorgang liegt auf dem Tisch. Noch ist völlig unklar, wer auf keinen Fall zuständig sein möchte.",
+          choices: [
+            { label: "Zuständigkeit sorgfältig an drei Stellen weiterprüfen", order: 1, chaos: 1, line: "Dafür sin mir net zuständig." },
+            { label: "Erst Kaffee, dann vielleicht Artus öffnen", order: 0, chaos: 2, line: "Jetz erscht emol Kaffee." }
           ]
         },
         {
-          kicker: "19:48 · Betzeberg",
-          title: "Finale im Betze-Wind",
-          text: "Am Berg kippt das Wetter. Eine letzte Lage entscheidet, wie SG8 diese Schicht in Erinnerung behält.",
+          visual: "artus",
+          bubble: "ARTUS lädt ... vielleicht.",
+          kicker: "10:16 · Ermittlungsstand",
+          title: "Artus zeigt einen Ladebalken",
+          text: "Der Balken bewegt sich nicht. Damit ist der produktive Teil des Vormittags offiziell gefährdet.",
           choices: [
-            { label: "Verstärkung holen und gemeinsam vorgehen", order: 2, chaos: 0, line: "#immerda" },
-            { label: "Weizenbaron startet den Alleingang", order: 0, chaos: 3, line: "Ich liebe Colabier!" }
+            { label: "Fehlermeldung dokumentieren und weiterarbeiten", order: 2, chaos: 0, line: "Der Vorgang lädt." },
+            { label: "Nicht zuständig auf einen gelben Zettel schreiben", order: 0, chaos: 2, line: "Des macht die annere Dienststell." }
+          ]
+        },
+        {
+          visual: "phone",
+          bubble: "Das Telefon klingelt einfach weiter.",
+          kicker: "12:31 · Kritische Uhrzeit",
+          title: "Noch 29 Minuten bis Feierabend",
+          text: "Das Telefon klingelt. Eine neue Lage könnte mehr als 29 Minuten dauern.",
+          choices: [
+            { label: "Abheben und einen letzten Vermerk schaffen", order: 2, chaos: 0, line: "Mir mache des noch fertig." },
+            { label: "Telefon beobachten, bis es von allein aufhört", order: 0, chaos: 3, line: "Bestimmt falsch verbunden." }
+          ]
+        },
+        {
+          visual: "clock",
+          bubble: "13:00 · Feierabend ist zuständig.",
+          kicker: "12:59 · Einsatzende",
+          title: "Die magische Minute",
+          text: "Eine Akte ist offen, Artus lädt und auf dem Flur fragt jemand nach der Zuständigkeit.",
+          choices: [
+            { label: "Speichern, weiterleiten und um 13:00 gehen", order: 2, chaos: 1, line: "Punkt dreizehn Uhr Feierabend." },
+            { label: "Rechner ausschalten: K war nie zuständig", order: 0, chaos: 3, line: "Mir ware nie zuständig." }
           ]
         }
       ];
@@ -4543,7 +5146,36 @@
       let miniSockTime = 0;
       let miniSockMatched = 0;
       let miniSockInputLocked = false;
+      let miniSockLevel = 1;
+      let miniSockAttempts = 0;
+      let miniSockLevelPause = 0;
       let miniFinishedWon = false;
+      let lkaPhase = "idle";
+      let lkaPressure = 0;
+      let lkaSuspicion = 0;
+      let lkaElapsed = 0;
+      let lkaClicks = 0;
+      let lkaClickTimes = [];
+      let lkaMaxCps = 0;
+      let lkaCombo = 1;
+      let lkaComboStreak = 0;
+      let lkaBestCombo = 1;
+      let lkaLastShakeAt = 0;
+      let lkaShakePulse = 0;
+      let lkaShakeDirection = 1;
+      let lkaEventTimer = 0;
+      let lkaHallState = "";
+      let lkaHallText = "";
+      let lkaHallTimer = 0;
+      let lkaPanicCooldown = 0;
+      let lkaPanicTimer = 0;
+      let lkaDialogueDepth = 0;
+      let lkaMentorFooled = 0;
+      let lkaAlmostCaught = 0;
+      let lkaCaught = 0;
+      let lkaExcusesUsed = 0;
+      let lkaFakeReturnTimer = 0;
+      let lkaFinaleTimer = 0;
       let miniBests = loadMiniBests();
       let career = loadCareer();
       let score = 0;
@@ -4871,14 +5503,34 @@
         else play();
       }
 
+      function toPfaelzisch(line) {
+        return String(line)
+          .replace(/\bIch\b/g, "Isch")
+          .replace(/\bich\b/g, "isch")
+          .replace(/\bnicht\b/gi, "net")
+          .replace(/\bjetzt\b/gi, "jetz")
+          .replace(/\bdeine\b/gi, "dei")
+          .replace(/\bdeinen\b/gi, "dein")
+          .replace(/\bmeine\b/gi, "mei")
+          .replace(/\bwirst\b/gi, "werschd")
+          .replace(/\bmusst\b/gi, "muschd")
+          .replace(/\bist\b/gi, "bischd")
+          .replace(/\bgeht\b/gi, "geht")
+          .replace(/\bmachen\b/gi, "mache")
+          .replace(/\bgeschickt\b/gi, "gschickt")
+          .replace(/\bVerloren\b/g, "Verloore")
+          .replace(/\bgewinnt\b/gi, "hot gewunne")
+          .replace(/\bImmer da\b/gi, "Immer do");
+      }
+
       function speakVoiceLine(line) {
         if (!musicEnabled || !line || !window.speechSynthesis || Date.now() < voiceCooldownUntil) return;
         voiceCooldownUntil = Date.now() + 2200;
         try {
-          const utterance = new SpeechSynthesisUtterance(line);
+          const utterance = new SpeechSynthesisUtterance(toPfaelzisch(line));
           utterance.lang = "de-DE";
-          utterance.rate = 1.08;
-          utterance.pitch = 1.16;
+          utterance.rate = 0.96;
+          utterance.pitch = 1.02;
           utterance.volume = 0.88;
           window.speechSynthesis.cancel();
           window.speechSynthesis.speak(utterance);
@@ -5052,7 +5704,7 @@
       }
 
       function normalizeHighscoreEntry(entry) {
-        const board = ["flappy", "bollo", "burger", "wach"].includes(entry.board) ? entry.board : "flappy";
+        const board = ["flappy", "bollo", "burger", "wach", "socken", "lka"].includes(entry.board) ? entry.board : "flappy";
         const role = entry.role === "kler" ? "kler" : "schutzmann";
         const area = gameMaps[entry.area] ? entry.area : "ludwigshafen";
         const weekKey = /^\d{4}-W\d{2}$/.test(String(entry.weekKey || "")) ? entry.weekKey : currentWeekKey();
@@ -5250,7 +5902,7 @@
         leaderboardScopeButtons.forEach((button) => {
           button.setAttribute("aria-pressed", String(button.dataset.boardScope === activeLeaderboardScope));
         });
-        const modeLabels = { flappy: "Flappy", bollo: "Bollo / Durchsuchung", burger: "Burger / Akten", wach: "Wach / Fahndung" };
+        const modeLabels = { flappy: "Flappy", bollo: "Bollo / Durchsuchung", burger: "Burger / Akten", wach: "Wach / Fahndung", socken: "Socken", lka: "LKA Drucksache" };
         leaderboardContext.textContent = `${modeLabels[activeLeaderboardMode]} · ${isKlerRole() ? "K´ler" : "Schutzmann"} · ${gameMaps[leaderboardArea()].name}`;
         const scores = leaderboardScores();
         if (!scores.length) {
@@ -5292,6 +5944,7 @@
 
       function miniGameTitle(mode) {
         if (mode === "socken") return "SockenDerricks Paarprüfung";
+        if (mode === "lka") return "Praxisphase: Drucksache";
         if (isKlerRole()) {
           if (mode === "burger") return "Aktenanalyse";
           if (mode === "wach") return "Zivilfahndung";
@@ -5329,6 +5982,10 @@
 
       function updateMiniGameRoleUi() {
         const kler = isKlerRole();
+        lkaMiniChoice.classList.toggle("is-hidden", !kler);
+        leaderboardModeButtons
+          .filter((button) => button.dataset.boardMode === "lka")
+          .forEach((button) => button.classList.toggle("is-hidden", !kler));
         miniChoiceArtBollo.textContent = kler ? "DS" : "SB";
         miniChoiceTitleBollo.textContent = kler ? "Durchsuchung" : "Spaghetti Bollo";
         miniChoiceSubtitleBollo.textContent = kler ? "Beweise sichern" : "Fangen";
@@ -5358,6 +6015,18 @@
       }
 
       function updateMiniHud() {
+        if (miniGameMode === "socken") {
+          miniScoreLabel.textContent = `Level ${miniSockLevel}/${sockLevels.length}`;
+          miniBestLabel.textContent = `Punkte ${miniScore}`;
+          miniLivesLabel.textContent = "Versuche ∞";
+          return;
+        }
+        if (miniGameMode === "lka") {
+          miniScoreLabel.textContent = `Druck ${Math.round(lkaPressure)}%`;
+          miniBestLabel.textContent = lkaCombo >= 5 ? "Combo MAX" : `Combo x${lkaCombo}`;
+          miniLivesLabel.textContent = `Verdacht ${Math.round(lkaSuspicion)}%`;
+          return;
+        }
         miniScoreLabel.textContent = `Punkte ${miniScore}`;
         miniBestLabel.textContent = miniBestText();
         miniLivesLabel.textContent = `Leben ${miniLives}`;
@@ -5372,8 +6041,12 @@
         safeSave(storageKeys.miniBests, miniBests);
       }
 
-      function shuffledSockCards() {
-        const cards = sockPatterns.flatMap((pattern) => ([
+      function shuffledSockCards(level = miniSockLevel) {
+        const config = sockLevels[Math.max(0, Math.min(sockLevels.length - 1, level - 1))];
+        const patternPool = level >= 3
+          ? sockPatterns.slice(sockPatterns.length - config.pairs)
+          : sockPatterns.slice(0, config.pairs);
+        const cards = patternPool.flatMap((pattern) => ([
           { pair: pattern.id, pattern, revealed: false, matched: false },
           { pair: pattern.id, pattern, revealed: false, matched: false }
         ]));
@@ -5384,6 +6057,53 @@
           cards[swapIndex] = current;
         }
         return cards;
+      }
+
+      function setupSockLevel(level, pause = 0) {
+        miniSockLevel = Math.max(1, Math.min(sockLevels.length, level));
+        const config = sockLevels[miniSockLevel - 1];
+        miniSockCards = shuffledSockCards(miniSockLevel);
+        miniSockSelected = [];
+        miniSockResolveTimer = 0;
+        miniSockTime = config.time;
+        miniSockMatched = 0;
+        miniSockLevelPause = pause;
+        miniSockInputLocked = pause > 0;
+      }
+
+      function resetLkaState() {
+        lkaPhase = "idle";
+        lkaPressure = 0;
+        lkaSuspicion = 0;
+        lkaElapsed = 0;
+        lkaClicks = 0;
+        lkaClickTimes = [];
+        lkaMaxCps = 0;
+        lkaCombo = 1;
+        lkaComboStreak = 0;
+        lkaBestCombo = 1;
+        lkaLastShakeAt = 0;
+        lkaShakePulse = 0;
+        lkaShakeDirection = 1;
+        lkaEventTimer = 4.5 + Math.random() * 2;
+        lkaHallState = "";
+        lkaHallText = "";
+        lkaHallTimer = 0;
+        lkaPanicCooldown = 0;
+        lkaPanicTimer = 0;
+        lkaDialogueDepth = 0;
+        lkaMentorFooled = 0;
+        lkaAlmostCaught = 0;
+        lkaCaught = 0;
+        lkaExcusesUsed = 0;
+        lkaFakeReturnTimer = 0;
+        lkaFinaleTimer = 0;
+        lkaDialog.classList.add("is-hidden");
+        lkaResult.classList.add("is-hidden");
+        lkaFlash.classList.remove("is-active");
+        lkaShakeBtn.disabled = true;
+        lkaPanicBtn.disabled = true;
+        lkaPanicBtn.textContent = "PANIK";
       }
 
       function resetMiniStage() {
@@ -5405,29 +6125,49 @@
         miniGateFlash = "";
         miniEffectTimer = 0;
         miniMessage.classList.remove("is-loss");
-        miniSockCards = miniGameMode === "socken" ? shuffledSockCards() : [];
+        miniSockLevel = 1;
+        miniSockAttempts = 0;
+        miniSockLevelPause = 0;
+        miniSockCards = [];
         miniSockSelected = [];
         miniSockResolveTimer = 0;
-        miniSockTime = 42;
+        miniSockTime = 0;
         miniSockMatched = 0;
         miniSockInputLocked = false;
+        if (miniGameMode === "socken") setupSockLevel(1);
         miniFinishedWon = false;
+        resetLkaState();
         miniMessage.textContent = miniGameMode === "wach"
           ? (isKlerRole() ? "Zivilfahndung bereit" : "Fahrzeugeinlasskontrolle Enkenbach")
-          : (miniGameMode === "socken" ? "Sechs Paare warten" : "Bereit");
+          : (miniGameMode === "socken" ? "Level 1 · sechs Paare" : (miniGameMode === "lka" ? "Büroarbeitsplatz bereit" : "Bereit"));
       }
 
       function stopMiniGame() {
         miniRunning = false;
         miniMoveDirection = 0;
         miniStartBtn.disabled = false;
+        if (miniGameMode === "lka") {
+          lkaPhase = "idle";
+          lkaDialog.classList.add("is-hidden");
+          lkaResult.classList.add("is-hidden");
+          lkaFlash.classList.remove("is-active");
+          lkaAdultWarning.classList.add("is-hidden");
+          lkaShakeBtn.disabled = true;
+          lkaPanicBtn.disabled = true;
+        }
         stopBackgroundMusic();
       }
 
       function showMiniBriefing() {
         if (miniGameMode === "socken") {
           miniBriefingTitle.textContent = "SockenDerricks Paarprüfung";
-          miniBriefingText.textContent = "Tippe zwei Karten an und finde sechs gleiche Sockenpaare. Ein falsches Paar kostet ein Leben. Löse alle Paare, bevor die Zeit abläuft.";
+          miniBriefingText.textContent = "Fünf Level: Tippe zwei Karten an und finde die gleichen Socken. Du hast unendlich viele Versuche. Mit jedem Level kommen mehr und ähnlichere Paare, während die Zeit knapper wird. Läuft sie ab, startet nur das aktuelle Level neu.";
+          miniBriefing.classList.remove("is-hidden");
+          return;
+        }
+        if (miniGameMode === "lka") {
+          miniBriefingTitle.textContent = "Praxisphase: Drucksache";
+          miniBriefingText.textContent = "Schüttel die Flasche, bevor dein Praxisanleiter merkt, dass du nichts arbeitest. Schnell tippen, Combo aufbauen und auf den Flur achten. Mit PANIK wechselst du kurz zur Vorgangsmaske.";
           miniBriefing.classList.remove("is-hidden");
           return;
         }
@@ -5463,8 +6203,9 @@
         miniGameMode = mode;
         miniScore = 0;
         resetMiniStage();
-        miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach" || miniGameMode === "socken");
+        miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach" || miniGameMode === "socken" || miniGameMode === "lka");
         miniGateControls.classList.toggle("is-hidden", miniGameMode !== "wach");
+        lkaControls.classList.toggle("is-hidden", miniGameMode !== "lka");
         miniStartBtn.textContent = "START";
         miniLives = 3;
         miniLevel = 1;
@@ -5487,6 +6228,7 @@
       }
 
       function openSelectedMiniGame(mode) {
+        if (mode === "lka" && !isKlerRole()) return;
         selectMiniGame(mode);
         miniGamesTitle.textContent = miniGameTitle(mode);
         miniGamesTitle.classList.toggle("long-title", !isKlerRole() && mode === "wach");
@@ -5495,6 +6237,11 @@
         miniGamesCharacter.classList.add("is-hidden");
         miniGamesSpeech.classList.add("is-hidden");
         miniGamesBackBtn.setAttribute("aria-label", "Zurück zu Mini Games");
+        if (mode === "lka" && safeGet(storageKeys.lkaAdultAccepted, "") !== "yes") {
+          lkaAdultWarning.classList.remove("is-hidden");
+        } else {
+          lkaAdultWarning.classList.add("is-hidden");
+        }
         requestAnimationFrame(drawMiniGame);
       }
 
@@ -5544,6 +6291,12 @@
         resetMiniStage();
         miniBriefing.classList.add("is-hidden");
         updateMiniHud();
+        if (miniGameMode === "lka") {
+          lkaPhase = "playing";
+          lkaShakeBtn.disabled = false;
+          lkaPanicBtn.disabled = false;
+          miniMessage.textContent = "Schüttel die Flasche · Achte auf den Flur";
+        }
         if (miniGameMode === "bollo") {
           createMiniRecipe();
           miniMessage.textContent = miniRecipePrompt();
@@ -5556,7 +6309,7 @@
           spawnGateCard();
         }
         if (miniGameMode === "socken") {
-          miniMessage.textContent = `Zeit ${Math.ceil(miniSockTime)} · Paare 0/6`;
+          miniMessage.textContent = `Level 1 · Zeit ${Math.ceil(miniSockTime)} · Paare 0/${miniSockCards.length / 2}`;
         }
         startBackgroundMusic();
         drawMiniGame();
@@ -5572,9 +6325,14 @@
       }
 
       function sockCardRect(index) {
-        const column = index % 3;
-        const row = Math.floor(index / 3);
-        return { x: 20 + column * 96, y: 36 + row * 52, width: 84, height: 44 };
+        const columns = miniSockCards.length <= 12 ? 3 : 4;
+        const rows = Math.ceil(miniSockCards.length / columns);
+        const gap = 6;
+        const width = (296 - gap * (columns - 1)) / columns;
+        const height = Math.min(44, (210 - gap * (rows - 1)) / rows);
+        const column = index % columns;
+        const row = Math.floor(index / columns);
+        return { x: 12 + column * (width + gap), y: 38 + row * (height + gap), width, height };
       }
 
       function selectSockCard(clientX, clientY) {
@@ -5600,9 +6358,18 @@
       }
 
       function updateSockMiniGame(dt) {
+        if (miniSockLevelPause > 0) {
+          miniSockLevelPause = Math.max(0, miniSockLevelPause - dt);
+          if (miniSockLevelPause <= 0) miniSockInputLocked = false;
+          updateMiniHud();
+          return;
+        }
         miniSockTime = Math.max(0, miniSockTime - dt);
         if (miniSockTime <= 0) {
-          finishMiniGame(randomLossMessage());
+          miniSockAttempts += 1;
+          playSoundEffect("error");
+          setupSockLevel(miniSockLevel, 0.9);
+          miniMessage.textContent = `Zeit abgelaufen · Level ${miniSockLevel} startet neu · Versuche ∞`;
           return;
         }
         if (miniSockResolveTimer > 0) {
@@ -5616,22 +6383,29 @@
               miniSockMatched += 1;
               miniScore += 5 + Math.ceil(miniSockTime / 14);
               playSoundEffect("point");
-              if (miniSockMatched >= sockPatterns.length) {
+              if (miniSockMatched >= miniSockCards.length / 2) {
                 miniScore += Math.ceil(miniSockTime);
-                finishMiniGame("Alle Socken im Dienst! Paarprüfung bestanden", true);
+                if (miniSockLevel >= sockLevels.length) {
+                  finishMiniGame("Alle fünf Level geschafft! SockenDerrick ist zufrieden", true);
+                  return;
+                }
+                const completedLevel = miniSockLevel;
+                setupSockLevel(miniSockLevel + 1, 1.05);
+                miniMessage.textContent = `Level ${completedLevel} geschafft · Level ${miniSockLevel} wird schwerer`;
                 return;
               }
             } else {
               first.revealed = false;
               second.revealed = false;
-              loseMiniLife("Falsches Sockenpaar");
-              if (!miniRunning) return;
+              miniSockAttempts += 1;
+              miniScore = Math.max(0, miniScore - 1);
+              playSoundEffect("error");
             }
             miniSockSelected = [];
             miniSockInputLocked = false;
           }
         }
-        miniMessage.textContent = `Zeit ${Math.ceil(miniSockTime)} · Paare ${miniSockMatched}/${sockPatterns.length}`;
+        miniMessage.textContent = `Level ${miniSockLevel} · Zeit ${Math.ceil(miniSockTime)} · Paare ${miniSockMatched}/${miniSockCards.length / 2}`;
       }
 
       function spawnFallingItem() {
@@ -5915,10 +6689,271 @@
         }
       }
 
+      function shuffledOptions(source, count = 3) {
+        const options = source.slice();
+        for (let index = options.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          const current = options[index];
+          options[index] = options[swapIndex];
+          options[swapIndex] = current;
+        }
+        return options.slice(0, count);
+      }
+
+      function nextLkaEventDelay() {
+        const pressureFactor = Math.max(0.48, 1 - lkaPressure / 170);
+        const suspicionFactor = Math.max(0.62, 1 - lkaSuspicion / 240);
+        return Math.max(2.6, (5 + Math.random() * 5) * pressureFactor * suspicionFactor);
+      }
+
+      function shakeLkaBottle() {
+        if (!miniRunning || miniGameMode !== "lka" || lkaPhase !== "playing" || lkaPanicTimer > 0) return;
+        const now = performance.now();
+        const delta = now - lkaLastShakeAt;
+        lkaComboStreak = delta > 0 && delta < 390 ? lkaComboStreak + 1 : 1;
+        lkaCombo = Math.min(5, 1 + Math.floor(lkaComboStreak / 5));
+        lkaBestCombo = Math.max(lkaBestCombo, lkaCombo);
+        lkaLastShakeAt = now;
+        lkaShakePulse = Math.min(1, 0.35 + lkaCombo * 0.14);
+        lkaShakeDirection *= -1;
+        lkaClicks += 1;
+        lkaClickTimes.push(now);
+        lkaClickTimes = lkaClickTimes.filter((time) => now - time <= 1000);
+        lkaMaxCps = Math.max(lkaMaxCps, lkaClickTimes.length);
+        lkaPressure = Math.min(100, lkaPressure + 0.72 + lkaCombo * 0.46);
+        miniScore = Math.max(0, Math.floor(lkaPressure * 2 + lkaClicks * 0.3 - lkaSuspicion));
+        playSoundEffect(lkaCombo >= 5 ? "point" : "flap");
+        updateMiniHud();
+      }
+
+      function activateLkaPanic() {
+        if (!miniRunning || miniGameMode !== "lka" || lkaPhase !== "playing" || lkaPanicCooldown > 0) return;
+        lkaPanicTimer = 1.9;
+        lkaPanicCooldown = 7.5;
+        lkaLastShakeAt = 0;
+        lkaShakePulse = 0;
+        lkaCombo = 1;
+        lkaComboStreak = 0;
+        if (lkaHallState === "mentor-warning") {
+          lkaAlmostCaught += 1;
+          miniMessage.textContent = "PANIK · Hände an die Tastatur";
+        } else {
+          miniMessage.textContent = "Vorgangsmaske geöffnet";
+        }
+        playSoundEffect("shield");
+      }
+
+      function triggerLkaHallEvent(forceMentor = false, fakeReturn = false) {
+        if (lkaPhase !== "playing" || lkaHallState) return;
+        const mentorChance = Math.min(0.76, 0.22 + lkaPressure * 0.004 + lkaSuspicion * 0.003);
+        if (forceMentor || Math.random() < mentorChance) {
+          lkaHallState = "mentor-warning";
+          lkaHallText = fakeReturn ? "Ach, noch was ..." : ["Schritte kommen näher.", "Ein Schatten bleibt an der Tür.", "Die Türklinke bewegt sich.", "Stimme auf dem Flur."][Math.floor(Math.random() * 4)];
+          lkaHallTimer = fakeReturn ? 0.85 : 1.35 + Math.random() * 0.55;
+          miniMessage.textContent = `${lkaHallText} · STOPP!`;
+          playSoundEffect("boss");
+          return;
+        }
+        lkaHallState = "ambient";
+        lkaHallText = lkaHallEvents[Math.floor(Math.random() * lkaHallEvents.length)];
+        lkaHallTimer = 1.4 + Math.random() * 1.2;
+        miniMessage.textContent = lkaHallText;
+        playSoundEffect("choice");
+      }
+
+      function showLkaDialogue(question, followup = false) {
+        lkaPhase = "dialog";
+        lkaDialogQuestion.textContent = question;
+        lkaDialogOptions.innerHTML = "";
+        const options = shuffledOptions(followup ? lkaFollowupAnswers : lkaExcuses, 3);
+        options.forEach((answer) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "lka-dialog-option";
+          button.textContent = answer.text;
+          button.addEventListener("click", () => answerLkaDialogue(answer));
+          lkaDialogOptions.appendChild(button);
+        });
+        lkaDialog.classList.remove("is-hidden");
+        lkaShakeBtn.disabled = true;
+        lkaPanicBtn.disabled = true;
+      }
+
+      function enterLkaMentor() {
+        const caught = lkaPanicTimer <= 0 && performance.now() - lkaLastShakeAt < 560;
+        lkaHallState = "mentor";
+        lkaHallTimer = 0;
+        lkaDialogueDepth = 0;
+        if (caught) {
+          lkaCaught += 1;
+          lkaSuspicion = Math.min(100, lkaSuspicion + 22);
+          showLkaDialogue(["Äh ... was machst du da?", "Was passiert da unter dem Tisch?", "Was genau machst du gerade?"][Math.floor(Math.random() * 3)]);
+        } else {
+          lkaSuspicion = Math.min(100, lkaSuspicion + 2);
+          showLkaDialogue(lkaQuestions[Math.floor(Math.random() * lkaQuestions.length)]);
+        }
+        playSoundEffect(caught ? "error" : "choice");
+        updateMiniHud();
+      }
+
+      function leaveLkaMentor() {
+        lkaMentorFooled += 1;
+        lkaPhase = "playing";
+        lkaHallState = "";
+        lkaHallText = "";
+        lkaDialog.classList.add("is-hidden");
+        lkaShakeBtn.disabled = false;
+        lkaPanicBtn.disabled = lkaPanicCooldown > 0;
+        lkaEventTimer = nextLkaEventDelay();
+        if (Math.random() < 0.24) lkaFakeReturnTimer = 2 + Math.random();
+        miniMessage.textContent = "Praxisanleiter geht weiter · unauffällig bleiben";
+      }
+
+      function answerLkaDialogue(answer) {
+        if (!miniRunning || lkaPhase !== "dialog") return;
+        lkaExcusesUsed += 1;
+        lkaSuspicion = Math.max(0, Math.min(100, lkaSuspicion + answer.risk - 3));
+        playSoundEffect(answer.risk <= 4 ? "point" : "error");
+        if (lkaSuspicion >= 100) {
+          finishLkaGame(false);
+          return;
+        }
+        const followupChance = answer.followup ? 0.88 : Math.min(0.76, 0.18 + lkaSuspicion / 150 + lkaDialogueDepth * 0.2);
+        if (lkaDialogueDepth < 2 && Math.random() < followupChance) {
+          lkaDialogueDepth += 1;
+          const question = lkaDialogueDepth === 1
+            ? (answer.followup ? "Doch, bei mir funktioniert Artus. Zeig mal." : "Und warum ist der Status noch in Bearbeitung?")
+            : "Mach ruhig weiter, ich guck kurz zu.";
+          showLkaDialogue(question, true);
+        } else {
+          leaveLkaMentor();
+        }
+        updateMiniHud();
+      }
+
+      function lkaRank(won) {
+        if (!won) return "Auffälliger Praktikant";
+        if (lkaCaught === 0 && lkaSuspicion < 18 && lkaMaxCps >= 8) return "LKA-Legende";
+        if (lkaMentorFooled >= 3 && lkaSuspicion < 42) return "DGL-Täuscher";
+        if (lkaBestCombo >= 5) return "Abbum-Profi";
+        if (lkaExcusesUsed >= 5) return "Ausreden-Sachbearbeiter";
+        if (lkaCaught === 0) return "Unauffälliger Praktikant";
+        return "Artus-Verweigerer";
+      }
+
+      function renderLkaResult(won, message) {
+        lkaResultTitle.textContent = won ? "DU HAST ERFOLGREICH ABGEBUMT." : "ERWISCHT!";
+        lkaResultSubtitle.textContent = won ? "Du bist jetzt Tarifbeschäftigter beim LKA." : message;
+        const stats = [
+          ["Rang", lkaRank(won)],
+          ["Zeit", `${lkaElapsed.toFixed(1)} s`],
+          ["Klicks", lkaClicks],
+          ["Max. Klicks/s", lkaMaxCps],
+          ["Getäuscht", lkaMentorFooled],
+          ["Fast erwischt", lkaAlmostCaught],
+          ["Erwischt", lkaCaught],
+          ["Ausreden", lkaExcusesUsed],
+          ["Beste Combo", lkaBestCombo >= 5 ? "MAX" : `x${lkaBestCombo}`],
+          ["Verdacht", `${Math.round(lkaSuspicion)}%`]
+        ];
+        lkaResultStats.innerHTML = "";
+        stats.forEach(([label, value]) => {
+          const item = document.createElement("span");
+          item.textContent = `${label}: ${value}`;
+          lkaResultStats.appendChild(item);
+        });
+        lkaResult.classList.remove("is-hidden");
+      }
+
+      function finishLkaGame(won) {
+        if (!miniRunning || miniGameMode !== "lka") return;
+        miniScore = Math.max(1, Math.floor(lkaPressure * 3 + lkaClicks * 0.4 + lkaMentorFooled * 12 - lkaSuspicion));
+        const message = won ? "BOOM. Der Praxisanleiter sagt: Isch frag gar net." : randomLossMessage();
+        finishMiniGame(message, won);
+        lkaPhase = won ? "won" : "lost";
+        lkaDialog.classList.add("is-hidden");
+        lkaControls.classList.add("is-hidden");
+        renderLkaResult(won, message);
+        if (won) {
+          playSoundEffect("win");
+          speakVoiceLine("Du hast erfolgreich abgebummt. Isch frag gar net.");
+        }
+      }
+
+      function beginLkaFinale() {
+        if (lkaPhase !== "playing") return;
+        lkaPhase = "finale";
+        lkaFinaleTimer = 1.05;
+        lkaShakeBtn.disabled = true;
+        lkaPanicBtn.disabled = true;
+        miniMessage.textContent = "DRUCK 100% · kurze Stille ...";
+        lkaFlash.classList.remove("is-active");
+        void lkaFlash.offsetWidth;
+        lkaFlash.classList.add("is-active");
+        playSoundEffect("boss");
+      }
+
+      function updateLkaGame(dt) {
+        lkaElapsed += dt;
+        lkaShakePulse = Math.max(0, lkaShakePulse - dt * 8.5);
+        lkaPanicCooldown = Math.max(0, lkaPanicCooldown - dt);
+        lkaPanicTimer = Math.max(0, lkaPanicTimer - dt);
+        lkaPanicBtn.disabled = lkaPhase !== "playing" || lkaPanicCooldown > 0;
+        lkaPanicBtn.textContent = lkaPanicCooldown > 0 ? `PANIK ${Math.ceil(lkaPanicCooldown)}` : "PANIK";
+
+        if (lkaPhase === "finale") {
+          lkaFinaleTimer -= dt;
+          if (lkaFinaleTimer <= 0) finishLkaGame(true);
+          updateMiniHud();
+          return;
+        }
+        if (lkaPhase !== "playing") {
+          updateMiniHud();
+          return;
+        }
+
+        const sinceShake = performance.now() - lkaLastShakeAt;
+        if (sinceShake > 620) {
+          lkaPressure = Math.max(0, lkaPressure - dt * (0.65 + lkaPressure * 0.006));
+        }
+        if (sinceShake > 850) {
+          lkaCombo = 1;
+          lkaComboStreak = 0;
+          lkaClickTimes = [];
+        }
+
+        if (lkaHallState) {
+          lkaHallTimer -= dt;
+          if (lkaHallTimer <= 0) {
+            if (lkaHallState === "mentor-warning") enterLkaMentor();
+            else {
+              lkaHallState = "";
+              lkaHallText = "";
+              lkaEventTimer = nextLkaEventDelay();
+            }
+          }
+        } else if (lkaFakeReturnTimer > 0) {
+          lkaFakeReturnTimer -= dt;
+          if (lkaFakeReturnTimer <= 0) triggerLkaHallEvent(true, true);
+        } else {
+          lkaEventTimer -= dt;
+          if (lkaEventTimer <= 0) triggerLkaHallEvent();
+        }
+
+        if (!lkaHallState && lkaPanicTimer <= 0) {
+          miniMessage.textContent = `Schnell tippen · Druck ${Math.round(lkaPressure)}% · Flur beobachten`;
+        }
+        miniScore = Math.max(0, Math.floor(lkaPressure * 2 + lkaClicks * 0.3 - lkaSuspicion));
+        if (lkaPressure >= 100) beginLkaFinale();
+        if (lkaSuspicion >= 100) finishLkaGame(false);
+        updateMiniHud();
+      }
+
       function updateMiniGame(dt) {
         if (!miniRunning) return;
         miniEffectTimer = Math.max(0, miniEffectTimer - dt);
-        if (miniGameMode === "socken") updateSockMiniGame(dt);
+        if (miniGameMode === "lka") updateLkaGame(dt);
+        else if (miniGameMode === "socken") updateSockMiniGame(dt);
         else if (miniGameMode === "wach") updateGateMiniGame(dt);
         else updateFallingMiniGame(dt);
         const levelStep = miniGameMode === "burger" ? 12 : 10;
@@ -6717,10 +7752,15 @@
           miniCtx.stroke();
           miniCtx.restore();
           if (card.revealed || card.matched) {
-            drawSockIcon(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, card.pattern);
+            const iconScale = bounds.height < 40 ? 0.78 : 1;
+            miniCtx.save();
+            miniCtx.translate(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+            miniCtx.scale(iconScale, iconScale);
+            drawSockIcon(0, 0, card.pattern);
+            miniCtx.restore();
           } else {
             miniCtx.fillStyle = "#ffffff";
-            miniCtx.font = "900 17px Inter, sans-serif";
+            miniCtx.font = `900 ${bounds.height < 40 ? 13 : 17}px Inter, sans-serif`;
             miniCtx.textAlign = "center";
             miniCtx.textBaseline = "middle";
             miniCtx.fillText("SD", bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
@@ -6728,11 +7768,142 @@
         });
       }
 
+      function drawLkaOffice() {
+        const currentCps = lkaClickTimes.length;
+        const cameraShake = lkaPhase === "finale" ? 6 : (currentCps >= 8 ? 1.8 : 0);
+        const shakeX = cameraShake ? (Math.random() - 0.5) * cameraShake : 0;
+        const shakeY = cameraShake ? (Math.random() - 0.5) * cameraShake : 0;
+        miniCtx.save();
+        miniCtx.translate(shakeX, shakeY);
+
+        const wall = miniCtx.createLinearGradient(0, 0, 0, 180);
+        wall.addColorStop(0, "#7d8d9b");
+        wall.addColorStop(1, "#c6d1d8");
+        miniCtx.fillStyle = wall;
+        miniCtx.fillRect(-8, -8, 336, 192);
+
+        miniCtx.fillStyle = "#242d36";
+        miniCtx.fillRect(244, 0, 76, 169);
+        miniCtx.fillStyle = "#dfe8f4";
+        miniCtx.fillRect(251, 10, 62, 148);
+        miniCtx.fillStyle = "#5b6670";
+        miniCtx.fillRect(254, 13, 56, 142);
+        miniCtx.fillStyle = "#d0d8dd";
+        miniCtx.fillRect(258, 17, 48, 134);
+        miniCtx.fillStyle = "#182033";
+        miniCtx.fillRect(246, 0, 7, 169);
+        miniCtx.fillStyle = "#ffd85c";
+        miniCtx.beginPath();
+        miniCtx.arc(298, 88, 3.2, 0, Math.PI * 2);
+        miniCtx.fill();
+
+        if (lkaHallState) {
+          const mentor = lkaHallState === "mentor" || lkaHallState === "mentor-warning";
+          miniCtx.save();
+          miniCtx.globalAlpha = lkaHallState === "ambient" ? 0.48 : 0.92;
+          miniCtx.fillStyle = mentor ? "#171d24" : "#4e5964";
+          miniCtx.beginPath();
+          miniCtx.arc(279, 64, mentor ? 13 : 10, 0, Math.PI * 2);
+          miniCtx.fill();
+          roundRect(miniCtx, mentor ? 263 : 267, 76, mentor ? 32 : 25, 68, 8);
+          miniCtx.fill();
+          miniCtx.restore();
+        }
+
+        miniCtx.fillStyle = "#25313b";
+        roundRect(miniCtx, 24, 24, 174, 116, 7);
+        miniCtx.fill();
+        miniCtx.fillStyle = lkaPanicTimer > 0 ? "#e8edf0" : "#122338";
+        miniCtx.fillRect(32, 32, 158, 94);
+        miniCtx.fillStyle = lkaPanicTimer > 0 ? "#182033" : "#7ec8e3";
+        miniCtx.textAlign = "left";
+        miniCtx.textBaseline = "top";
+        miniCtx.font = "900 9px Inter, sans-serif";
+        miniCtx.fillText(lkaPanicTimer > 0 ? "Vorgang bearbeiten" : "ARTUS · Vorgang", 39, 39);
+        miniCtx.font = "700 6.5px Inter, sans-serif";
+        const monitorLines = lkaPanicTimer > 0
+          ? ["Sachverhalt", "Verfügung", "Anlagen", "Status: In Bearbeitung", "Speichern   Weiterleiten   DGL"]
+          : ["AZ: 8-4711", "Bearbeiter: Praktikant", "Letzte Änderung: nie", "Zuständigkeit: wird geprüft"];
+        monitorLines.forEach((line, index) => miniCtx.fillText(line, 39, 58 + index * 13));
+        miniCtx.fillStyle = "#202a34";
+        miniCtx.fillRect(100, 140, 22, 17);
+        miniCtx.fillRect(76, 155, 70, 6);
+
+        miniCtx.fillStyle = "#b98252";
+        miniCtx.fillRect(-8, 166, 336, 103);
+        miniCtx.fillStyle = "#8a5b36";
+        miniCtx.fillRect(-8, 166, 336, 10);
+        miniCtx.fillStyle = "#1b222a";
+        miniCtx.fillRect(0, 218, 320, 50);
+
+        miniCtx.fillStyle = "#d9e0e5";
+        roundRect(miniCtx, 58, 181, 104, 27, 4);
+        miniCtx.fill();
+        miniCtx.strokeStyle = "#727f8a";
+        miniCtx.lineWidth = 1;
+        for (let row = 0; row < 3; row += 1) {
+          for (let column = 0; column < 10; column += 1) {
+            miniCtx.strokeRect(63 + column * 9.4, 185 + row * 7, 7, 4);
+          }
+        }
+        miniCtx.fillStyle = "#303943";
+        miniCtx.beginPath();
+        miniCtx.ellipse(184, 194, 11, 16, 0, 0, Math.PI * 2);
+        miniCtx.fill();
+
+        miniCtx.fillStyle = "#dfe8f4";
+        miniCtx.fillRect(8, 181, 38, 7);
+        miniCtx.fillStyle = "#ffd85c";
+        miniCtx.fillRect(10, 188, 36, 5);
+        miniCtx.fillStyle = "#d22630";
+        miniCtx.fillRect(12, 193, 34, 5);
+        miniCtx.fillStyle = "#202833";
+        roundRect(miniCtx, 208, 174, 28, 34, 5);
+        miniCtx.fill();
+        miniCtx.fillStyle = "#7ec8e3";
+        miniCtx.fillRect(214, 180, 16, 9);
+
+        miniCtx.fillStyle = "#6ea9c8";
+        roundRect(miniCtx, 222, 213, 17, 38, 5);
+        miniCtx.fill();
+        miniCtx.fillStyle = "#dfe8f4";
+        miniCtx.fillRect(225, 211, 11, 7);
+
+        const handOffset = lkaPanicTimer > 0 ? 0 : lkaShakeDirection * lkaShakePulse * (6 + currentCps * 0.7);
+        miniCtx.save();
+        miniCtx.translate(235, 230 + handOffset);
+        miniCtx.rotate(-0.25);
+        miniCtx.fillStyle = "#26374a";
+        roundRect(miniCtx, -8, 0, 28, 62, 11);
+        miniCtx.fill();
+        miniCtx.fillStyle = "#d7a37f";
+        miniCtx.beginPath();
+        miniCtx.ellipse(4, -1, 13, 16, 0, 0, Math.PI * 2);
+        miniCtx.fill();
+        miniCtx.restore();
+
+        miniCtx.save();
+        miniCtx.translate(lkaPanicTimer > 0 ? 122 : 104, lkaPanicTimer > 0 ? 200 : 236);
+        miniCtx.rotate(lkaPanicTimer > 0 ? -0.1 : 0.18);
+        miniCtx.fillStyle = "#26374a";
+        roundRect(miniCtx, -10, 0, 30, 66, 12);
+        miniCtx.fill();
+        miniCtx.fillStyle = "#d7a37f";
+        miniCtx.beginPath();
+        miniCtx.ellipse(4, -2, 14, 16, 0, 0, Math.PI * 2);
+        miniCtx.fill();
+        miniCtx.restore();
+
+        miniCtx.restore();
+      }
+
       function drawMiniGame() {
         miniCtx.setTransform(1, 0, 0, 1, 0, 0);
         miniCtx.clearRect(0, 0, 320, 260);
         drawMiniBackground();
-        if (miniGameMode === "socken") {
+        if (miniGameMode === "lka") {
+          drawLkaOffice();
+        } else if (miniGameMode === "socken") {
           drawSockGame();
         } else if (miniGameMode === "wach") {
           drawGateGame();
@@ -6750,7 +7921,10 @@
           miniCtx.fillStyle = "#ffffff";
           miniCtx.textAlign = "center";
           miniCtx.textBaseline = "middle";
-          if (miniStartBtn.textContent === "Nochmal" && miniFinishedWon) {
+          if (miniGameMode === "lka" && miniStartBtn.textContent === "Nochmal") {
+            miniCtx.font = "900 22px Inter, sans-serif";
+            miniCtx.fillText(miniFinishedWon ? "BOOM!" : "ERWISCHT!", 160, 138);
+          } else if (miniStartBtn.textContent === "Nochmal" && miniFinishedWon) {
             miniCtx.font = "900 21px Inter, sans-serif";
             miniCtx.fillText("PAARE KOMPLETT!", 160, 126);
             miniCtx.font = "900 13px Inter, sans-serif";
@@ -6952,6 +8126,7 @@
         mapSelectionHeading.textContent = roleMapTitle();
         mapSelector.setAttribute("aria-label", kler ? "Ermittlungsgebiet auswählen" : "Dienstgebiet auswählen");
         miniGamesOpenBtn.textContent = kler ? "Kripo Mini Games" : "Mini Games";
+        storyOpenBtn.textContent = kler ? "Eine Schicht bei K" : "Eine Schicht in SG8";
         newGameBtn.textContent = kler ? "Neuer Kripo-Einsatz" : "Neues Spiel";
         updateRoleCharacters();
         updateMiniGameRoleUi();
@@ -7017,12 +8192,18 @@
 
       function renderStoryProgress() {
         storyProgress.innerHTML = "";
-        storyScenes.forEach((scene, index) => {
+        const scenes = activeStoryScenes();
+        storyProgress.style.gridTemplateColumns = `repeat(${scenes.length}, minmax(0, 1fr))`;
+        scenes.forEach((scene, index) => {
           const step = document.createElement("span");
           if (index < storyStep) step.classList.add("is-done");
           if (index === storyStep && storyRunning) step.classList.add("is-current");
           storyProgress.appendChild(step);
         });
+      }
+
+      function activeStoryScenes() {
+        return isKlerRole() ? klerStoryScenes : storyScenes;
       }
 
       function renderStoryMeters() {
@@ -7036,9 +8217,14 @@
         storyChaos = 0;
         storyRunning = false;
         const endings = safeParse(storageKeys.storyEndings, []);
-        storyKicker.textContent = "Schichtbeginn";
-        storyTitle.textContent = "Bereit für die Gasse?";
-        storyText.textContent = `Vier Lagen, deine Entscheidungen und drei mögliche Enden. Freigeschaltet: ${Array.isArray(endings) ? endings.length : 0}/3.`;
+        storyHeading.textContent = isKlerRole() ? "Eine Schicht bei K" : "Eine Schicht in SG8";
+        storyAnimation.dataset.scene = isKlerRole() ? "clock" : "intern";
+        storyBubble.textContent = isKlerRole() ? "13:00 bleibt unverhandelbar." : "Drei Tage · drei animierte Lagen";
+        storyKicker.textContent = isKlerRole() ? "Dienstbeginn mit Gleitzeit" : "Schichtbeginn";
+        storyTitle.textContent = isKlerRole() ? "Schafft K heute irgendetwas?" : "Bereit für die Gasse?";
+        storyText.textContent = isKlerRole()
+          ? "Vier Lagen zwischen Zuständigkeitsprüfung und dem unverrückbaren Feierabend um 13:00 Uhr."
+          : `Vier Lagen, deine Entscheidungen und drei mögliche Enden. Freigeschaltet: ${Array.isArray(endings) ? endings.length : 0}/3.`;
         storyChoices.classList.add("is-hidden");
         storyChoices.innerHTML = "";
         storyStartBtn.classList.remove("is-hidden");
@@ -7048,8 +8234,10 @@
       }
 
       function renderStoryScene() {
-        const scene = storyScenes[storyStep];
+        const scene = activeStoryScenes()[storyStep];
         if (!scene) return;
+        storyAnimation.dataset.scene = scene.visual || "office";
+        storyBubble.textContent = scene.bubble || scene.title;
         storyKicker.textContent = scene.kicker;
         storyTitle.textContent = scene.title;
         storyText.textContent = scene.text;
@@ -7080,7 +8268,8 @@
 
       function chooseStoryOption(index) {
         if (!storyRunning) return;
-        const scene = storyScenes[storyStep];
+        const scenes = activeStoryScenes();
+        const scene = scenes[storyStep];
         const choice = scene && scene.choices[index];
         if (!choice) return;
         storyOrder += choice.order;
@@ -7090,14 +8279,20 @@
         playSoundEffect("choice");
         speakVoiceLine(choice.line);
         storyStep += 1;
-        if (storyStep >= storyScenes.length) finishStory();
+        if (storyStep >= scenes.length) finishStory();
         else renderStoryScene();
       }
 
       function finishStory() {
         storyRunning = false;
         let ending;
-        if (storyChaos >= 7) {
+        if (isKlerRole() && storyChaos >= 7) {
+          ending = { id: "k-nicht-zustaendig", title: "Nicht zuständig", text: "Nichts geschafft, niemand zuständig, aber um 13:00 Uhr war der Flur zuverlässig leer." };
+        } else if (isKlerRole() && storyOrder >= 6) {
+          ending = { id: "k-ein-vermerk", title: "Der goldene Vermerk", text: "K hat tatsächlich einen Vermerk geschafft. Um exakt 13:00 Uhr war trotzdem Feierabend." };
+        } else if (isKlerRole()) {
+          ending = { id: "k-artus", title: "Artus lädt noch", text: "Die Akte blieb offen, die Zuständigkeit ungeklärt und um 13:00 Uhr endete jede weitere Ermittlung." };
+        } else if (storyChaos >= 7) {
           ending = { id: "gassenkoenig", title: "König der Gasse", text: "Die Schicht endet spektakulär. Der Funk schweigt, der Weizenbaron nicht." };
         } else if (storyOrder >= 6) {
           ending = { id: "aktenrein", title: "Aktenreine Schicht", text: "Jede Lage gelöst, jeder Code geprüft. SG8 verleiht dir den goldenen Dienstweg." };
@@ -7301,7 +8496,7 @@
       function showNextPoweredFact() {
         poweredInfo.classList.remove("is-changing");
         void poweredInfo.offsetWidth;
-        poweredInfo.textContent = insiderFacts[poweredFactIndex % insiderFacts.length];
+        poweredInfo.textContent = poweredMessages[poweredFactIndex % poweredMessages.length];
         poweredInfo.classList.add("is-changing");
         poweredFactIndex += 1;
         playSoundEffect("choice");
@@ -7310,7 +8505,7 @@
       function startPoweredSequence() {
         stopPoweredSequence();
         homeReady = false;
-        poweredFactIndex = Math.floor(Math.random() * insiderFacts.length);
+        poweredFactIndex = Math.floor(Math.random() * poweredMessages.length);
         showScreen("powered");
         showNextPoweredFact();
         poweredFactTimer = setInterval(showNextPoweredFact, 560);
@@ -8791,6 +9986,14 @@
           });
           avatarList.appendChild(button);
         });
+        const selected = avatars.find((avatar) => avatar.id === selectedAvatarId);
+        const dossierText = selected
+          ? (characterDossiers[selected.id] || "Für diese selbst angelegte Figur liegt noch keine Aktennotiz vor.")
+          : "Tippe eine Figur an, um ihre Aktennotiz zu öffnen.";
+        characterDossier.innerHTML = "";
+        const dossierHeading = document.createElement("strong");
+        dossierHeading.textContent = selected ? `SG8-Personalakte · ${selected.name}` : "SG8-Personalakte";
+        characterDossier.append(dossierHeading, document.createTextNode(dossierText));
       }
 
       function handlePhotos(files) {
@@ -8917,7 +10120,7 @@
       function bindMiniHold(button, direction) {
         const startMoving = (event) => {
           if (event.cancelable) event.preventDefault();
-          if (miniRunning && miniGameMode !== "wach" && miniGameMode !== "socken") {
+          if (miniRunning && miniGameMode !== "wach" && miniGameMode !== "socken" && miniGameMode !== "lka") {
             miniMoveDirection = direction;
             moveMiniPlayer(direction);
           }
@@ -8941,7 +10144,7 @@
       }
 
       function placeMiniPlayer(event) {
-        if (!miniRunning || miniGameMode === "wach" || miniGameMode === "socken") return;
+        if (!miniRunning || miniGameMode === "wach" || miniGameMode === "socken" || miniGameMode === "lka") return;
         const rect = miniCanvas.getBoundingClientRect();
         const clientX = event.clientX || (event.touches && event.touches[0] && event.touches[0].clientX);
         if (!clientX || rect.width <= 0) return;
@@ -9009,6 +10212,16 @@
       bindMiniHold(miniRightBtn, 1);
       bindTouchButton(miniApproveBtn, () => decideGate(true));
       bindTouchButton(miniRejectBtn, () => decideGate(false));
+      bindTouchButton(lkaShakeBtn, shakeLkaBottle);
+      bindTouchButton(lkaPanicBtn, activateLkaPanic);
+      bindTouchButton(lkaAdultContinueBtn, () => {
+        safeSetRaw(storageKeys.lkaAdultAccepted, "yes");
+        lkaAdultWarning.classList.add("is-hidden");
+        showMiniBriefing();
+        playSoundEffect("choice");
+      });
+      bindTouchButton(lkaAdultBackBtn, showMiniGamePicker);
+      bindTouchButton(lkaResultBackBtn, showMiniGamePicker);
       miniCanvas.addEventListener("pointerdown", (event) => {
         event.preventDefault();
         if (miniGameMode === "socken") selectSockCard(event.clientX, event.clientY);
@@ -9072,6 +10285,17 @@
         if (activeTag === "INPUT") return;
         if (!miniGamesScreen.classList.contains("is-hidden") && !miniArcadePanel.classList.contains("is-hidden")) {
           if (miniGameMode === "socken") return;
+          if (miniGameMode === "lka") {
+            if (event.code === "Space" || event.code === "Enter") {
+              event.preventDefault();
+              shakeLkaBottle();
+            }
+            if (event.code === "KeyP") {
+              event.preventDefault();
+              activateLkaPanic();
+            }
+            return;
+          }
           if (event.code === "ArrowLeft" || event.code === "KeyA") {
             event.preventDefault();
             miniMoveDirection = -1;
