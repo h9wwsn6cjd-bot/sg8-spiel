@@ -5568,8 +5568,8 @@
           .replace(/\bImmer da\b/gi, "Immer do");
       }
 
-      function speakVoiceLine(line) {
-        if (!musicEnabled || !line || !window.speechSynthesis || Date.now() < voiceCooldownUntil) return;
+      function speakVoiceLine(line, force = false) {
+        if (!musicEnabled || !line || !window.speechSynthesis || (!force && Date.now() < voiceCooldownUntil)) return;
         voiceCooldownUntil = Date.now() + 2200;
         try {
           const utterance = new SpeechSynthesisUtterance(toPfaelzisch(line));
@@ -8318,6 +8318,7 @@
         storyStartBtn.classList.add("is-hidden");
         renderStoryMeters();
         renderStoryProgress();
+        speakVoiceLine(`${scene.title}. ${scene.text}`, true);
       }
 
       function startStory() {
@@ -8326,7 +8327,6 @@
         storyChaos = 0;
         storyRunning = true;
         playSoundEffect("boss");
-        speakVoiceLine("Schichtbeginn. Immer da!");
         renderStoryScene();
       }
 
@@ -8341,7 +8341,6 @@
         career.xp += 3;
         refreshCareerRewards();
         playSoundEffect("choice");
-        speakVoiceLine(choice.line);
         storyStep += 1;
         if (storyStep >= scenes.length) finishStory();
         else renderStoryScene();
