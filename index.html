@@ -4135,7 +4135,7 @@
           miniBriefingText.textContent = "Fange die Zutaten in der angezeigten Reihenfolge. Eine falsche Burgerlage kostet ein Leben.";
         } else {
           miniBriefingTitle.textContent = "Fahrzeugeinlasskontrolle";
-          miniBriefingText.textContent = "Prüfe Ausweis, Termin, Freigabe und Ladung. Lies zusätzlich die gelbe Tagesregel: Sperrlisten und Ausnahmen können die richtige Entscheidung verändern.";
+          miniBriefingText.textContent = "Prüfe Ausweis, Termin, Freigabe und Ladung. Lies die gelbe Tagesregel und achte auf Kennzeichen-Endziffer, Fahrzeugart und Kontrollcode. Manche Sonderlagen drehen die normale Entscheidung um.";
         }
         miniBriefing.classList.remove("is-hidden");
       }
@@ -4281,7 +4281,14 @@
           { id: "standard", title: "STANDARD", hint: "ALLE NÖTIGEN ANGABEN PRÜFEN" },
           { id: "lu-block", title: "SPERRLISTE", hint: "LU-KENNZEICHEN IMMER STOPP" },
           { id: "night", title: "NACHTSCHICHT", hint: "TERMIN IST HEUTE EGAL" },
-          { id: "pkw-pass", title: "PKW-AUSNAHME", hint: "PKW: AUSWEIS + TERMIN REICHEN" }
+          { id: "pkw-pass", title: "PKW-AUSNAHME", hint: "PKW: AUSWEIS + TERMIN REICHEN" },
+          { id: "odd-stop", title: "ZAHLENFALLE", hint: "UNGERADE ENDZIFFER IMMER STOPP" },
+          { id: "delivery-only", title: "LIEFERFENSTER", hint: "NUR LIEFERWAGEN + LKW DÜRFEN REIN" },
+          { id: "one-miss", title: "TOLERANZREGEL", hint: "MAXIMAL 1 FEHLER IST ERLAUBT" },
+          { id: "code-even", title: "WERKSCITZ-CODE", hint: "CODE MUSS GERADE SEIN" },
+          { id: "same-parity", title: "DOPPELCHECK", hint: "CODE + ENDZIFFER: BEIDE GERADE/UNGERADE" },
+          { id: "red-access", title: "PROBEALARM", hint: "FREIGABE MUSS AUSNAHMSWEISE ROT SEIN" },
+          { id: "pkw-stop", title: "PKW-STOPP", hint: "PKW HEUTE IMMER ZURÜCKWEISEN" }
         ],
         kler: [
           { id: "standard", title: "STANDARD", hint: "4 TREFFER = ZUGRIFF" },
@@ -4293,7 +4300,8 @@
 
       function chooseGateRule() {
         const rules = isKlerRole() ? gateRules.kler : gateRules.schutzmann;
-        if (Math.random() < 0.38) return rules[0];
+        const standardChance = isKlerRole() ? 0.38 : 0.2;
+        if (Math.random() < standardChance) return rules[0];
         return rules[1 + Math.floor(Math.random() * (rules.length - 1))];
       }
 
@@ -4313,6 +4321,23 @@
         if (card.rule.id === "pkw-pass" && card.vehicle.id === "pkw") {
           return card.idOk && card.appointmentOk;
         }
+        const plateNumber = Number(card.plate.split(" ").pop()) || 0;
+        if (card.rule.id === "odd-stop") return plateNumber % 2 === 0 && standard;
+        if (card.rule.id === "delivery-only") {
+          return (card.vehicle.id === "lieferwagen" || card.vehicle.id === "lkw") && standard;
+        }
+        if (card.rule.id === "one-miss") {
+          const checks = [card.idOk, card.appointmentOk, card.accessOk, card.cargoOk];
+          return checks.filter(Boolean).length >= 3;
+        }
+        if (card.rule.id === "code-even") return card.sealCode % 2 === 0 && standard;
+        if (card.rule.id === "same-parity") {
+          return plateNumber % 2 === card.sealCode % 2 && standard;
+        }
+        if (card.rule.id === "red-access") {
+          return card.idOk && card.appointmentOk && card.cargoOk && !card.accessOk;
+        }
+        if (card.rule.id === "pkw-stop") return card.vehicle.id !== "pkw" && standard;
         return standard;
       }
 
@@ -4341,6 +4366,7 @@
           x: 350,
           vehicle,
           plate: randomGatePlate(),
+          sealCode: 10 + Math.floor(Math.random() * 90),
           idOk,
           appointmentOk,
           cargoOk,
@@ -5058,13 +5084,23 @@
         miniCtx.font = "900 11px Inter, sans-serif";
         miniCtx.textAlign = "center";
         miniCtx.textBaseline = "middle";
-        miniCtx.fillText(kler ? "FAHNDUNG" : "ENKENBACH", 51, 63);
+        miniCtx.fillText(
+          kler ? "FAHNDUNG" : (miniGateCard ? miniGateCard.rule.title : "ENKENBACH"),
+          51,
+          63,
+          74
+        );
         miniCtx.fillStyle = kler ? "#58758a" : "#8fdcff";
         miniCtx.fillRect(20, 88, 60, 29);
         miniCtx.strokeRect(20, 88, 60, 29);
         miniCtx.fillStyle = kler ? "#ffffff" : "#182033";
         miniCtx.font = "900 8px Inter, sans-serif";
-        miniCtx.fillText(kler ? "KRIPO" : "WACHSCHUTZ", 51, 130);
+        miniCtx.fillText(
+          kler ? "KRIPO" : (miniGateCard ? `CODE ${miniGateCard.sealCode}` : "WACHSCHUTZ"),
+          51,
+          130,
+          72
+        );
 
         if (miniGateCard) {
           const card = miniGateCard;
