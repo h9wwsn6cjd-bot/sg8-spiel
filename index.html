@@ -661,6 +661,57 @@
         linear-gradient(180deg, #dfe8f4, #f7fafc);
     }
 
+    .werkscitz-sign,
+    .werkscitz-barrier {
+      display: none;
+    }
+
+    .mini-stage.wach .werkscitz-sign {
+      position: absolute;
+      z-index: 1;
+      top: 52px;
+      left: calc(50% - 72px);
+      width: 144px;
+      min-height: 36px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #182033;
+      border-radius: 8px;
+      color: #ffffff;
+      background: #15479a;
+      box-shadow: 5px 6px 0 rgba(24, 32, 51, 0.72);
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    .mini-stage.wach .werkscitz-barrier {
+      position: absolute;
+      z-index: 1;
+      left: 34px;
+      bottom: 42px;
+      width: 210px;
+      height: 18px;
+      display: block;
+      border: 3px solid #182033;
+      border-radius: 5px;
+      background: repeating-linear-gradient(90deg, #f7fafc 0 24px, #d22630 24px 48px);
+      box-shadow: 0 5px 0 rgba(24, 32, 51, 0.24);
+      transform-origin: 9px 50%;
+      transition: transform 180ms ease;
+    }
+
+    .mini-stage.wach .werkscitz-barrier::before {
+      content: "";
+      position: absolute;
+      left: -16px;
+      top: -10px;
+      width: 22px;
+      height: 48px;
+      border: 3px solid #182033;
+      border-radius: 5px;
+      background: #ffd85c;
+    }
+
     .mini-stage.wach .mini-target {
       width: 126px;
       height: 126px;
@@ -678,6 +729,10 @@
         0 0 0 4px rgba(255, 255, 255, 0.42) inset,
         0 0 34px rgba(32, 164, 100, 0.72),
         5px 7px 0 rgba(24, 32, 51, 0.74);
+    }
+
+    .mini-stage.wach.is-ready .werkscitz-barrier {
+      transform: rotate(-64deg);
     }
 
     .mini-stage.wach.is-false-start .mini-target {
@@ -1912,6 +1967,8 @@
     </div>
     <div class="mini-stage bollo" id="miniStage">
       <div class="mini-message" id="miniMessage">Bereit</div>
+      <div class="werkscitz-sign" aria-hidden="true">WERKSCITZ</div>
+      <span class="werkscitz-barrier" aria-hidden="true"></span>
       <div class="burger-stack" id="burgerStack" aria-hidden="true"></div>
       <button class="mini-target" id="miniTarget" type="button">BOLLO</button>
     </div>
@@ -2384,10 +2441,10 @@
         miniTarget.style.top = "";
         miniTarget.disabled = false;
         burgerStack.innerHTML = "";
-        miniMessage.textContent = "Bereit";
+        miniMessage.textContent = miniGameMode === "wach" ? "Werkscitz-Kontrolle" : "Bereit";
         miniTarget.textContent = miniGameMode === "bollo"
           ? "BOLLO"
-          : (miniGameMode === "burger" ? "STAPELN" : "WARTEN");
+          : (miniGameMode === "burger" ? "STAPELN" : "WERKSCITZ");
       }
 
       function stopMiniGame() {
@@ -2445,15 +2502,15 @@
 
         if (miniGameMode === "wach") {
           miniTimeLabel.textContent = "Zeit --";
-          miniMessage.textContent = "Warten...";
+          miniMessage.textContent = "Werkscitz prüft...";
           miniTarget.textContent = "WARTEN";
           miniReactionTimer = setTimeout(() => {
             if (!miniRunning) return;
             miniReactionReady = true;
             miniReactionStartedAt = performance.now();
             miniStage.classList.add("is-ready");
-            miniMessage.textContent = "JETZT";
-            miniTarget.textContent = "TIPPEN";
+            miniMessage.textContent = "AUSWEIS OK";
+            miniTarget.textContent = "TOR AUF";
           }, 1200 + Math.random() * 2200);
           return;
         }
@@ -2483,14 +2540,14 @@
           clearMiniTimers();
           miniRunning = false;
           miniStage.classList.add("is-false-start");
-          miniMessage.textContent = "Fehlstart";
+          miniMessage.textContent = "Werkscitz: Fehlstart";
           miniTarget.textContent = "ZU FRÜH";
           miniStartBtn.disabled = false;
           miniStartBtn.textContent = "Nochmal";
           return;
         }
         miniScore = Math.max(1, Math.round(performance.now() - miniReactionStartedAt));
-        finishMiniGame(`${miniScore} ms`);
+        finishMiniGame(`${miniScore} ms - Werkscitz lässt dich rein`);
       }
 
       function loadMemorialImages() {
