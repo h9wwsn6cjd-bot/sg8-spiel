@@ -4450,7 +4450,9 @@
       }
 
       function getTopHighscore() {
-        return loadHighscores().reduce((top, entry) => Math.max(top, Number(entry.score) || 0), 0);
+        return loadHighscores()
+          .filter((entry) => entry.board === "flappy")
+          .reduce((top, entry) => Math.max(top, Number(entry.score) || 0), 0);
       }
 
       function recordHighscore(board = "flappy", value = score, area = leaderboardArea()) {
