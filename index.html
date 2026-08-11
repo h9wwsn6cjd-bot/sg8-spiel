@@ -565,6 +565,23 @@
       font-weight: 700;
     }
 
+    .highscore-sync {
+      margin: 0 0 8px;
+      min-height: 18px;
+      color: #34415a;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .highscore-sync.is-online {
+      color: #08734f;
+    }
+
+    .highscore-sync.is-offline {
+      color: #9a4b12;
+    }
+
     .menu-action {
       position: relative;
       overflow: hidden;
@@ -3136,6 +3153,7 @@
       <button class="icon-btn" id="highscoreBackBtn" type="button" aria-label="Zurück">←</button>
     </header>
     <div class="menu-card">
+      <p class="highscore-sync" id="highscoreSyncStatus" aria-live="polite">Lokaler Zwischenstand</p>
       <ol class="highscore-list" id="highscoreList"></ol>
     </div>
     <div class="app-footer">#immerda</div>
@@ -3317,6 +3335,7 @@
       const newGameBtn = document.getElementById("newGameBtn");
       const menuPlayerNameInput = document.getElementById("menuPlayerNameInput");
       const highscoreList = document.getElementById("highscoreList");
+      const highscoreSyncStatus = document.getElementById("highscoreSyncStatus");
       const highscoreCharacter = document.getElementById("highscoreCharacter");
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
@@ -3395,6 +3414,8 @@
         players: "sg8SpielPlayers",
         playersVersion: "sg8SpielPlayersVersion",
         highscores: "sg8SpielHighscores",
+        pendingHighscores: "sg8SpielPendingHighscores",
+        highscoresShared: "sg8SpielHighscoresSharedV1",
         best: "sg8SpielBest",
         miniBests: "sg8MiniArcadeBestsV2",
         map: "sg8SpielMap",
@@ -3482,6 +3503,8 @@
       let musicNextNoteTime = 0;
       let musicStep = 0;
       let musicEnabled = safeGet(storageKeys.music, "on") !== "off";
+      let sharedHighscores = null;
+      let highscoreSyncPromise = null;
       let miniGameMode = "bollo";
       let miniRunning = false;
       let miniScore = 0;
@@ -3747,12 +3770,140 @@
       function loadHighscores() {
         const scores = safeParse(storageKeys.highscores, []);
         return Array.isArray(scores)
-          ? scores.filter((entry) => entry && entry.name && Number.isFinite(Number(entry.score)))
+          ? scores
+              .filter((entry) => entry && entry.name && Number.isFinite(Number(entry.score)))
+              .map((entry) => ({
+                name: sanitizePlayerName(String(entry.name)),
+                score: Math.max(0, Math.floor(Number(entry.score) || 0)),
+                updatedAt: Number(entry.updatedAt) || 0
+              }))
+              .filter((entry) => entry.name)
           : [];
       }
 
       function saveHighscores(scores) {
-        safeSave(storageKeys.highscores, scores.slice(0, 10));
+        safeSave(storageKeys.highscores, mergeHighscores(scores).slice(0, 10));
+      }
+
+      function mergeHighscores(...scoreLists) {
+        const merged = new Map();
+        scoreLists.flat().forEach((entry) => {
+          if (!entry) return;
+          const name = sanitizePlayerName(String(entry.name || ""));
+          const entryScore = Math.max(0, Math.floor(Number(entry.score) || 0));
+          if (!name) return;
+          const key = name.toLowerCase();
+          const current = merged.get(key);
+          if (!current || entryScore > current.score) {
+            merged.set(key, {
+              name,
+              score: entryScore,
+              updatedAt: Number(entry.updatedAt) || Date.now()
+            });
+          }
+        });
+        return Array.from(merged.values())
+          .sort((a, b) => b.score - a.score || a.updatedAt - b.updatedAt || a.name.localeCompare(b.name));
+      }
+
+      function loadPendingHighscores() {
+        const pending = safeParse(storageKeys.pendingHighscores, []);
+        return Array.isArray(pending) ? mergeHighscores(pending) : [];
+      }
+
+      function savePendingHighscores(scores) {
+        safeSave(storageKeys.pendingHighscores, mergeHighscores(scores).slice(0, 20));
+      }
+
+      function queueHighscore(entry) {
+        savePendingHighscores(mergeHighscores(loadPendingHighscores(), [entry]));
+      }
+
+      function highscoreApiUrl() {
+        if (window.location.protocol !== "http:" && window.location.protocol !== "https:") return "";
+        return new URL("/api/highscores", window.location.href).href;
+      }
+
+      function setHighscoreSyncStatus(message, stateName = "") {
+        highscoreSyncStatus.textContent = message;
+        highscoreSyncStatus.classList.toggle("is-online", stateName === "online");
+        highscoreSyncStatus.classList.toggle("is-offline", stateName === "offline");
+      }
+
+      function parseServerHighscores(payload) {
+        if (!payload || !Array.isArray(payload.scores)) throw new Error("Ungültige Serverantwort");
+        return mergeHighscores(payload.scores).slice(0, 10);
+      }
+
+      async function submitPendingHighscores(apiUrl) {
+        const pending = loadPendingHighscores();
+        const remaining = pending.slice();
+        let latestScores = null;
+        for (const entry of pending) {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              name: entry.name,
+              score: entry.score,
+              role: isKlerRole() ? "kler" : "schutzmann",
+              area: selectedMapId
+            })
+          });
+          if (!response.ok) throw new Error(`Serverfehler ${response.status}`);
+          latestScores = parseServerHighscores(await response.json());
+          remaining.shift();
+          savePendingHighscores(remaining);
+        }
+        return latestScores;
+      }
+
+      async function syncHighscores() {
+        if (highscoreSyncPromise) return highscoreSyncPromise;
+        const apiUrl = highscoreApiUrl();
+        if (!apiUrl) {
+          sharedHighscores = null;
+          setHighscoreSyncStatus("Auf der Online-Version wird die gemeinsame Rangliste geladen", "offline");
+          renderHighscores();
+          return null;
+        }
+
+        setHighscoreSyncStatus("Gemeinsame Rangliste wird geladen ...");
+        highscoreSyncPromise = (async () => {
+          try {
+            if (safeGet(storageKeys.highscoresShared, "") !== "yes") {
+              savePendingHighscores(mergeHighscores(loadPendingHighscores(), loadHighscores()));
+            }
+            let serverScores = await submitPendingHighscores(apiUrl);
+            safeSetRaw(storageKeys.highscoresShared, "yes");
+            if (!serverScores) {
+              const response = await fetch(apiUrl, {
+                method: "GET",
+                headers: { accept: "application/json" },
+                cache: "no-store"
+              });
+              if (!response.ok) throw new Error(`Serverfehler ${response.status}`);
+              serverScores = parseServerHighscores(await response.json());
+            }
+            sharedHighscores = serverScores;
+            const cachedScores = mergeHighscores(serverScores, loadPendingHighscores()).slice(0, 10);
+            saveHighscores(cachedScores);
+            best = Math.max(best, (cachedScores[0] && cachedScores[0].score) || 0);
+            safeSetRaw(storageKeys.best, String(best));
+            bestValue.textContent = String(best);
+            setHighscoreSyncStatus("Gemeinsame Rangliste ist aktuell", "online");
+            renderHighscores();
+            return serverScores;
+          } catch (error) {
+            sharedHighscores = null;
+            setHighscoreSyncStatus("Server gerade nicht erreichbar - lokaler Zwischenstand", "offline");
+            renderHighscores();
+            return null;
+          } finally {
+            highscoreSyncPromise = null;
+          }
+        })();
+        return highscoreSyncPromise;
       }
 
       function getTopHighscore() {
@@ -3770,17 +3921,19 @@
         } else {
           scores.push({ name, score, updatedAt: Date.now() });
         }
-        scores.sort((a, b) => Number(b.score) - Number(a.score));
-        saveHighscores(scores);
-        best = Math.max(best, (scores[0] && scores[0].score) || 0);
+        const mergedScores = mergeHighscores(scores);
+        saveHighscores(mergedScores);
+        queueHighscore({ name, score, updatedAt: Date.now() });
+        best = Math.max(best, (mergedScores[0] && mergedScores[0].score) || 0);
         safeSetRaw(storageKeys.best, String(best));
         bestValue.textContent = String(best);
         renderHighscores();
+        void syncHighscores();
       }
 
       function renderHighscores() {
         highscoreList.innerHTML = "";
-        const scores = loadHighscores().sort((a, b) => Number(b.score) - Number(a.score)).slice(0, 5);
+        const scores = mergeHighscores(sharedHighscores || [], loadHighscores(), loadPendingHighscores()).slice(0, 10);
         if (!scores.length) {
           const empty = document.createElement("li");
           empty.className = "empty-row";
@@ -5034,6 +5187,7 @@
       function openHighscores() {
         renderHighscores();
         showScreen("highscores");
+        void syncHighscores();
       }
 
       function openSettings() {
