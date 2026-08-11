@@ -4025,18 +4025,6 @@
       box-shadow: 0 3px 0 #080d12;
     }
 
-    .lka-shake-btn.is-yellow-light {
-      color: #182033;
-      background: #ffd85c;
-    }
-
-    .lka-shake-btn.is-red-light {
-      color: #ffffff;
-      background: #d22630;
-      box-shadow: 0 7px 0 #080d12, 0 0 18px rgba(210, 38, 48, 0.78);
-      animation: lkaStopPulse 420ms steps(2, end) infinite;
-    }
-
     .lka-panic-btn {
       background: linear-gradient(135deg, #8f111a, #d22630 72%, #ffd85c 73%);
       box-shadow: 0 7px 0 #080d12, 5px 0 15px rgba(210, 38, 48, 0.36);
@@ -4185,10 +4173,6 @@
       18% { opacity: 1; }
       48% { opacity: 0.92; }
       100% { opacity: 0; }
-    }
-
-    @keyframes lkaStopPulse {
-      50% { filter: brightness(1.35); }
     }
 
     .flappy-app[data-role="kler"] .mini-choice-art.socken {
@@ -4363,7 +4347,10 @@
         <button class="menu-action" id="miniGamesOpenBtn" type="button">Mini Games</button>
       </li>
       <li class="menu-card">
-        <button class="menu-action" id="newGameBtn" type="button">Neues Spiel</button>
+        <button class="menu-action" id="lkaGameOpenBtn" type="button">Praxisphase: Drucksache</button>
+      </li>
+      <li class="menu-card">
+        <button class="menu-action" id="newGameBtn" type="button">Flappy Bird</button>
       </li>
     </ul>
     <div class="app-footer">#immerda</div>
@@ -4450,9 +4437,9 @@
         <span class="mini-choice-copy"><strong>SockenDerricks Paarprüfung</strong><small>5 Level · unendlich Versuche</small></span>
         <span class="mini-choice-best" data-mini-best="socken">Best 0</span>
       </button>
-      <button class="mini-game-choice is-hidden" id="lkaMiniChoice" type="button" data-mini-game="lka">
-        <span class="mini-choice-art lka" aria-hidden="true">LKA</span>
-        <span class="mini-choice-copy"><strong>Praxisphase: Drucksache</strong><small>Ego-Büro · nur für K´ler</small></span>
+      <button class="mini-game-choice" id="lkaMiniChoice" type="button" data-mini-game="lka">
+        <span class="mini-choice-art lka" id="miniChoiceArtLka" aria-hidden="true">SG8</span>
+        <span class="mini-choice-copy"><strong>Praxisphase: Drucksache</strong><small id="miniChoiceSubtitleLka">Praxisphase im Büro · für beide Rollen</small></span>
         <span class="mini-choice-best" data-mini-best="lka">Best 0</span>
       </button>
     </div>
@@ -4752,6 +4739,7 @@
       const highscoreOpenBtn = document.getElementById("highscoreOpenBtn");
       const highscoreBackBtn = document.getElementById("highscoreBackBtn");
       const miniGamesOpenBtn = document.getElementById("miniGamesOpenBtn");
+      const lkaGameOpenBtn = document.getElementById("lkaGameOpenBtn");
       const miniGamesBackBtn = document.getElementById("miniGamesBackBtn");
       const menuCharacterSpeech = document.getElementById("menuCharacterSpeech");
       const miniGameChoices = Array.prototype.slice.call(document.querySelectorAll("[data-mini-game]"));
@@ -4771,6 +4759,8 @@
       const miniChoiceArtWach = document.getElementById("miniChoiceArtWach");
       const miniChoiceTitleWach = document.getElementById("miniChoiceTitleWach");
       const miniChoiceSubtitleWach = document.getElementById("miniChoiceSubtitleWach");
+      const miniChoiceArtLka = document.getElementById("miniChoiceArtLka");
+      const miniChoiceSubtitleLka = document.getElementById("miniChoiceSubtitleLka");
       const miniStage = document.getElementById("miniStage");
       const miniMessage = document.getElementById("miniMessage");
       const miniBriefing = document.getElementById("miniBriefing");
@@ -5421,10 +5411,10 @@
       let lkaAyranProgress = 0;
       let lkaAyranSplats = [];
       let lkaMentorVariant = 0;
-      let lkaLightState = "green";
-      let lkaMovedOnRed = false;
+      let lkaShadowWillEnter = false;
+      let lkaMovedDuringShadow = false;
       let lkaCleanStops = 0;
-      let lkaRedMistakes = 0;
+      let lkaShadowMistakes = 0;
       let miniBests = loadMiniBests();
       let career = loadCareer();
       let score = 0;
@@ -6231,10 +6221,10 @@
 
       function updateMiniGameRoleUi() {
         const kler = isKlerRole();
-        lkaMiniChoice.classList.toggle("is-hidden", !kler);
+        lkaMiniChoice.classList.remove("is-hidden");
         leaderboardModeButtons
           .filter((button) => button.dataset.boardMode === "lka")
-          .forEach((button) => button.classList.toggle("is-hidden", !kler));
+          .forEach((button) => button.classList.remove("is-hidden"));
         miniChoiceArtBollo.textContent = kler ? "DS" : "SB";
         miniChoiceTitleBollo.textContent = kler ? "Durchsuchung" : "Spaghetti Bollo";
         miniChoiceSubtitleBollo.textContent = kler ? "Beweise sichern" : "Fangen";
@@ -6244,6 +6234,8 @@
         miniChoiceArtWach.textContent = kler ? "ZF" : "WS";
         miniChoiceTitleWach.textContent = kler ? "Zivilfahndung" : "Wachschutz";
         miniChoiceSubtitleWach.textContent = kler ? "Verdächtige Fahrzeuge prüfen" : "Fahrzeugeinlasskontrollen Enkenbach";
+        miniChoiceArtLka.textContent = kler ? "LKA" : "SG8";
+        miniChoiceSubtitleLka.textContent = kler ? "Ego-Büro · K´ler-Praxisphase" : "Büro-Praxisphase · Schutzmann";
         miniApproveBtn.textContent = kler ? "ZUGRIFF" : "Einfahrt erlauben";
         miniRejectBtn.textContent = kler ? "WEITERFAHREN" : "Zurückweisen";
         miniGateControls.setAttribute("aria-label", kler ? "Zugriff entscheiden" : "Fahrzeugeinlass entscheiden");
@@ -6355,17 +6347,16 @@
         lkaAyranProgress = 0;
         lkaAyranSplats = [];
         lkaMentorVariant = Math.floor(Math.random() * 2);
-        lkaLightState = "green";
-        lkaMovedOnRed = false;
+        lkaShadowWillEnter = false;
+        lkaMovedDuringShadow = false;
         lkaCleanStops = 0;
-        lkaRedMistakes = 0;
+        lkaShadowMistakes = 0;
         lkaDialog.classList.add("is-hidden");
         lkaResult.classList.add("is-hidden");
         lkaResult.classList.remove("has-ayran");
         lkaFlash.classList.remove("is-active");
         lkaShakeBtn.disabled = true;
         lkaShakeBtn.textContent = "SCHÜTTELN";
-        lkaShakeBtn.classList.remove("is-yellow-light", "is-red-light");
         lkaPanicBtn.disabled = true;
         lkaPanicBtn.textContent = "PANIK";
       }
@@ -6431,7 +6422,7 @@
         }
         if (miniGameMode === "lka") {
           miniBriefingTitle.textContent = "Praxisphase: Drucksache";
-          miniBriefingText.textContent = "Red Light, Green Light im Büro: Bei GRÜN darfst du die mittige Ayran-Flasche schnell schütteln. Sobald die Ampel ROT zeigt, sofort aufhören. Jeder Tipp bei Rot erhöht den Verdacht stark; ein sauberer Stopp bringt Bonusdruck. GELB kündigt eine mögliche Falle an. Mit PANIK wechselst du kurz zur Vorgangsmaske.";
+          miniBriefingText.textContent = "Schüttel die mittige Ayran-Flasche und beobachte die Tür. Manchmal erscheint dort nur etwa eine halbe Sekunde lang ein Schatten. Du musst selbst entscheiden, ob du vorsichtshalber früh aufhörst: Manchmal läuft die Person vorbei, manchmal kommt der Praxisanleiter wirklich herein. Wer beim Eintreten noch schüttelt, macht sich verdächtig. Mit PANIK wechselst du kurz zur Vorgangsmaske.";
           miniBriefing.classList.remove("is-hidden");
           return;
         }
@@ -6492,7 +6483,6 @@
       }
 
       function openSelectedMiniGame(mode) {
-        if (mode === "lka" && !isKlerRole()) return;
         selectMiniGame(mode);
         miniGamesTitle.textContent = miniGameTitle(mode);
         miniGamesTitle.classList.toggle("long-title", !isKlerRole() && mode === "wach");
@@ -6557,11 +6547,10 @@
         updateMiniHud();
         if (miniGameMode === "lka") {
           lkaPhase = "playing";
-          lkaLightState = "green";
           lkaShakeBtn.disabled = false;
           lkaPanicBtn.disabled = false;
-          lkaShakeBtn.textContent = "GRÜN · SCHÜTTELN";
-          miniMessage.textContent = "GRÜN · Jetzt schütteln! Bei ROT sofort stoppen.";
+          lkaShakeBtn.textContent = "SCHÜTTELN";
+          miniMessage.textContent = "Schütteln · Tür beobachten · beim Schatten selbst entscheiden";
         }
         if (miniGameMode === "bollo") {
           createMiniRecipe();
@@ -6975,19 +6964,9 @@
       function shakeLkaBottle() {
         if (!miniRunning || miniGameMode !== "lka" || lkaPhase !== "playing" || lkaPanicTimer > 0) return;
         const now = performance.now();
-        if (lkaLightState === "red") {
-          lkaMovedOnRed = true;
-          lkaRedMistakes += 1;
-          lkaLastShakeAt = now;
-          lkaCombo = 1;
-          lkaComboStreak = 0;
-          lkaPressure = Math.max(0, lkaPressure - 5);
-          lkaSuspicion = Math.min(100, lkaSuspicion + 18);
-          miniMessage.textContent = "ROTES LICHT! Bewegung erkannt · Verdacht steigt!";
-          playSoundEffect("error");
-          updateMiniHud();
-          if (lkaSuspicion >= 100) finishLkaGame(false);
-          return;
+        if (lkaHallState === "shadow-warning") {
+          lkaMovedDuringShadow = true;
+          miniMessage.textContent = "Der Schatten ist noch da · du schüttelst trotzdem weiter ...";
         }
         const delta = now - lkaLastShakeAt;
         lkaComboStreak = delta > 0 && delta < 390 ? lkaComboStreak + 1 : 1;
@@ -7000,9 +6979,7 @@
         lkaClickTimes.push(now);
         lkaClickTimes = lkaClickTimes.filter((time) => now - time <= 1000);
         lkaMaxCps = Math.max(lkaMaxCps, lkaClickTimes.length);
-        const timingFactor = lkaLightState === "yellow" ? 0.38 : 1;
-        lkaPressure = Math.min(100, lkaPressure + (0.52 + lkaCombo * 0.35) * timingFactor);
-        if (lkaLightState === "yellow") lkaSuspicion = Math.min(100, lkaSuspicion + 0.7);
+        lkaPressure = Math.min(100, lkaPressure + 0.52 + lkaCombo * 0.35);
         miniScore = Math.max(0, Math.floor(lkaPressure * 2 + lkaClicks * 0.3 - lkaSuspicion));
         playSoundEffect(lkaCombo >= 5 ? "point" : "flap");
         updateMiniHud();
@@ -7016,8 +6993,9 @@
         lkaShakePulse = 0;
         lkaCombo = 1;
         lkaComboStreak = 0;
-        if (lkaHallState === "mentor-warning") {
+        if (lkaHallState === "shadow-warning") {
           lkaAlmostCaught += 1;
+          lkaMovedDuringShadow = false;
           miniMessage.textContent = "PANIK · Hände an die Tastatur";
         } else {
           miniMessage.textContent = "Vorgangsmaske geöffnet";
@@ -7027,24 +7005,14 @@
 
       function triggerLkaHallEvent(forceMentor = false, fakeReturn = false) {
         if (lkaPhase !== "playing" || lkaHallState) return;
-        const mentorChance = Math.min(0.88, 0.48 + lkaPressure * 0.0035 + lkaSuspicion * 0.0025);
-        const mentorRequired = lkaMentorVisits === 0 || lkaEventsSinceMentor >= 1;
-        if (forceMentor || mentorRequired || Math.random() < mentorChance) {
-          lkaLightState = "red";
-          lkaMovedOnRed = false;
-          lkaHallState = "mentor-warning";
-          lkaHallText = fakeReturn ? "Ach, noch was ..." : ["Schritte kommen näher.", "Ein Schatten bleibt an der Tür.", "Die Türklinke bewegt sich.", "Stimme auf dem Flur."][Math.floor(Math.random() * 4)];
-          lkaHallTimer = fakeReturn ? 0.62 : 0.92 + Math.random() * 0.36;
-          miniMessage.textContent = `ROT · ${lkaHallText} Sofort aufhören!`;
-          playSoundEffect("boss");
-          return;
-        }
-        lkaEventsSinceMentor += 1;
-        lkaLightState = "yellow";
-        lkaHallState = "ambient";
-        lkaHallText = lkaHallEvents[Math.floor(Math.random() * lkaHallEvents.length)];
-        lkaHallTimer = 1.4 + Math.random() * 1.2;
-        miniMessage.textContent = `GELB · Falle oder Fehlalarm? ${lkaHallText}`;
+        const mentorChance = Math.min(0.82, 0.42 + lkaPressure * 0.003 + lkaSuspicion * 0.002);
+        const mentorRequired = lkaEventsSinceMentor >= 2;
+        lkaShadowWillEnter = forceMentor || mentorRequired || Math.random() < mentorChance;
+        lkaMovedDuringShadow = false;
+        lkaHallState = "shadow-warning";
+        lkaHallText = fakeReturn ? "Der Schatten ist wieder da ..." : "Ein Schatten huscht an der Tür vorbei ...";
+        lkaHallTimer = fakeReturn ? 0.48 : 0.5 + Math.random() * 0.08;
+        miniMessage.textContent = lkaHallText;
         playSoundEffect("choice");
       }
 
@@ -7073,7 +7041,7 @@
       }
 
       function enterLkaMentor() {
-        const caught = lkaMovedOnRed;
+        const caught = lkaMovedDuringShadow;
         lkaHallState = "mentor";
         lkaHallTimer = 0;
         lkaDialogueDepth = 0;
@@ -7084,6 +7052,7 @@
         lkaRequiredDialogueTurns = 2 + (lkaPressure >= 40 ? 1 : 0) + (lkaPressure >= 75 ? 1 : 0) + (caught ? 1 : 0);
         if (caught) {
           lkaCaught += 1;
+          lkaShadowMistakes += 1;
           lkaSuspicion = Math.min(100, lkaSuspicion + 28);
           showLkaDialogue(["Äh ... was machst du da?", "Was passiert da unter dem Tisch?", "Was genau machst du gerade?"][Math.floor(Math.random() * 3)]);
         } else {
@@ -7101,14 +7070,14 @@
         lkaPhase = "playing";
         lkaHallState = "";
         lkaHallText = "";
-        lkaLightState = "green";
-        lkaMovedOnRed = false;
+        lkaShadowWillEnter = false;
+        lkaMovedDuringShadow = false;
         lkaDialog.classList.add("is-hidden");
         lkaShakeBtn.disabled = false;
         lkaPanicBtn.disabled = lkaPanicCooldown > 0;
         lkaEventTimer = nextLkaEventDelay();
         if (Math.random() < 0.36) lkaFakeReturnTimer = 1.8 + Math.random() * 0.8;
-        miniMessage.textContent = "GRÜN · Praxisanleiter geht weiter · jetzt schütteln";
+        miniMessage.textContent = "Praxisanleiter geht weiter · jetzt wieder schütteln";
       }
 
       function answerLkaDialogue(answer) {
@@ -7148,7 +7117,7 @@
 
       function lkaRank(won) {
         if (!won) return "Auffälliger Praktikant";
-        if (lkaCleanStops >= 4 && lkaRedMistakes === 0) return "Ampel-Legende";
+        if (lkaCleanStops >= 4 && lkaShadowMistakes === 0) return "Schatten-Legende";
         if (lkaCaught === 0 && lkaSuspicion < 18 && lkaMaxCps >= 8) return "LKA-Legende";
         if (lkaMentorFooled >= 3 && lkaSuspicion < 42) return "DGL-Täuscher";
         if (lkaBestCombo >= 5) return "Abbum-Profi";
@@ -7159,7 +7128,9 @@
 
       function renderLkaResult(won, message) {
         lkaResultTitle.textContent = won ? "DU HAST ERFOLGREICH ABGEBUMT." : "ERWISCHT!";
-        lkaResultSubtitle.textContent = won ? "Ayran überall. Du bist jetzt Tarifbeschäftigter beim LKA." : message;
+        lkaResultSubtitle.textContent = won
+          ? (isKlerRole() ? "Ayran überall. Du bist jetzt Tarifbeschäftigter beim LKA." : "Ayran überall. Praxisphase im SG8-Büro bestanden.")
+          : message;
         const stats = [
           ["Rang", lkaRank(won)],
           ["Zeit", `${lkaElapsed.toFixed(1)} s`],
@@ -7171,7 +7142,7 @@
           ["Ausreden", lkaExcusesUsed],
           ["Falsche Ausreden", lkaFalseExcusesUsed],
           ["Saubere Stopps", lkaCleanStops],
-          ["Rotlichtfehler", lkaRedMistakes],
+          ["Schattenfehler", lkaShadowMistakes],
           ["Beste Combo", lkaBestCombo >= 5 ? "MAX" : `x${lkaBestCombo}`],
           ["Verdacht", `${Math.round(lkaSuspicion)}%`]
         ];
@@ -7187,7 +7158,7 @@
 
       function finishLkaGame(won) {
         if (!miniRunning || miniGameMode !== "lka") return;
-        miniScore = Math.max(1, Math.floor(lkaPressure * 3 + lkaClicks * 0.4 + lkaMentorFooled * 12 + lkaCleanStops * 10 - lkaRedMistakes * 8 - lkaSuspicion));
+        miniScore = Math.max(1, Math.floor(lkaPressure * 3 + lkaClicks * 0.4 + lkaMentorFooled * 12 + lkaCleanStops * 10 - lkaShadowMistakes * 8 - lkaSuspicion));
         const message = won ? "BOOM. Der Praxisanleiter sagt: Isch frag gar net." : randomLossMessage();
         finishMiniGame(message, won);
         lkaPhase = won ? "won" : "lost";
@@ -7229,11 +7200,7 @@
         lkaPanicTimer = Math.max(0, lkaPanicTimer - dt);
         lkaPanicBtn.disabled = lkaPhase !== "playing" || lkaPanicCooldown > 0;
         lkaPanicBtn.textContent = lkaPanicCooldown > 0 ? `PANIK ${Math.ceil(lkaPanicCooldown)}` : "PANIK";
-        lkaShakeBtn.classList.toggle("is-yellow-light", lkaLightState === "yellow");
-        lkaShakeBtn.classList.toggle("is-red-light", lkaLightState === "red");
-        lkaShakeBtn.textContent = lkaLightState === "red"
-          ? "ROT · STOPP!"
-          : (lkaLightState === "yellow" ? "GELB · BEREIT" : "GRÜN · SCHÜTTELN");
+        lkaShakeBtn.textContent = "SCHÜTTELN";
 
         if (lkaPhase === "finale") {
           lkaAyranProgress = Math.min(1, lkaAyranProgress + dt * 0.62);
@@ -7248,7 +7215,7 @@
         }
 
         const sinceShake = performance.now() - lkaLastShakeAt;
-        if (lkaLightState === "green" && sinceShake > 430) {
+        if (!lkaHallState && sinceShake > 430) {
           lkaPressure = Math.max(0, lkaPressure - dt * (1.15 + lkaPressure * 0.012));
         }
         if (sinceShake > 680) {
@@ -7260,13 +7227,20 @@
         if (lkaHallState) {
           lkaHallTimer -= dt;
           if (lkaHallTimer <= 0) {
-            if (lkaHallState === "mentor-warning") enterLkaMentor();
-            else {
+            if (lkaHallState === "shadow-warning" && lkaShadowWillEnter) {
+              enterLkaMentor();
+            } else if (lkaHallState === "shadow-warning") {
+              lkaEventsSinceMentor += 1;
+              lkaHallState = "shadow-pass";
+              lkaHallTimer = 0.28;
+              miniMessage.textContent = "Der Schatten läuft vorbei · falscher Alarm";
+            } else {
               lkaHallState = "";
               lkaHallText = "";
-              lkaLightState = "green";
+              lkaShadowWillEnter = false;
+              lkaMovedDuringShadow = false;
               lkaEventTimer = nextLkaEventDelay();
-              miniMessage.textContent = "GRÜN · Fehlalarm · weiter schütteln!";
+              miniMessage.textContent = "Flur frei · weiter schütteln";
             }
           }
         } else if (lkaFakeReturnTimer > 0) {
@@ -7278,7 +7252,7 @@
         }
 
         if (!lkaHallState && lkaPanicTimer <= 0) {
-          miniMessage.textContent = `GRÜN · Schütteln · Druck ${Math.round(lkaPressure)}% · bei ROT sofort stoppen`;
+          miniMessage.textContent = `Schütteln · Druck ${Math.round(lkaPressure)}% · Tür im Blick behalten`;
         }
         miniScore = Math.max(0, Math.floor(lkaPressure * 2 + lkaClicks * 0.3 - lkaSuspicion));
         if (lkaPressure >= 100) beginLkaFinale();
@@ -8135,9 +8109,10 @@
         miniCtx.fill();
 
         if (lkaHallState) {
-          const mentor = lkaHallState === "mentor" || lkaHallState === "mentor-warning";
+          const mentor = lkaHallState === "mentor";
+          const shadow = lkaHallState === "shadow-warning" || lkaHallState === "shadow-pass";
           miniCtx.save();
-          miniCtx.globalAlpha = lkaHallState === "ambient" ? 0.48 : 0.92;
+          miniCtx.globalAlpha = mentor ? 0.96 : 0.58;
           if (mentor && lkaMentorSprite.complete && lkaMentorSprite.naturalWidth > 0) {
             const sourceWidth = lkaMentorSprite.naturalWidth / 2;
             miniCtx.beginPath();
@@ -8157,6 +8132,20 @@
             miniCtx.strokeStyle = "#7ec8e3";
             miniCtx.lineWidth = 2;
             miniCtx.strokeRect(256, 17, 53, 135);
+          } else if (shadow) {
+            const passProgress = lkaHallState === "shadow-pass" ? 1 - Math.max(0, lkaHallTimer) / 0.28 : 0.18;
+            const shadowX = 267 + passProgress * 34;
+            miniCtx.beginPath();
+            miniCtx.rect(256, 17, 53, 135);
+            miniCtx.clip();
+            miniCtx.filter = "blur(2px)";
+            miniCtx.fillStyle = "#10161d";
+            miniCtx.beginPath();
+            miniCtx.ellipse(shadowX, 55, 12, 17, 0, 0, Math.PI * 2);
+            miniCtx.fill();
+            roundRect(miniCtx, shadowX - 16, 70, 32, 83, 10);
+            miniCtx.fill();
+            miniCtx.filter = "none";
           } else {
             miniCtx.fillStyle = mentor ? "#d7a37f" : "#4e5964";
             miniCtx.beginPath();
@@ -8168,23 +8157,6 @@
           }
           miniCtx.restore();
         }
-
-        miniCtx.fillStyle = "#10161d";
-        roundRect(miniCtx, 207, 55, 29, 82, 6);
-        miniCtx.fill();
-        [
-          ["red", 72, "#d22630"],
-          ["yellow", 96, "#ffd85c"],
-          ["green", 120, "#38c779"]
-        ].forEach(([state, y, color]) => {
-          miniCtx.beginPath();
-          miniCtx.arc(221.5, y, 8, 0, Math.PI * 2);
-          miniCtx.fillStyle = lkaLightState === state ? color : "#303943";
-          miniCtx.shadowColor = lkaLightState === state ? color : "transparent";
-          miniCtx.shadowBlur = lkaLightState === state ? 12 : 0;
-          miniCtx.fill();
-        });
-        miniCtx.shadowBlur = 0;
 
         miniCtx.fillStyle = "#25313b";
         roundRect(miniCtx, 24, 24, 174, 116, 7);
@@ -8530,7 +8502,7 @@
         mapSelector.setAttribute("aria-label", kler ? "Ermittlungsgebiet auswählen" : "Dienstgebiet auswählen");
         miniGamesOpenBtn.textContent = kler ? "Kripo Mini Games" : "Mini Games";
         storyOpenBtn.textContent = kler ? "Eine Schicht bei K" : "Eine Schicht in SG8";
-        newGameBtn.textContent = kler ? "Neuer Kripo-Einsatz" : "Neues Spiel";
+        newGameBtn.textContent = "Flappy Bird";
         updateRoleCharacters();
         updateMiniGameRoleUi();
       }
@@ -10622,6 +10594,10 @@
         });
       });
       miniGamesOpenBtn.addEventListener("click", openMiniGames);
+      bindTouchButton(lkaGameOpenBtn, () => {
+        openMiniGames();
+        openSelectedMiniGame("lka");
+      });
       miniGamesBackBtn.addEventListener("click", handleMiniGamesBack);
       miniGameChoices.forEach((choice) => {
         bindTouchButton(choice, () => openSelectedMiniGame(choice.dataset.miniGame));
