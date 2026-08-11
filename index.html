@@ -6508,7 +6508,8 @@
             return;
           }
           const button = findButton(event.target);
-          if (!button || button.disabled || button.classList.contains("mini-move-btn")) {
+          if (!button || button.disabled || button.classList.contains("mini-move-btn") ||
+            button.classList.contains("flap-btn")) {
             gesture = null;
             return;
           }
