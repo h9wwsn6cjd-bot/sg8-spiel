@@ -227,6 +227,7 @@
       flex-direction: column;
       gap: 12px;
       padding: 16px;
+      overflow-y: auto;
       background:
         radial-gradient(circle at 22% 12%, rgba(47, 122, 255, 0.18), transparent 25%),
         radial-gradient(circle at 92% 24%, rgba(255, 216, 92, 0.25), transparent 24%),
@@ -822,6 +823,301 @@
 
     .screen-character.pose-point {
       animation: character-point 900ms ease, character-idle 3.1s ease-in-out 900ms infinite;
+    }
+
+    .story-screen,
+    .party-screen {
+      overflow-y: auto;
+    }
+
+    .story-character,
+    .party-character {
+      top: 68px;
+      right: -14px;
+      width: 112px;
+      height: 172px;
+    }
+
+    .story-progress {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      padding-right: 82px;
+    }
+
+    .story-progress span {
+      height: 8px;
+      border: 2px solid #182033;
+      border-radius: 4px;
+      background: #dfe8f4;
+    }
+
+    .story-progress span.is-done,
+    .story-progress span.is-current {
+      background: #2f7aff;
+    }
+
+    .story-progress span.is-current {
+      box-shadow: 0 0 0 2px #ffd85c;
+    }
+
+    .story-scene {
+      display: grid;
+      gap: 10px;
+      min-height: 360px;
+      padding: 16px;
+      border: 3px solid #182033;
+      border-radius: 8px;
+      background:
+        linear-gradient(150deg, rgba(255, 255, 255, 0.96), rgba(223, 232, 244, 0.95)),
+        #ffffff;
+      box-shadow: 6px 7px 0 rgba(24, 32, 51, 0.2);
+    }
+
+    .story-kicker {
+      color: #15479a;
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .story-scene h2,
+    .party-panel h2 {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.12;
+    }
+
+    .story-scene p,
+    .party-panel p {
+      margin: 0;
+      color: #4d5870;
+      font-size: 0.8rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .story-meters {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .story-meter {
+      padding: 8px;
+      border: 2px solid #182033;
+      border-radius: 6px;
+      background: #eef6ff;
+      font-size: 0.67rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .story-choices {
+      display: grid;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .story-choice {
+      min-height: 48px;
+      padding: 9px 12px;
+      border: 2px solid #182033;
+      border-radius: 7px;
+      color: #ffffff;
+      background: #15479a;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-align: left;
+      touch-action: manipulation;
+    }
+
+    .story-choice:nth-child(even) {
+      color: #182033;
+      background: #ffd85c;
+    }
+
+    .party-panel {
+      display: grid;
+      gap: 11px;
+      padding: 14px;
+      border: 3px solid #182033;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .party-name-list,
+    .party-results-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .party-name-row {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) 38px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .party-name-row > span {
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .party-name-row input {
+      min-width: 0;
+      min-height: 42px;
+    }
+
+    .party-message {
+      min-height: 18px;
+      margin: 0;
+      color: #b11724;
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+
+    .party-result-row {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 9px;
+      border: 2px solid #182033;
+      border-radius: 6px;
+      background: #eef6ff;
+      font-size: 0.75rem;
+      font-weight: 900;
+    }
+
+    .party-result-row.is-winner {
+      background: #fff1a6;
+      animation: winnerCharacterJump 1200ms ease-in-out infinite;
+    }
+
+    .boss-banner {
+      position: absolute;
+      z-index: 6;
+      top: 70px;
+      left: 50%;
+      display: grid;
+      min-width: 210px;
+      padding: 8px 12px;
+      border: 3px solid #182033;
+      border-radius: 7px;
+      color: #ffffff;
+      background: linear-gradient(100deg, #8f111a, #d22630 60%, #15479a);
+      box-shadow: 0 7px 0 rgba(24, 32, 51, 0.28);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -18px) scale(0.88);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .boss-banner.is-active {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+      animation: responseHeaderFlash 680ms ease-in-out infinite;
+    }
+
+    .boss-banner small {
+      color: #fff1a6;
+      font-size: 0.62rem;
+    }
+
+    .wanted-poster {
+      display: none;
+      width: 100%;
+      padding: 10px;
+      border: 4px solid #182033;
+      border-radius: 6px;
+      color: #182033;
+      background: #fff1a6;
+      box-shadow: 7px 8px 0 rgba(24, 32, 51, 0.3);
+      transform: rotate(-1.5deg);
+    }
+
+    .overlay.is-gameover .overlay-card {
+      width: min(100%, 280px);
+      max-height: calc(100% - 20px);
+      gap: 7px;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .overlay.is-gameover .overlay-title {
+      font-size: 0.96rem;
+    }
+
+    .overlay.is-gameover .overlay-score {
+      font-size: 0.74rem;
+    }
+
+    .overlay.is-gameover .wanted-poster {
+      display: grid;
+      gap: 6px;
+      animation: wantedPosterDrop 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .wanted-heading {
+      padding: 4px;
+      color: #ffffff;
+      background: #d22630;
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .wanted-main {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 9px;
+      align-items: center;
+    }
+
+    .wanted-portrait {
+      display: grid;
+      place-items: center;
+      width: 78px;
+      height: 88px;
+      overflow: hidden;
+      border: 3px solid #182033;
+      border-radius: 5px;
+      color: #ffffff;
+      background: #15479a;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .wanted-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .wanted-copy strong,
+    .wanted-copy span {
+      display: block;
+    }
+
+    .wanted-copy strong {
+      font-size: 0.92rem;
+    }
+
+    .wanted-copy span {
+      margin-top: 4px;
+      font-size: 0.66rem;
+      font-weight: 800;
+    }
+
+    @keyframes wantedPosterDrop {
+      0% { opacity: 0; transform: translateY(-70px) rotate(8deg) scale(0.72); }
+      72% { opacity: 1; transform: translateY(7px) rotate(-3deg) scale(1.04); }
+      100% { transform: translateY(0) rotate(-1.5deg) scale(1); }
     }
 
     @keyframes character-run-in {
@@ -3276,6 +3572,153 @@
           0 13px 30px rgba(24, 32, 51, 0.24);
       }
     }
+
+    .powered-screen {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 24px;
+      color: #ffffff;
+      background:
+        repeating-linear-gradient(112deg, rgba(255, 255, 255, 0.04) 0 3px, transparent 3px 24px),
+        linear-gradient(180deg, #080d18 0%, #112f67 54%, #070a10 100%);
+    }
+
+    .powered-screen::before,
+    .powered-screen::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 42%;
+      opacity: 0.56;
+      filter: blur(12px);
+      animation: poweredLightSweep 720ms steps(2, end) infinite;
+    }
+
+    .powered-screen::before {
+      left: -14%;
+      background: #2f7aff;
+    }
+
+    .powered-screen::after {
+      right: -14%;
+      background: #d22630;
+      animation-delay: 360ms;
+    }
+
+    .powered-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      gap: 18px;
+      text-align: center;
+      animation: poweredContentIn 420ms cubic-bezier(.2, .85, .22, 1) both;
+    }
+
+    .powered-target {
+      position: relative;
+      width: 108px;
+      aspect-ratio: 1;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, #ffffff 0 13px, #d22630 14px 26px, #ffffff 27px 39px, #15479a 40px 54px);
+      border: 5px solid #ffffff;
+      box-shadow: 0 0 0 5px #182033, -16px 0 34px rgba(47, 122, 255, 0.72), 16px 0 34px rgba(210, 38, 48, 0.62);
+      animation: poweredTargetPop 960ms ease-in-out infinite alternate;
+    }
+
+    .powered-target::after {
+      content: "SD";
+      position: absolute;
+      inset: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #ffffff;
+      background: #182033;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .powered-kicker {
+      display: block;
+      color: #9edfff;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .powered-title {
+      margin: 5px 0 0;
+      color: #ffffff;
+      font-size: clamp(1.75rem, 8vw, 2.5rem);
+      line-height: 0.98;
+      font-weight: 900;
+      text-shadow: -5px 0 16px #2f7aff, 5px 0 16px #d22630, 0 3px 0 #182033;
+    }
+
+    .powered-info {
+      min-height: 94px;
+      padding: 14px;
+      display: grid;
+      place-items: center;
+      color: #182033;
+      background: #ffd85c;
+      border: 4px solid #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 8px 0 #182033, -8px 0 24px rgba(47, 122, 255, 0.5), 8px 0 24px rgba(210, 38, 48, 0.4);
+      font-size: 1rem;
+      line-height: 1.18;
+      font-weight: 900;
+    }
+
+    .powered-info.is-changing {
+      animation: poweredInfoChange 340ms ease both;
+    }
+
+    .mini-choice-art.socken {
+      color: #182033;
+      background:
+        radial-gradient(circle at 30% 28%, #ffffff 0 5px, transparent 6px),
+        repeating-linear-gradient(45deg, #2f7aff 0 9px, #ffffff 9px 16px, #d22630 16px 25px);
+    }
+
+    .flappy-app[data-role="kler"] .mini-choice-art.socken {
+      color: #ffffff;
+      background:
+        radial-gradient(circle at 30% 28%, #7ec8e3 0 5px, transparent 6px),
+        repeating-linear-gradient(45deg, #171d24 0 10px, #536273 10px 18px, #8a2732 18px 25px);
+    }
+
+    .mini-stage.socken .mini-message {
+      top: 8px;
+      color: #ffffff;
+      font-size: 0.76rem;
+      text-shadow: 0 2px 0 #182033;
+    }
+
+    @keyframes poweredLightSweep {
+      0%, 100% { opacity: 0.24; transform: translateX(-8%); }
+      50% { opacity: 0.64; transform: translateX(14%); }
+    }
+
+    @keyframes poweredContentIn {
+      from { opacity: 0; transform: scale(0.88) translateY(24px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes poweredTargetPop {
+      from { transform: rotate(-4deg) scale(0.96); }
+      to { transform: rotate(4deg) scale(1.04); }
+    }
+
+    @keyframes poweredInfoChange {
+      0% { opacity: 0; transform: translateX(28px) rotate(2deg); }
+      100% { opacity: 1; transform: translateX(0) rotate(0); }
+    }
   </style>
 
   <section class="start-screen app-screen intro-play" id="startScreen" aria-label="Startseite">
@@ -3300,6 +3743,18 @@
     <div class="start-card">
       <h1 class="start-title">SG8 Spiel</h1>
       <button class="control-btn primary" id="homeStartBtn" type="button">Start</button>
+    </div>
+    <div class="app-footer">#immerda</div>
+  </section>
+
+  <section class="powered-screen app-screen is-hidden" id="poweredScreen" aria-label="Powered by SockenDerrick">
+    <div class="powered-content">
+      <div class="powered-target" aria-hidden="true"></div>
+      <div>
+        <span class="powered-kicker">SG8 Anime Arcade</span>
+        <h1 class="powered-title">Powered by<br>SockenDerrick</h1>
+      </div>
+      <div class="powered-info" id="poweredInfo" aria-live="polite">NikiGayBoy macht Schießtraining.</div>
     </div>
     <div class="app-footer">#immerda</div>
   </section>
@@ -3348,6 +3803,12 @@
     </label>
     <ul class="menu-list">
       <li class="menu-card">
+        <button class="menu-action" id="storyOpenBtn" type="button">Eine Schicht in SG8</button>
+      </li>
+      <li class="menu-card">
+        <button class="menu-action" id="partyOpenBtn" type="button">Party-Modus</button>
+      </li>
+      <li class="menu-card">
         <button class="menu-action" id="careerOpenBtn" type="button">SG8 Karriere</button>
       </li>
       <li class="menu-card">
@@ -3360,6 +3821,50 @@
         <button class="menu-action" id="newGameBtn" type="button">Neues Spiel</button>
       </li>
     </ul>
+    <div class="app-footer">#immerda</div>
+  </section>
+
+  <section class="detail-screen story-screen app-screen with-character is-hidden" id="storyScreen" aria-label="Eine Schicht in SG8">
+    <img class="screen-character story-character" id="storyCharacter" alt="" aria-hidden="true">
+    <header class="menu-head">
+      <h1>Eine Schicht in SG8</h1>
+      <button class="icon-btn" id="storyBackBtn" type="button" aria-label="Zurück">←</button>
+    </header>
+    <div class="story-progress" id="storyProgress" aria-label="Fortschritt"></div>
+    <div class="story-scene">
+      <span class="story-kicker" id="storyKicker">Schichtbeginn</span>
+      <h2 id="storyTitle">Bereit für die Gasse?</h2>
+      <p id="storyText">Vier Lagen, deine Entscheidungen und drei mögliche Enden. Der Weizenbaron wartet bereits.</p>
+      <div class="story-meters">
+        <div class="story-meter" id="storyOrderMeter">Dienstweg 0</div>
+        <div class="story-meter" id="storyChaosMeter">Gassenfaktor 0</div>
+      </div>
+      <div class="story-choices is-hidden" id="storyChoices"></div>
+      <button class="menu-action" id="storyStartBtn" type="button">Schicht starten</button>
+    </div>
+    <div class="app-footer">#immerda</div>
+  </section>
+
+  <section class="detail-screen party-screen app-screen with-character is-hidden" id="partyScreen" aria-label="Party-Modus">
+    <img class="screen-character party-character" id="partyCharacter" alt="" aria-hidden="true">
+    <header class="menu-head">
+      <h1>SG8 Party</h1>
+      <button class="icon-btn" id="partyBackBtn" type="button" aria-label="Zurück">←</button>
+    </header>
+    <div class="party-panel" id="partySetupPanel">
+      <h2>Wer tritt an?</h2>
+      <p>Mindestens zwei Namen eingeben. Danach spielt jeder eine Runde mit eigener Figuren- und Gebietswahl.</p>
+      <div class="party-name-list" id="partyNameList"></div>
+      <button class="control-btn" id="partyAddBtn" type="button">+ Spieler</button>
+      <p class="party-message" id="partyMessage" aria-live="polite"></p>
+      <button class="menu-action" id="partyStartBtn" type="button">Party starten</button>
+    </div>
+    <div class="party-panel is-hidden" id="partyResultsPanel">
+      <h2 id="partyWinnerTitle">Siegerehrung</h2>
+      <p>Die Gasse hat entschieden.</p>
+      <div class="party-results-list" id="partyResultsList"></div>
+      <button class="menu-action" id="partyRestartBtn" type="button">Neue Party</button>
+    </div>
     <div class="app-footer">#immerda</div>
   </section>
 
@@ -3385,6 +3890,11 @@
         <span class="mini-choice-art wach" id="miniChoiceArtWach" aria-hidden="true">WS</span>
         <span class="mini-choice-copy"><strong id="miniChoiceTitleWach">Wachschutz</strong><small id="miniChoiceSubtitleWach">Fahrzeugeinlasskontrollen Enkenbach</small></span>
         <span class="mini-choice-best" data-mini-best="wach">Best 0</span>
+      </button>
+      <button class="mini-game-choice" type="button" data-mini-game="socken">
+        <span class="mini-choice-art socken" aria-hidden="true">SD</span>
+        <span class="mini-choice-copy"><strong>SockenDerricks Paarprüfung</strong><small>Finde sechs Sockenpaare</small></span>
+        <span class="mini-choice-best" data-mini-best="socken">Best 0</span>
       </button>
     </div>
     <div class="mini-arcade is-hidden" id="miniArcadePanel">
@@ -3558,8 +4068,23 @@
     <div class="game-shell" id="gameShell">
       <canvas id="gameCanvas" width="360" height="640" aria-label="SG8 Spiel canvas"></canvas>
       <div class="powerup-hud" id="powerupHud" aria-live="polite"></div>
+      <div class="boss-banner" id="bossBanner" aria-live="assertive">
+        <strong id="bossTitle">BOSSLAGE</strong>
+        <small id="bossTimer">10 Sekunden</small>
+      </div>
       <div class="overlay show" id="overlay">
         <div class="overlay-card">
+          <div class="wanted-poster" id="wantedPoster">
+            <div class="wanted-heading">GESUCHT IN SG8</div>
+            <div class="wanted-main">
+              <div class="wanted-portrait" id="wantedPortrait">WB</div>
+              <div class="wanted-copy">
+                <strong id="wantedName">Weizenbaron</strong>
+                <span id="wantedDetails">Score 0 · Ludwigshafen</span>
+                <span id="wantedReason">Grund: Absperrung gerammt</span>
+              </div>
+            </div>
+          </div>
           <p class="overlay-title" id="overlayTitle">Charakter wählen</p>
           <p class="overlay-score" id="overlayScore">Name eingeben</p>
           <button class="control-btn primary" id="overlayBtn" type="button">Spiel starten</button>
@@ -3583,8 +4108,12 @@
 
       const appRoot = document.querySelector(".flappy-app");
       const startScreen = document.getElementById("startScreen");
+      const poweredScreen = document.getElementById("poweredScreen");
+      const poweredInfo = document.getElementById("poweredInfo");
       const roleScreen = document.getElementById("roleScreen");
       const menuScreen = document.getElementById("menuScreen");
+      const storyScreen = document.getElementById("storyScreen");
+      const partyScreen = document.getElementById("partyScreen");
       const careerScreen = document.getElementById("careerScreen");
       const highscoreScreen = document.getElementById("highscoreScreen");
       const miniGamesScreen = document.getElementById("miniGamesScreen");
@@ -3596,6 +4125,29 @@
       const roleSwitchBtn = document.getElementById("roleSwitchBtn");
       const menuTitle = document.getElementById("menuTitle");
       const menuCharacter = document.getElementById("menuCharacter");
+      const storyOpenBtn = document.getElementById("storyOpenBtn");
+      const storyBackBtn = document.getElementById("storyBackBtn");
+      const storyCharacter = document.getElementById("storyCharacter");
+      const storyProgress = document.getElementById("storyProgress");
+      const storyKicker = document.getElementById("storyKicker");
+      const storyTitle = document.getElementById("storyTitle");
+      const storyText = document.getElementById("storyText");
+      const storyOrderMeter = document.getElementById("storyOrderMeter");
+      const storyChaosMeter = document.getElementById("storyChaosMeter");
+      const storyChoices = document.getElementById("storyChoices");
+      const storyStartBtn = document.getElementById("storyStartBtn");
+      const partyOpenBtn = document.getElementById("partyOpenBtn");
+      const partyBackBtn = document.getElementById("partyBackBtn");
+      const partyCharacter = document.getElementById("partyCharacter");
+      const partySetupPanel = document.getElementById("partySetupPanel");
+      const partyResultsPanel = document.getElementById("partyResultsPanel");
+      const partyNameList = document.getElementById("partyNameList");
+      const partyAddBtn = document.getElementById("partyAddBtn");
+      const partyMessage = document.getElementById("partyMessage");
+      const partyStartBtn = document.getElementById("partyStartBtn");
+      const partyWinnerTitle = document.getElementById("partyWinnerTitle");
+      const partyResultsList = document.getElementById("partyResultsList");
+      const partyRestartBtn = document.getElementById("partyRestartBtn");
       const careerOpenBtn = document.getElementById("careerOpenBtn");
       const careerBackBtn = document.getElementById("careerBackBtn");
       const careerCharacter = document.getElementById("careerCharacter");
@@ -3675,6 +4227,13 @@
       const overlayTitle = document.getElementById("overlayTitle");
       const overlayScore = document.getElementById("overlayScore");
       const overlayBtn = document.getElementById("overlayBtn");
+      const wantedPortrait = document.getElementById("wantedPortrait");
+      const wantedName = document.getElementById("wantedName");
+      const wantedDetails = document.getElementById("wantedDetails");
+      const wantedReason = document.getElementById("wantedReason");
+      const bossBanner = document.getElementById("bossBanner");
+      const bossTitle = document.getElementById("bossTitle");
+      const bossTimer = document.getElementById("bossTimer");
       const flapBtn = document.getElementById("flapBtn");
       const rosterPanel = document.getElementById("rosterPanel");
       const brandTitle = document.getElementById("brandTitle");
@@ -3748,7 +4307,33 @@
           gust: 95
         }
       };
+      const bossRounds = [
+        { id: "pursuit", title: "BOSSLAGE: VERFOLGUNGSFAHRT", line: "Saarbriggeeee! Ziel voraus!" },
+        { id: "storm", title: "BOSSLAGE: BETZE-STURM", line: "Betze-Wind! Festhalten!" },
+        { id: "jam", title: "BOSSLAGE: KONTROLL-STAU", line: "Werkscitz! Alles steht!" }
+      ];
       const introDuration = 3600;
+      const poweredDuration = 3600;
+      const insiderFacts = [
+        "NikiGayBoy macht Schießtraining.",
+        "Weizenbaron verliert sein ganzes Geld bei Fußballwetten.",
+        "ElfbarLucie raucht den ganzen Tag Elfbar.",
+        "Prachtarsch verstopft den Abfluss mit Haaren.",
+        "Terres lutscht Füße.",
+        "Merinowolle schmeißt die Waffe weg.",
+        "Hänger ist Lehrerin.",
+        "WÜtschkoffer ist Hooligan auf dem Betze.",
+        "Trichter spielt Clash of Clans.",
+        "Eierohle trinkt Energy Drinks und isst alle Essensreste."
+      ];
+      const sockPatterns = [
+        { id: "blue", base: "#2f7aff", accent: "#ffffff", mark: "B" },
+        { id: "red", base: "#d22630", accent: "#ffd85c", mark: "R" },
+        { id: "night", base: "#182033", accent: "#7ec8e3", mark: "N" },
+        { id: "betze", base: "#ffffff", accent: "#d22630", mark: "K" },
+        { id: "signal", base: "#ffd85c", accent: "#15479a", mark: "S" },
+        { id: "mint", base: "#67dfc8", accent: "#182033", mark: "M" }
+      ];
       const settingsPassword = "Bacardi";
       const playersVersion = "sg8-characters-v3";
       const storageKeys = {
@@ -3760,6 +4345,7 @@
         best: "sg8SpielBest",
         miniBests: "sg8MiniArcadeBestsV2",
         career: "sg8SpielCareerV1",
+        storyEndings: "sg8SpielStoryEndingsV1",
         map: "sg8SpielMap",
         music: "sg8SpielMusic"
       };
@@ -3825,6 +4411,44 @@
         { id: "terres", name: "Terres", initials: "T", bg: "#67dfc8", fg: "#06342f" },
         { id: "merinowolle", name: "Merinowolle", initials: "M", bg: "#a8d8ea", fg: "#182033" }
       ];
+      const storyScenes = [
+        {
+          kicker: "08:01 · Funkauftrag",
+          title: "Unklare Lage an der Gasse",
+          text: "Ein ziviler Wagen kreist zum dritten Mal um den Block. Wie beginnt deine Schicht?",
+          choices: [
+            { label: "Kennzeichen notieren und Lage ruhig prüfen", order: 2, chaos: 0, line: "Observation läuft!" },
+            { label: "Mit Blaulicht hinterher: Saarbriggeeee!", order: 0, chaos: 2, line: "Saarbriggeeee!" }
+          ]
+        },
+        {
+          kicker: "10:37 · Versorgungslage",
+          title: "Bollo oder Burger King?",
+          text: "Der Einsatz zieht sich. Die Besatzung fordert eine taktische Verpflegungspause.",
+          choices: [
+            { label: "Spaghetti Bollo für die ganze Schicht", order: 1, chaos: 1, line: "Ich liebe Colabier!" },
+            { label: "Burger King mit Sonderweg durch den Drive-in", order: 0, chaos: 2, line: "Bacardi Cola!" }
+          ]
+        },
+        {
+          kicker: "14:12 · Enkenbach",
+          title: "Fahrzeugkontrolle am Werkscitz",
+          text: "Ein Lieferwagen zeigt einen geraden Code, aber der Termin fehlt. Die Schlange wird länger.",
+          choices: [
+            { label: "Unterlagen vollständig nachprüfen", order: 2, chaos: 0, line: "Kontrollblick aktiviert." },
+            { label: "Schranke hoch und laut Werkscitz rufen", order: 0, chaos: 2, line: "Werkscitz!" }
+          ]
+        },
+        {
+          kicker: "19:48 · Betzeberg",
+          title: "Finale im Betze-Wind",
+          text: "Am Berg kippt das Wetter. Eine letzte Lage entscheidet, wie SG8 diese Schicht in Erinnerung behält.",
+          choices: [
+            { label: "Verstärkung holen und gemeinsam vorgehen", order: 2, chaos: 0, line: "#immerda" },
+            { label: "Weizenbaron startet den Alleingang", order: 0, chaos: 3, line: "Ich liebe Colabier!" }
+          ]
+        }
+      ];
 
       if (!ctx || !miniCtx) {
         document.body.classList.add("canvas-error");
@@ -3841,18 +4465,31 @@
       let state = "selecting";
       let homeReady = false;
       let homeTimer = 0;
+      let poweredTimer = 0;
+      let poweredFactTimer = 0;
+      let poweredFactIndex = 0;
       let menuSpeechTimer = 0;
       let menuSpeechIndex = 0;
       let audioContext = null;
       let musicGain = null;
+      let sfxGain = null;
       let musicTimer = 0;
       let musicNextNoteTime = 0;
       let musicStep = 0;
+      let voiceCooldownUntil = 0;
       let musicEnabled = safeGet(storageKeys.music, "on") !== "off";
       let sharedHighscores = null;
       let highscoreSyncPromise = null;
       let activeLeaderboardMode = "flappy";
       let activeLeaderboardScope = "week";
+      let storyStep = -1;
+      let storyOrder = 0;
+      let storyChaos = 0;
+      let storyRunning = false;
+      let partyMode = false;
+      let partyPlayers = [];
+      let partyDraftNames = ["", "", ""];
+      let partyIndex = 0;
       let miniGameMode = "bollo";
       let miniRunning = false;
       let miniScore = 0;
@@ -3874,6 +4511,13 @@
       let miniBarrierOpen = 0;
       let miniGateFlash = "";
       let miniEffectTimer = 0;
+      let miniSockCards = [];
+      let miniSockSelected = [];
+      let miniSockResolveTimer = 0;
+      let miniSockTime = 0;
+      let miniSockMatched = 0;
+      let miniSockInputLocked = false;
+      let miniFinishedWon = false;
       let miniBests = loadMiniBests();
       let career = loadCareer();
       let score = 0;
@@ -3889,6 +4533,11 @@
       let invulnerableTimer = 0;
       let characterReaction = "";
       let characterReactionTimer = 0;
+      let bossMode = "";
+      let bossRoundTimer = 0;
+      let nextBossScore = 15;
+      let bossRoundIndex = 0;
+      let lastLossReason = "Absperrung gerammt";
       let bird = createBird();
 
       bestValue.textContent = String(best);
@@ -4101,7 +4750,7 @@
 
       function updateMusicButton() {
         const supported = Boolean(window.AudioContext || window.webkitAudioContext);
-        const label = musicEnabled ? "Musik ausschalten" : "Musik einschalten";
+        const label = musicEnabled ? "Musik und Effekte ausschalten" : "Musik und Effekte einschalten";
         musicBtn.disabled = !supported;
         musicBtn.textContent = musicEnabled ? "♫" : "♩";
         musicBtn.classList.toggle("is-muted", !musicEnabled || !supported);
@@ -4111,7 +4760,7 @@
       }
 
       function ensureAudioEngine() {
-        if (audioContext && musicGain) return audioContext;
+        if (audioContext && musicGain && sfxGain) return audioContext;
         const AudioEngine = window.AudioContext || window.webkitAudioContext;
         if (!AudioEngine) {
           updateMusicButton();
@@ -4122,10 +4771,14 @@
           musicGain = audioContext.createGain();
           musicGain.gain.value = 0.0001;
           musicGain.connect(audioContext.destination);
+          sfxGain = audioContext.createGain();
+          sfxGain.gain.value = 0.24;
+          sfxGain.connect(audioContext.destination);
           return audioContext;
         } catch (error) {
           audioContext = null;
           musicGain = null;
+          sfxGain = null;
           updateMusicButton();
           return null;
         }
@@ -4144,6 +4797,57 @@
         envelope.connect(musicGain);
         oscillator.start(startAt);
         oscillator.stop(startAt + duration + 0.04);
+      }
+
+      function playSoundEffect(kind) {
+        if (!musicEnabled) return;
+        const engine = ensureAudioEngine();
+        if (!engine || !sfxGain) return;
+        const patterns = {
+          flap: [[520, 0, 0.055, "square"], [690, 0.045, 0.07, "sine"]],
+          point: [[760, 0, 0.05, "square"]],
+          power: [[440, 0, 0.08, "sine"], [660, 0.07, 0.1, "square"], [880, 0.15, 0.13, "sine"]],
+          shield: [[180, 0, 0.12, "sawtooth"], [360, 0.08, 0.18, "sine"]],
+          boss: [[220, 0, 0.16, "sawtooth"], [220, 0.22, 0.16, "sawtooth"], [330, 0.45, 0.28, "square"]],
+          error: [[190, 0, 0.18, "sawtooth"], [120, 0.14, 0.28, "square"]],
+          win: [[392, 0, 0.11, "square"], [523, 0.1, 0.11, "square"], [659, 0.2, 0.24, "sine"]],
+          choice: [[330, 0, 0.07, "sine"], [494, 0.06, 0.12, "sine"]]
+        };
+        const notes = patterns[kind] || patterns.point;
+        const play = () => {
+          const now = engine.currentTime + 0.01;
+          notes.forEach(([frequency, offset, duration, type]) => {
+            const oscillator = engine.createOscillator();
+            const envelope = engine.createGain();
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, now + offset);
+            envelope.gain.setValueAtTime(0.0001, now + offset);
+            envelope.gain.exponentialRampToValueAtTime(0.16, now + offset + 0.012);
+            envelope.gain.exponentialRampToValueAtTime(0.0001, now + offset + duration);
+            oscillator.connect(envelope);
+            envelope.connect(sfxGain);
+            oscillator.start(now + offset);
+            oscillator.stop(now + offset + duration + 0.03);
+          });
+        };
+        if (engine.state === "suspended") engine.resume().then(play).catch(() => {});
+        else play();
+      }
+
+      function speakVoiceLine(line) {
+        if (!musicEnabled || !line || !window.speechSynthesis || Date.now() < voiceCooldownUntil) return;
+        voiceCooldownUntil = Date.now() + 2200;
+        try {
+          const utterance = new SpeechSynthesisUtterance(line);
+          utterance.lang = "de-DE";
+          utterance.rate = 1.08;
+          utterance.pitch = 1.16;
+          utterance.volume = 0.88;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(utterance);
+        } catch (error) {
+          voiceCooldownUntil = 0;
+        }
       }
 
       function scheduleMusicStep(step, startAt) {
@@ -4217,6 +4921,7 @@
       function toggleBackgroundMusic() {
         musicEnabled = !musicEnabled;
         safeSetRaw(storageKeys.music, musicEnabled ? "on" : "off");
+        if (!musicEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
         if (shouldMusicPlay()) startBackgroundMusic();
         else stopBackgroundMusic();
         updateMusicButton();
@@ -4549,6 +5254,7 @@
       }
 
       function miniGameTitle(mode) {
+        if (mode === "socken") return "SockenDerricks Paarprüfung";
         if (isKlerRole()) {
           if (mode === "burger") return "Aktenanalyse";
           if (mode === "wach") return "Zivilfahndung";
@@ -4629,6 +5335,20 @@
         safeSave(storageKeys.miniBests, miniBests);
       }
 
+      function shuffledSockCards() {
+        const cards = sockPatterns.flatMap((pattern) => ([
+          { pair: pattern.id, pattern, revealed: false, matched: false },
+          { pair: pattern.id, pattern, revealed: false, matched: false }
+        ]));
+        for (let index = cards.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          const current = cards[index];
+          cards[index] = cards[swapIndex];
+          cards[swapIndex] = current;
+        }
+        return cards;
+      }
+
       function resetMiniStage() {
         miniStage.className = `mini-stage ${miniGameMode}${isKlerRole() ? " kler" : ""}`;
         miniPlayerX = 160;
@@ -4647,9 +5367,16 @@
         miniBarrierOpen = 0;
         miniGateFlash = "";
         miniEffectTimer = 0;
+        miniSockCards = miniGameMode === "socken" ? shuffledSockCards() : [];
+        miniSockSelected = [];
+        miniSockResolveTimer = 0;
+        miniSockTime = 42;
+        miniSockMatched = 0;
+        miniSockInputLocked = false;
+        miniFinishedWon = false;
         miniMessage.textContent = miniGameMode === "wach"
           ? (isKlerRole() ? "Zivilfahndung bereit" : "Fahrzeugeinlasskontrolle Enkenbach")
-          : "Bereit";
+          : (miniGameMode === "socken" ? "Sechs Paare warten" : "Bereit");
       }
 
       function stopMiniGame() {
@@ -4660,6 +5387,12 @@
       }
 
       function showMiniBriefing() {
+        if (miniGameMode === "socken") {
+          miniBriefingTitle.textContent = "SockenDerricks Paarprüfung";
+          miniBriefingText.textContent = "Tippe zwei Karten an und finde sechs gleiche Sockenpaare. Ein falsches Paar kostet ein Leben. Löse alle Paare, bevor die Zeit abläuft.";
+          miniBriefing.classList.remove("is-hidden");
+          return;
+        }
         if (isKlerRole()) {
           if (miniGameMode === "bollo") {
             miniBriefingTitle.textContent = "Durchsuchung";
@@ -4692,7 +5425,7 @@
         miniGameMode = mode;
         miniScore = 0;
         resetMiniStage();
-        miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach");
+        miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach" || miniGameMode === "socken");
         miniGateControls.classList.toggle("is-hidden", miniGameMode !== "wach");
         miniStartBtn.textContent = "START";
         miniLives = 3;
@@ -4741,9 +5474,10 @@
         setStatus(isKlerRole() ? "Kripo Mini Games geöffnet." : "Mini Games geöffnet.");
       }
 
-      function finishMiniGame(message) {
+      function finishMiniGame(message, won = false) {
         if (!miniRunning) return;
         miniRunning = false;
+        miniFinishedWon = won;
         miniMoveDirection = 0;
         stopBackgroundMusic();
         saveMiniBest();
@@ -4781,6 +5515,9 @@
             : "Angaben + gelbe Tagesregel prüfen";
           spawnGateCard();
         }
+        if (miniGameMode === "socken") {
+          miniMessage.textContent = `Zeit ${Math.ceil(miniSockTime)} · Paare 0/6`;
+        }
         startBackgroundMusic();
         drawMiniGame();
       }
@@ -4788,9 +5525,73 @@
       function loseMiniLife(message) {
         miniLives = Math.max(0, miniLives - 1);
         miniEffectTimer = 0.7;
+        playSoundEffect("error");
         miniMessage.textContent = message;
         updateMiniHud();
         if (miniLives <= 0) finishMiniGame("Verloren! Du wirst zur WaPo abgeordnet");
+      }
+
+      function sockCardRect(index) {
+        const column = index % 3;
+        const row = Math.floor(index / 3);
+        return { x: 20 + column * 96, y: 36 + row * 52, width: 84, height: 44 };
+      }
+
+      function selectSockCard(clientX, clientY) {
+        if (!miniRunning || miniGameMode !== "socken" || miniSockInputLocked) return;
+        const rect = miniCanvas.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return;
+        const x = (clientX - rect.left) / rect.width * 320;
+        const y = (clientY - rect.top) / rect.height * 260;
+        const index = miniSockCards.findIndex((card, cardIndex) => {
+          const bounds = sockCardRect(cardIndex);
+          return !card.matched && !card.revealed && x >= bounds.x && x <= bounds.x + bounds.width &&
+            y >= bounds.y && y <= bounds.y + bounds.height;
+        });
+        if (index < 0) return;
+        miniSockCards[index].revealed = true;
+        miniSockSelected.push(index);
+        playSoundEffect("choice");
+        if (miniSockSelected.length === 2) {
+          miniSockInputLocked = true;
+          miniSockResolveTimer = 0.58;
+        }
+        drawMiniGame();
+      }
+
+      function updateSockMiniGame(dt) {
+        miniSockTime = Math.max(0, miniSockTime - dt);
+        if (miniSockTime <= 0) {
+          finishMiniGame("Zeit vorbei! Du wirst zur WaPo abgeordnet");
+          return;
+        }
+        if (miniSockResolveTimer > 0) {
+          miniSockResolveTimer -= dt;
+          if (miniSockResolveTimer <= 0 && miniSockSelected.length === 2) {
+            const first = miniSockCards[miniSockSelected[0]];
+            const second = miniSockCards[miniSockSelected[1]];
+            if (first.pair === second.pair) {
+              first.matched = true;
+              second.matched = true;
+              miniSockMatched += 1;
+              miniScore += 5 + Math.ceil(miniSockTime / 14);
+              playSoundEffect("point");
+              if (miniSockMatched >= sockPatterns.length) {
+                miniScore += Math.ceil(miniSockTime);
+                finishMiniGame("Alle Socken im Dienst! Paarprüfung bestanden", true);
+                return;
+              }
+            } else {
+              first.revealed = false;
+              second.revealed = false;
+              loseMiniLife("Falsches Sockenpaar");
+              if (!miniRunning) return;
+            }
+            miniSockSelected = [];
+            miniSockInputLocked = false;
+          }
+        }
+        miniMessage.textContent = `Zeit ${Math.ceil(miniSockTime)} · Paare ${miniSockMatched}/${sockPatterns.length}`;
       }
 
       function spawnFallingItem() {
@@ -4972,6 +5773,7 @@
           } else {
             miniRecipeStep += 1;
             miniScore += 2;
+            playSoundEffect("point");
             if (miniRecipeStep >= miniRecipe.length) {
               miniScore += 8;
               createMiniRecipe();
@@ -5076,7 +5878,8 @@
       function updateMiniGame(dt) {
         if (!miniRunning) return;
         miniEffectTimer = Math.max(0, miniEffectTimer - dt);
-        if (miniGameMode === "wach") updateGateMiniGame(dt);
+        if (miniGameMode === "socken") updateSockMiniGame(dt);
+        else if (miniGameMode === "wach") updateGateMiniGame(dt);
         else updateFallingMiniGame(dt);
         const levelStep = miniGameMode === "burger" ? 12 : 10;
         miniLevel = 1 + Math.floor(miniScore / levelStep);
@@ -5092,6 +5895,7 @@
         miniGateDelay = 0.82;
         if (correct) {
           addCareerProgress("gate", 1);
+          playSoundEffect("point");
           miniGateStreak += 1;
           const streakBonus = Math.min(4, Math.floor(miniGateStreak / 3));
           const points = 3 + streakBonus + (quickDecision ? 1 : 0);
@@ -5122,7 +5926,7 @@
       }
 
       function moveMiniPlayer(direction) {
-        if (!miniRunning || miniGameMode === "wach") return;
+        if (!miniRunning || miniGameMode === "wach" || miniGameMode === "socken") return;
         miniPlayerX = Math.max(36, Math.min(284, miniPlayerX + direction * 34));
       }
 
@@ -5812,11 +6616,85 @@
         if (miniGateCard) drawGateVehicle(miniGateCard);
       }
 
+      function drawSockIcon(x, y, pattern) {
+        miniCtx.save();
+        miniCtx.translate(x, y);
+        miniCtx.fillStyle = "rgba(24, 32, 51, 0.3)";
+        roundRect(miniCtx, -11, -14, 22, 29, 5);
+        miniCtx.fill();
+        miniCtx.beginPath();
+        miniCtx.moveTo(-8, -15);
+        miniCtx.lineTo(7, -15);
+        miniCtx.lineTo(7, 2);
+        miniCtx.quadraticCurveTo(10, 6, 17, 7);
+        miniCtx.quadraticCurveTo(21, 8, 19, 13);
+        miniCtx.quadraticCurveTo(16, 18, 7, 17);
+        miniCtx.lineTo(-1, 14);
+        miniCtx.quadraticCurveTo(-8, 11, -8, 4);
+        miniCtx.closePath();
+        miniCtx.fillStyle = pattern.base;
+        miniCtx.fill();
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 2;
+        miniCtx.stroke();
+        miniCtx.fillStyle = pattern.accent;
+        miniCtx.fillRect(-8, -15, 15, 6);
+        miniCtx.beginPath();
+        miniCtx.arc(12, 10, 5, 0, Math.PI * 2);
+        miniCtx.fill();
+        miniCtx.fillStyle = pattern.accent;
+        miniCtx.font = "900 8px Inter, sans-serif";
+        miniCtx.textAlign = "center";
+        miniCtx.textBaseline = "middle";
+        miniCtx.fillText(pattern.mark, 0, 2);
+        miniCtx.restore();
+      }
+
+      function drawSockGame() {
+        miniCtx.fillStyle = "#182033";
+        miniCtx.fillRect(0, 0, 320, 260);
+        miniCtx.fillStyle = "rgba(47, 122, 255, 0.22)";
+        for (let x = -240; x < 380; x += 48) {
+          miniCtx.save();
+          miniCtx.translate(x, 0);
+          miniCtx.rotate(-0.24);
+          miniCtx.fillRect(0, 0, 12, 320);
+          miniCtx.restore();
+        }
+        miniSockCards.forEach((card, index) => {
+          const bounds = sockCardRect(index);
+          miniCtx.save();
+          miniCtx.shadowColor = card.matched ? "rgba(255, 216, 92, 0.85)" : "rgba(0, 0, 0, 0.45)";
+          miniCtx.shadowBlur = card.matched ? 14 : 4;
+          miniCtx.shadowOffsetY = card.matched ? 0 : 4;
+          miniCtx.fillStyle = card.matched
+            ? "#ffd85c"
+            : (card.revealed ? "#f7fafc" : (index % 2 ? "#15479a" : "#d22630"));
+          miniCtx.strokeStyle = "#ffffff";
+          miniCtx.lineWidth = 3;
+          roundRect(miniCtx, bounds.x, bounds.y, bounds.width, bounds.height, 7);
+          miniCtx.fill();
+          miniCtx.stroke();
+          miniCtx.restore();
+          if (card.revealed || card.matched) {
+            drawSockIcon(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2, card.pattern);
+          } else {
+            miniCtx.fillStyle = "#ffffff";
+            miniCtx.font = "900 17px Inter, sans-serif";
+            miniCtx.textAlign = "center";
+            miniCtx.textBaseline = "middle";
+            miniCtx.fillText("SD", bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+          }
+        });
+      }
+
       function drawMiniGame() {
         miniCtx.setTransform(1, 0, 0, 1, 0, 0);
         miniCtx.clearRect(0, 0, 320, 260);
         drawMiniBackground();
-        if (miniGameMode === "wach") {
+        if (miniGameMode === "socken") {
+          drawSockGame();
+        } else if (miniGameMode === "wach") {
           drawGateGame();
         } else {
           miniItems.forEach(drawFallingItem);
@@ -5832,7 +6710,12 @@
           miniCtx.fillStyle = "#ffffff";
           miniCtx.textAlign = "center";
           miniCtx.textBaseline = "middle";
-          if (miniStartBtn.textContent === "Nochmal") {
+          if (miniStartBtn.textContent === "Nochmal" && miniFinishedWon) {
+            miniCtx.font = "900 21px Inter, sans-serif";
+            miniCtx.fillText("PAARE KOMPLETT!", 160, 126);
+            miniCtx.font = "900 13px Inter, sans-serif";
+            miniCtx.fillText("SockenDerrick ist zufrieden", 160, 157);
+          } else if (miniStartBtn.textContent === "Nochmal") {
             miniCtx.font = "900 25px Inter, sans-serif";
             miniCtx.fillText("VERLOREN!", 160, 126);
             miniCtx.font = "900 13px Inter, sans-serif";
@@ -5998,6 +6881,8 @@
         });
         const careerSource = kler ? klerCharacterSource : mainCharacterSource;
         if (careerCharacter.getAttribute("src") !== careerSource) careerCharacter.src = careerSource;
+        if (storyCharacter.getAttribute("src") !== careerSource) storyCharacter.src = careerSource;
+        if (partyCharacter.getAttribute("src") !== careerSource) partyCharacter.src = careerSource;
 
         const mainAvatar = avatars.find((avatar) => avatar.type === "main");
         if (!mainAvatar) return;
@@ -6057,6 +6942,12 @@
         invulnerableTimer = 0;
         characterReaction = "";
         characterReactionTimer = 0;
+        bossMode = "";
+        bossRoundTimer = 0;
+        nextBossScore = 15;
+        bossRoundIndex = 0;
+        lastLossReason = "Absperrung gerammt";
+        bossBanner.classList.remove("is-active");
         elapsed = 0;
         spawnTimer = 0;
         groundOffset = 0;
@@ -6084,14 +6975,240 @@
         }, 2600);
       }
 
+      function renderStoryProgress() {
+        storyProgress.innerHTML = "";
+        storyScenes.forEach((scene, index) => {
+          const step = document.createElement("span");
+          if (index < storyStep) step.classList.add("is-done");
+          if (index === storyStep && storyRunning) step.classList.add("is-current");
+          storyProgress.appendChild(step);
+        });
+      }
+
+      function renderStoryMeters() {
+        storyOrderMeter.textContent = `Dienstweg ${storyOrder}`;
+        storyChaosMeter.textContent = `Gassenfaktor ${storyChaos}`;
+      }
+
+      function showStoryLanding() {
+        storyStep = -1;
+        storyOrder = 0;
+        storyChaos = 0;
+        storyRunning = false;
+        const endings = safeParse(storageKeys.storyEndings, []);
+        storyKicker.textContent = "Schichtbeginn";
+        storyTitle.textContent = "Bereit für die Gasse?";
+        storyText.textContent = `Vier Lagen, deine Entscheidungen und drei mögliche Enden. Freigeschaltet: ${Array.isArray(endings) ? endings.length : 0}/3.`;
+        storyChoices.classList.add("is-hidden");
+        storyChoices.innerHTML = "";
+        storyStartBtn.classList.remove("is-hidden");
+        storyStartBtn.textContent = "Schicht starten";
+        renderStoryMeters();
+        renderStoryProgress();
+      }
+
+      function renderStoryScene() {
+        const scene = storyScenes[storyStep];
+        if (!scene) return;
+        storyKicker.textContent = scene.kicker;
+        storyTitle.textContent = scene.title;
+        storyText.textContent = scene.text;
+        storyChoices.innerHTML = "";
+        scene.choices.forEach((choice, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "story-choice";
+          button.textContent = choice.label;
+          button.addEventListener("click", () => chooseStoryOption(index));
+          storyChoices.appendChild(button);
+        });
+        storyChoices.classList.remove("is-hidden");
+        storyStartBtn.classList.add("is-hidden");
+        renderStoryMeters();
+        renderStoryProgress();
+      }
+
+      function startStory() {
+        storyStep = 0;
+        storyOrder = 0;
+        storyChaos = 0;
+        storyRunning = true;
+        playSoundEffect("boss");
+        speakVoiceLine("Schichtbeginn. Immer da!");
+        renderStoryScene();
+      }
+
+      function chooseStoryOption(index) {
+        if (!storyRunning) return;
+        const scene = storyScenes[storyStep];
+        const choice = scene && scene.choices[index];
+        if (!choice) return;
+        storyOrder += choice.order;
+        storyChaos += choice.chaos;
+        career.xp += 3;
+        refreshCareerRewards();
+        playSoundEffect("choice");
+        speakVoiceLine(choice.line);
+        storyStep += 1;
+        if (storyStep >= storyScenes.length) finishStory();
+        else renderStoryScene();
+      }
+
+      function finishStory() {
+        storyRunning = false;
+        let ending;
+        if (storyChaos >= 7) {
+          ending = { id: "gassenkoenig", title: "König der Gasse", text: "Die Schicht endet spektakulär. Der Funk schweigt, der Weizenbaron nicht." };
+        } else if (storyOrder >= 6) {
+          ending = { id: "aktenrein", title: "Aktenreine Schicht", text: "Jede Lage gelöst, jeder Code geprüft. SG8 verleiht dir den goldenen Dienstweg." };
+        } else {
+          ending = { id: "colabier", title: "Colabier-Diplomatie", text: "Zwischen Dienstweg und Gasse hast du den sagenumwobenen Mittelweg gefunden." };
+        }
+        const saved = safeParse(storageKeys.storyEndings, []);
+        const endings = Array.isArray(saved) ? saved : [];
+        if (!endings.includes(ending.id)) {
+          endings.push(ending.id);
+          safeSave(storageKeys.storyEndings, endings);
+          career.xp += 30;
+          refreshCareerRewards();
+        }
+        storyKicker.textContent = "Schichtende";
+        storyTitle.textContent = ending.title;
+        storyText.textContent = `${ending.text} Dienstweg ${storyOrder}, Gassenfaktor ${storyChaos}.`;
+        storyChoices.classList.add("is-hidden");
+        storyStartBtn.classList.remove("is-hidden");
+        storyStartBtn.textContent = "Noch eine Schicht";
+        renderStoryMeters();
+        renderStoryProgress();
+        playSoundEffect("win");
+        speakVoiceLine(ending.title);
+      }
+
+      function openStory() {
+        showStoryLanding();
+        showScreen("story");
+        setStatus("Story-Modus geöffnet.");
+      }
+
+      function renderPartyNameInputs() {
+        partyNameList.innerHTML = "";
+        partyDraftNames.forEach((value, index) => {
+          const row = document.createElement("label");
+          row.className = "party-name-row";
+          const number = document.createElement("span");
+          number.textContent = String(index + 1);
+          const input = document.createElement("input");
+          input.type = "text";
+          input.maxLength = 18;
+          input.placeholder = `Spieler ${index + 1}`;
+          input.value = value;
+          input.addEventListener("input", () => {
+            partyDraftNames[index] = sanitizePlayerName(input.value);
+          });
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "icon-btn";
+          remove.setAttribute("aria-label", `Spieler ${index + 1} entfernen`);
+          remove.textContent = "×";
+          remove.disabled = partyDraftNames.length <= 2;
+          remove.addEventListener("click", () => {
+            partyDraftNames.splice(index, 1);
+            renderPartyNameInputs();
+          });
+          row.append(number, input, remove);
+          partyNameList.appendChild(row);
+        });
+        partyAddBtn.disabled = partyDraftNames.length >= 6;
+      }
+
+      function preparePartySetup() {
+        partyMode = false;
+        partyPlayers = [];
+        partyIndex = 0;
+        partySetupPanel.classList.remove("is-hidden");
+        partyResultsPanel.classList.add("is-hidden");
+        partyMessage.textContent = "";
+        if (!partyDraftNames.some(Boolean)) {
+          partyDraftNames[0] = sanitizePlayerName(menuPlayerNameInput.value);
+        }
+        renderPartyNameInputs();
+      }
+
+      function openParty() {
+        preparePartySetup();
+        showScreen("party");
+        setStatus("Party-Modus geöffnet.");
+      }
+
+      function addPartyPlayer() {
+        if (partyDraftNames.length >= 6) return;
+        partyDraftNames.push("");
+        renderPartyNameInputs();
+      }
+
+      function startPartySession() {
+        const names = partyDraftNames.map(sanitizePlayerName).filter(Boolean);
+        if (names.length < 2) {
+          partyMessage.textContent = "Bitte mindestens zwei Namen eingeben.";
+          return;
+        }
+        partyPlayers = names.map((name) => ({ name, score: null, avatar: "", area: "" }));
+        partyMode = true;
+        partyIndex = 0;
+        menuPlayerNameInput.value = partyPlayers[0].name;
+        playSoundEffect("boss");
+        speakVoiceLine(`${partyPlayers[0].name} beginnt`);
+        enterCharacterSelect();
+      }
+
+      function finishPartyTurn() {
+        if (!partyMode) return;
+        if (partyIndex < partyPlayers.length - 1) {
+          partyIndex += 1;
+          const nextPlayer = partyPlayers[partyIndex];
+          menuPlayerNameInput.value = nextPlayer.name;
+          speakVoiceLine(`${nextPlayer.name} ist dran`);
+          enterCharacterSelect();
+          return;
+        }
+        showPartyResults();
+      }
+
+      function showPartyResults() {
+        const results = partyPlayers.slice().sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+        partyMode = false;
+        partySetupPanel.classList.add("is-hidden");
+        partyResultsPanel.classList.remove("is-hidden");
+        partyResultsList.innerHTML = "";
+        partyWinnerTitle.textContent = `${results[0].name} gewinnt!`;
+        results.forEach((result, index) => {
+          const row = document.createElement("div");
+          row.className = `party-result-row${index === 0 ? " is-winner" : ""}`;
+          const rank = document.createElement("span");
+          const name = document.createElement("span");
+          const points = document.createElement("strong");
+          rank.textContent = `${index + 1}.`;
+          name.textContent = `${result.name} · ${result.avatar || "SG8"}`;
+          points.textContent = String(result.score || 0);
+          row.append(rank, name, points);
+          partyResultsList.appendChild(row);
+        });
+        showScreen("party");
+        playSoundEffect("win");
+        speakVoiceLine(`${results[0].name} gewinnt die SG8 Party`);
+      }
+
       function showScreen(screen) {
         if (screen !== "minigames") stopMiniGame();
         if (screen !== "play" && screen !== "minigames") stopBackgroundMusic();
         if (screen === "menu") startMenuSpeechCycle();
         else stopMenuSpeechCycle();
         startScreen.classList.toggle("is-hidden", screen !== "start");
+        poweredScreen.classList.toggle("is-hidden", screen !== "powered");
         roleScreen.classList.toggle("is-hidden", screen !== "role");
         menuScreen.classList.toggle("is-hidden", screen !== "menu");
+        storyScreen.classList.toggle("is-hidden", screen !== "story");
+        partyScreen.classList.toggle("is-hidden", screen !== "party");
         careerScreen.classList.toggle("is-hidden", screen !== "career");
         highscoreScreen.classList.toggle("is-hidden", screen !== "highscores");
         miniGamesScreen.classList.toggle("is-hidden", screen !== "minigames");
@@ -6104,14 +7221,16 @@
       }
 
       function animateScreenCharacter(screen) {
-        [menuCharacter, miniGamesCharacter, highscoreCharacter, careerCharacter].forEach((element) => {
+        [menuCharacter, miniGamesCharacter, highscoreCharacter, careerCharacter, storyCharacter, partyCharacter].forEach((element) => {
           element.classList.remove("pose-run", "pose-salute", "pose-cheer", "pose-point");
         });
         const poses = {
           menu: [menuCharacter, "pose-salute"],
           minigames: [miniGamesCharacter, "pose-run"],
           highscores: [highscoreCharacter, "pose-cheer"],
-          career: [careerCharacter, "pose-point"]
+          career: [careerCharacter, "pose-point"],
+          story: [storyCharacter, "pose-point"],
+          party: [partyCharacter, "pose-cheer"]
         };
         const pose = poses[screen];
         if (!pose) return;
@@ -6132,7 +7251,38 @@
         }, introDuration);
       }
 
+      function stopPoweredSequence() {
+        clearTimeout(poweredTimer);
+        clearInterval(poweredFactTimer);
+        poweredTimer = 0;
+        poweredFactTimer = 0;
+      }
+
+      function showNextPoweredFact() {
+        poweredInfo.classList.remove("is-changing");
+        void poweredInfo.offsetWidth;
+        poweredInfo.textContent = insiderFacts[poweredFactIndex % insiderFacts.length];
+        poweredInfo.classList.add("is-changing");
+        poweredFactIndex += 1;
+        playSoundEffect("choice");
+      }
+
+      function startPoweredSequence() {
+        stopPoweredSequence();
+        homeReady = false;
+        poweredFactIndex = Math.floor(Math.random() * insiderFacts.length);
+        showScreen("powered");
+        showNextPoweredFact();
+        poweredFactTimer = setInterval(showNextPoweredFact, 560);
+        poweredTimer = setTimeout(() => {
+          stopPoweredSequence();
+          showRoleSelect();
+        }, poweredDuration);
+        setStatus("Powered by SockenDerrick.");
+      }
+
       function showStart() {
+        stopPoweredSequence();
         stopBackgroundMusic();
         activeRole = null;
         applyRoleUi();
@@ -6148,6 +7298,8 @@
 
       function showMenu() {
         stopBackgroundMusic();
+        partyMode = false;
+        storyRunning = false;
         applyRoleUi();
         selectionStep = "character";
         selectedAvatarId = null;
@@ -6160,6 +7312,7 @@
       }
 
       function showRoleSelect() {
+        stopPoweredSequence();
         showScreen("role");
         setStatus("Rolle auswählen.");
       }
@@ -6228,7 +7381,12 @@
           draw();
         });
         startBackgroundMusic();
-        setStatus(`${isKlerRole() ? "Ermittlung" : "Spiel"} gestartet: ${currentMap().name}.`);
+        if (partyMode) {
+          setStatus(`Party-Runde ${partyIndex + 1}/${partyPlayers.length}: ${activePlayerName}.`);
+          speakVoiceLine(`${activePlayerName}, deine Runde beginnt`);
+        } else {
+          setStatus(`${isKlerRole() ? "Ermittlung" : "Spiel"} gestartet: ${currentMap().name}.`);
+        }
       }
 
       function runPrimaryAction() {
@@ -6236,7 +7394,8 @@
           if (selectionStep === "character") advanceSelectionStep();
           else startGame();
         } else if (state === "gameover") {
-          startGame();
+          if (partyMode) finishPartyTurn();
+          else startGame();
         } else if (state === "paused") {
           togglePause();
         } else if (state === "playing") {
@@ -6244,10 +7403,22 @@
         }
       }
 
-      function gameOver() {
+      function gameOver(reason = "Absperrung gerammt") {
         state = "gameover";
+        lastLossReason = reason;
+        bossMode = "";
+        bossRoundTimer = 0;
+        bossBanner.classList.remove("is-active");
         stopBackgroundMusic();
+        playSoundEffect("error");
+        speakVoiceLine("Verloren! Du wirst zur WaPo abgeordnet");
         recordHighscore();
+        if (partyMode && partyPlayers[partyIndex]) {
+          partyPlayers[partyIndex].score = score;
+          partyPlayers[partyIndex].avatar = currentAvatar().name;
+          partyPlayers[partyIndex].area = currentMap().name;
+        }
+        renderWantedPoster(reason);
         setStatus(`Game over. Score ${score}.`);
         updateOverlay();
       }
@@ -6270,12 +7441,29 @@
 
       function flap() {
         if (state === "gameover") {
-          startGame();
+          runPrimaryAction();
           return;
         }
         if (state !== "playing") return;
         bird.vy = settings.flap;
         setCharacterReaction("flap", 0.2);
+        playSoundEffect("flap");
+      }
+
+      function renderWantedPoster(reason) {
+        const avatar = currentAvatar();
+        wantedPortrait.innerHTML = "";
+        if (avatar.url) {
+          const image = document.createElement("img");
+          image.src = avatar.url;
+          image.alt = "";
+          wantedPortrait.appendChild(image);
+        } else {
+          wantedPortrait.textContent = avatar.initials || "SG8";
+        }
+        wantedName.textContent = avatar.name;
+        wantedDetails.textContent = `${activePlayerName} · Score ${score} · ${currentMap().name}`;
+        wantedReason.textContent = `Grund: ${reason}`;
       }
 
       function updateOverlay() {
@@ -6313,9 +7501,13 @@
           overlayScore.textContent = `Score ${score}`;
           overlayBtn.textContent = "Weiter";
         } else if (state === "gameover") {
-          overlayTitle.textContent = "Du hast verloren.";
-          overlayScore.textContent = "Du wirst in SG9 exekutiert";
-          overlayBtn.textContent = "Nochmal spielen";
+          overlayTitle.textContent = partyMode ? `${partyPlayers[partyIndex].name}: Runde beendet` : "Du hast verloren.";
+          overlayScore.textContent = partyMode
+            ? `Score ${score}`
+            : "Du wirst in SG9 exekutiert";
+          overlayBtn.textContent = partyMode
+            ? (partyIndex < partyPlayers.length - 1 ? "Nächster Spieler" : "Siegerehrung")
+            : "Nochmal spielen";
         }
         const waitingForSelection = state === "selecting" && (selectionStep === "character" ? !hasSelected : !hasSelectedMap);
         overlayBtn.disabled = waitingForSelection;
@@ -6341,7 +7533,8 @@
       function spawnPipe() {
         const map = currentMap();
         const playableBottom = world.height - world.ground - 96;
-        const gapSize = Math.max(settings.minGap, settings.gap + map.gapBonus - Math.min(score, 18) * 1.5);
+        const bossGapPenalty = bossMode === "jam" ? 22 : (bossMode === "pursuit" ? 8 : 0);
+        const gapSize = Math.max(settings.minGap - (bossMode === "jam" ? 8 : 0), settings.gap + map.gapBonus - Math.min(score, 18) * 1.5 - bossGapPenalty);
         const center = randomBetween(142, playableBottom);
         const pipeX = world.width + 22;
         pipes.push({
@@ -6363,6 +7556,36 @@
         }
       }
 
+      function startBossRound() {
+        const boss = bossRounds[bossRoundIndex % bossRounds.length];
+        bossRoundIndex += 1;
+        nextBossScore += 15;
+        bossMode = boss.id;
+        bossRoundTimer = 10;
+        bossTitle.textContent = boss.title;
+        bossTimer.textContent = "10 Sekunden durchhalten";
+        bossBanner.classList.add("is-active");
+        setCharacterReaction("score", 1.3);
+        playSoundEffect("boss");
+        speakVoiceLine(boss.line);
+      }
+
+      function updateBossRound(dt) {
+        if (!bossMode && score >= nextBossScore) startBossRound();
+        if (!bossMode) return;
+        bossRoundTimer = Math.max(0, bossRoundTimer - dt);
+        bossTimer.textContent = `${Math.ceil(bossRoundTimer)} Sekunden durchhalten`;
+        if (bossRoundTimer > 0) return;
+        bossMode = "";
+        bossBanner.classList.remove("is-active");
+        career.xp += 15;
+        refreshCareerRewards();
+        updateScore(score + 3);
+        addCareerProgress("flappy", 3);
+        playSoundEffect("win");
+        speakVoiceLine("Bosslage geschafft");
+      }
+
       function randomBetween(min, max) {
         return min + Math.random() * (max - min);
       }
@@ -6381,6 +7604,7 @@
 
         if (state !== "playing") return;
 
+        updateBossRound(dt);
         powerUpTimer = Math.max(0, powerUpTimer - dt);
         invulnerableTimer = Math.max(0, invulnerableTimer - dt);
         characterReactionTimer = Math.max(0, characterReactionTimer - dt);
@@ -6388,14 +7612,17 @@
         if (characterReactionTimer <= 0) characterReaction = "";
         updatePowerupHud();
 
-        const speed = (settings.baseSpeed + Math.min(score, 24) * 3.1) * map.speedMultiplier * slowMultiplier;
+        const bossSpeed = bossMode === "pursuit" ? 1.32 : (bossMode === "jam" ? 1.12 : 1);
+        const speed = (settings.baseSpeed + Math.min(score, 24) * 3.1) * map.speedMultiplier * slowMultiplier * bossSpeed;
         bird.vy += settings.gravity * map.gravityMultiplier * dt;
         if (map.gust) bird.vy += Math.sin(elapsed * 2.15 + score * 0.6) * map.gust * dt;
+        if (bossMode === "storm") bird.vy += Math.sin(elapsed * 4.4) * 235 * dt;
         bird.y += bird.vy * dt;
         bird.rotation = Math.max(-0.42, Math.min(0.86, bird.vy / 560));
 
         spawnTimer += dt;
-        if (spawnTimer > settings.spawnEvery) {
+        const spawnEvery = bossMode === "jam" ? 0.82 : (bossMode === "pursuit" ? 1.04 : settings.spawnEvery);
+        if (spawnTimer > spawnEvery) {
           spawnTimer = 0;
           spawnPipe();
         }
@@ -6407,6 +7634,7 @@
             const earned = activePowerUp === "double" && powerUpTimer > 0 ? 2 : 1;
             updateScore(score + earned);
             addCareerProgress("flappy", earned);
+            playSoundEffect("point");
             if (score > 0 && score % 10 === 0) setCharacterReaction("score", 1.3);
           }
         });
@@ -6429,13 +7657,13 @@
             bird.vy *= -0.32;
             return;
           }
-          gameOver();
+          gameOver(bird.y < world.height / 2 ? "Vom Betze-Wind abgehoben" : "Auf der Gasse gelandet");
           return;
         }
 
         if (invulnerableTimer <= 0 && pipes.some((pipe) => hitPipe(pipe))) {
           if (consumeShield()) return;
-          gameOver();
+          gameOver(bossMode ? "In der Bosslage die Absperrung erwischt" : "Absperrung gerammt");
         }
       }
 
@@ -6452,6 +7680,8 @@
           powerUpTimer = 8;
         }
         setCharacterReaction("power", 1.2);
+        playSoundEffect("power");
+        speakVoiceLine(Math.random() < 0.5 ? "Sangria-Zeit!" : "Bacardi Cola!");
         updatePowerupHud();
       }
 
@@ -6460,6 +7690,7 @@
         shieldCharges -= 1;
         invulnerableTimer = 1.25;
         setCharacterReaction("shield", 1.15);
+        playSoundEffect("shield");
         updatePowerupHud();
         return true;
       }
@@ -6523,11 +7754,54 @@
         ctx.setTransform(sx, 0, 0, sy, 0, 0);
         ctx.clearRect(0, 0, world.width, world.height);
         drawSky();
+        drawBossEffect();
         drawPipes();
         drawPowerUps();
         drawGround();
         drawBird();
         drawHudScore();
+      }
+
+      function drawBossEffect() {
+        if (!bossMode || state !== "playing") return;
+        ctx.save();
+        if (bossMode === "storm") {
+          ctx.fillStyle = `rgba(18, 26, 42, ${0.12 + Math.max(0, Math.sin(elapsed * 9)) * 0.12})`;
+          ctx.fillRect(0, 0, world.width, world.height - world.ground);
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.68)";
+          ctx.lineWidth = 3;
+          for (let i = 0; i < 12; i += 1) {
+            const x = (i * 41 - elapsed * 170) % 440;
+            const y = 74 + (i % 8) * 55;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 38, y - 9);
+            ctx.stroke();
+          }
+        } else if (bossMode === "pursuit") {
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.lineWidth = 4;
+          for (let i = 0; i < 9; i += 1) {
+            const y = 105 + i * 49;
+            const x = world.width - ((elapsed * 240 + i * 67) % 470);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 52, y);
+            ctx.stroke();
+          }
+        } else {
+          ctx.fillStyle = "rgba(255, 216, 92, 0.18)";
+          for (let x = -40 - ((elapsed * 70) % 40); x < world.width + 40; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 92);
+            ctx.lineTo(x + 20, 72);
+            ctx.lineTo(x + 40, 92);
+            ctx.lineTo(x + 20, 112);
+            ctx.closePath();
+            ctx.fill();
+          }
+        }
+        ctx.restore();
       }
 
       function drawSky() {
@@ -7602,7 +8876,7 @@
       function bindMiniHold(button, direction) {
         const startMoving = (event) => {
           if (event.cancelable) event.preventDefault();
-          if (miniRunning && miniGameMode !== "wach") {
+          if (miniRunning && miniGameMode !== "wach" && miniGameMode !== "socken") {
             miniMoveDirection = direction;
             moveMiniPlayer(direction);
           }
@@ -7626,7 +8900,7 @@
       }
 
       function placeMiniPlayer(event) {
-        if (!miniRunning || miniGameMode === "wach") return;
+        if (!miniRunning || miniGameMode === "wach" || miniGameMode === "socken") return;
         const rect = miniCanvas.getBoundingClientRect();
         const clientX = event.clientX || (event.touches && event.touches[0] && event.touches[0].clientX);
         if (!clientX || rect.width <= 0) return;
@@ -7646,7 +8920,7 @@
       installMobileTapFallback();
 
       homeStartBtn.addEventListener("click", () => {
-        if (homeReady) showRoleSelect();
+        if (homeReady) startPoweredSequence();
       });
       roleButtons.forEach((button) => {
         button.addEventListener("click", () => selectRole(button.dataset.gameRole));
@@ -7656,6 +8930,14 @@
         else showStart();
       });
       roleSwitchBtn.addEventListener("click", showRoleSelect);
+      storyOpenBtn.addEventListener("click", openStory);
+      storyBackBtn.addEventListener("click", showMenu);
+      storyStartBtn.addEventListener("click", startStory);
+      partyOpenBtn.addEventListener("click", openParty);
+      partyBackBtn.addEventListener("click", showMenu);
+      partyAddBtn.addEventListener("click", addPartyPlayer);
+      partyStartBtn.addEventListener("click", startPartySession);
+      partyRestartBtn.addEventListener("click", preparePartySetup);
       highscoreOpenBtn.addEventListener("click", openHighscores);
       highscoreBackBtn.addEventListener("click", showMenu);
       careerOpenBtn.addEventListener("click", openCareer);
@@ -7688,19 +8970,25 @@
       bindTouchButton(miniRejectBtn, () => decideGate(false));
       miniCanvas.addEventListener("pointerdown", (event) => {
         event.preventDefault();
-        placeMiniPlayer(event);
+        if (miniGameMode === "socken") selectSockCard(event.clientX, event.clientY);
+        else placeMiniPlayer(event);
       });
       miniCanvas.addEventListener("pointermove", (event) => {
-        if (event.buttons === 1 || event.pointerType === "touch") placeMiniPlayer(event);
+        if (miniGameMode !== "socken" && (event.buttons === 1 || event.pointerType === "touch")) placeMiniPlayer(event);
       });
-      miniCanvas.addEventListener("touchstart", (event) => {
-        event.preventDefault();
-        placeMiniPlayer(event);
-      }, false);
-      miniCanvas.addEventListener("touchmove", (event) => {
-        event.preventDefault();
-        placeMiniPlayer(event);
-      }, false);
+      if (!window.PointerEvent) {
+        miniCanvas.addEventListener("touchstart", (event) => {
+          event.preventDefault();
+          const touch = event.touches[0];
+          if (!touch) return;
+          if (miniGameMode === "socken") selectSockCard(touch.clientX, touch.clientY);
+          else placeMiniPlayer(event);
+        }, false);
+        miniCanvas.addEventListener("touchmove", (event) => {
+          event.preventDefault();
+          if (miniGameMode !== "socken") placeMiniPlayer(event);
+        }, false);
+      }
       newGameBtn.addEventListener("click", enterCharacterSelect);
       mapButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -7742,6 +9030,7 @@
         const activeTag = document.activeElement && document.activeElement.tagName;
         if (activeTag === "INPUT") return;
         if (!miniGamesScreen.classList.contains("is-hidden") && !miniArcadePanel.classList.contains("is-hidden")) {
+          if (miniGameMode === "socken") return;
           if (event.code === "ArrowLeft" || event.code === "KeyA") {
             event.preventDefault();
             miniMoveDirection = -1;
@@ -7784,6 +9073,8 @@
       renderAvatarList();
       renderMapOptions();
       renderHighscores();
+      showStoryLanding();
+      renderPartyNameInputs();
       selectMiniGame("bollo");
       showMiniGamePicker();
       resetGame("selecting");
