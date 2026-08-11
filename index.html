@@ -551,8 +551,10 @@
 
     .mini-stage {
       position: relative;
-      flex: 1;
-      min-height: 300px;
+      width: 100%;
+      aspect-ratio: 16 / 13;
+      flex: 0 0 auto;
+      min-height: 0;
       overflow: hidden;
       border-radius: 8px;
       border: 3px solid #182033;
@@ -562,6 +564,14 @@
       box-shadow:
         0 0 0 4px rgba(255, 255, 255, 0.4) inset,
         0 14px 30px rgba(24, 32, 51, 0.2);
+    }
+
+    .mini-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #b8ecff;
+      touch-action: none;
     }
 
     .mini-message {
@@ -579,164 +589,44 @@
       pointer-events: none;
     }
 
-    .mini-target {
-      position: absolute;
-      z-index: 2;
+    .mini-controls {
       display: grid;
-      place-items: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mini-control-btn {
+      min-height: 46px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #15479a, #2f7aff 66%, #ffffff 67%, #d22630 82%);
       border: 3px solid #182033;
-      color: #182033;
-      font-weight: 900;
-      letter-spacing: 0;
       box-shadow:
-        0 0 0 4px rgba(255, 255, 255, 0.42) inset,
-        5px 7px 0 rgba(24, 32, 51, 0.74);
-      touch-action: manipulation;
+        0 0 0 3px rgba(255, 255, 255, 0.35) inset,
+        0 7px 0 rgba(24, 32, 51, 0.72);
+      font-size: 0.9rem;
+      font-weight: 900;
+      touch-action: none;
       user-select: none;
     }
 
-    .mini-stage.bollo .mini-target {
-      width: 84px;
-      height: 84px;
-      left: calc(50% - 42px);
-      top: calc(54% - 42px);
-      border-radius: 50%;
-      color: #a5131c;
-      background:
-        repeating-radial-gradient(ellipse at center, #ffd85c 0 4px, #d22630 5px 7px, #fff7dc 8px 11px);
-      font-size: 0.78rem;
-    }
-
-    .mini-stage.burger {
-      background:
-        linear-gradient(90deg, transparent 48%, rgba(24, 32, 51, 0.1) 49% 51%, transparent 52%),
-        linear-gradient(180deg, #b8ecff 0%, #f7fafc 70%, #dfe8f4 70%);
-    }
-
-    .mini-stage.burger .mini-target {
-      width: 132px;
-      height: 48px;
-      left: calc(50% - 66px);
-      bottom: 18px;
-      border-radius: 8px;
-      color: #ffffff;
-      background: linear-gradient(135deg, #d22630, #ffd85c);
-    }
-
-    .burger-stack {
-      position: absolute;
-      left: 50%;
-      bottom: 82px;
-      width: 150px;
-      min-height: 42px;
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
-      transform: translateX(-50%);
-    }
-
-    .burger-layer {
-      width: 122px;
-      height: 16px;
-      margin-top: -2px;
-      border: 2px solid #182033;
-      border-radius: 8px;
-      background: #ffd85c;
-      box-shadow: 0 3px 0 rgba(24, 32, 51, 0.18);
-    }
-
-    .burger-layer:nth-child(3n + 2) {
-      width: 132px;
-      background: #67dfc8;
-    }
-
-    .burger-layer:nth-child(3n) {
-      width: 126px;
-      background: #a64b2a;
-    }
-
-    .mini-stage.wach {
-      background:
-        repeating-linear-gradient(90deg, rgba(255, 216, 92, 0.44) 0 24px, rgba(24, 32, 51, 0.14) 24px 48px),
-        linear-gradient(180deg, #dfe8f4, #f7fafc);
-    }
-
-    .werkscitz-sign,
-    .werkscitz-barrier {
-      display: none;
-    }
-
-    .mini-stage.wach .werkscitz-sign {
-      position: absolute;
-      z-index: 1;
-      top: 52px;
-      left: calc(50% - 72px);
-      width: 144px;
-      min-height: 36px;
-      display: grid;
-      place-items: center;
-      border: 3px solid #182033;
-      border-radius: 8px;
-      color: #ffffff;
-      background: #15479a;
-      box-shadow: 5px 6px 0 rgba(24, 32, 51, 0.72);
-      font-size: 0.86rem;
-      font-weight: 900;
-    }
-
-    .mini-stage.wach .werkscitz-barrier {
-      position: absolute;
-      z-index: 1;
-      left: 34px;
-      bottom: 42px;
-      width: 210px;
-      height: 18px;
-      display: block;
-      border: 3px solid #182033;
-      border-radius: 5px;
-      background: repeating-linear-gradient(90deg, #f7fafc 0 24px, #d22630 24px 48px);
-      box-shadow: 0 5px 0 rgba(24, 32, 51, 0.24);
-      transform-origin: 9px 50%;
-      transition: transform 180ms ease;
-    }
-
-    .mini-stage.wach .werkscitz-barrier::before {
-      content: "";
-      position: absolute;
-      left: -16px;
-      top: -10px;
-      width: 22px;
-      height: 48px;
-      border: 3px solid #182033;
-      border-radius: 5px;
-      background: #ffd85c;
-    }
-
-    .mini-stage.wach .mini-target {
-      width: 126px;
-      height: 126px;
-      left: calc(50% - 63px);
-      top: calc(54% - 63px);
-      border-radius: 50%;
-      color: #ffffff;
-      background: #586175;
-      font-size: 1rem;
-    }
-
-    .mini-stage.wach.is-ready .mini-target {
-      background: #20a464;
+    .mini-control-btn:active {
+      transform: translateY(4px);
       box-shadow:
-        0 0 0 4px rgba(255, 255, 255, 0.42) inset,
-        0 0 34px rgba(32, 164, 100, 0.72),
-        5px 7px 0 rgba(24, 32, 51, 0.74);
+        0 0 0 3px rgba(255, 255, 255, 0.35) inset,
+        0 3px 0 rgba(24, 32, 51, 0.72);
     }
 
-    .mini-stage.wach.is-ready .werkscitz-barrier {
-      transform: rotate(-64deg);
+    .mini-move-btn {
+      font-size: 1.4rem;
     }
 
-    .mini-stage.wach.is-false-start .mini-target {
-      background: #d22630;
+    .mini-decision-btn.stop {
+      background: linear-gradient(135deg, #8f111a, #d22630 70%, #ffffff 71%);
+    }
+
+    .minigame-screen {
+      gap: 8px;
     }
 
     .memorial-stage {
@@ -2162,14 +2052,19 @@
     <div class="mini-hud" aria-live="polite">
       <span id="miniScoreLabel">Punkte 0</span>
       <span id="miniBestLabel">Best 0</span>
-      <span id="miniTimeLabel">Zeit 12</span>
+      <span id="miniLivesLabel">Leben 3</span>
     </div>
     <div class="mini-stage bollo" id="miniStage">
       <div class="mini-message" id="miniMessage">Bereit</div>
-      <div class="werkscitz-sign" aria-hidden="true">WERKSCITZ</div>
-      <span class="werkscitz-barrier" aria-hidden="true"></span>
-      <div class="burger-stack" id="burgerStack" aria-hidden="true"></div>
-      <button class="mini-target" id="miniTarget" type="button">BOLLO</button>
+      <canvas class="mini-canvas" id="miniCanvas" width="320" height="260" aria-label="Mini Game Spielfeld"></canvas>
+    </div>
+    <div class="mini-controls" id="miniMoveControls" aria-label="Bewegen">
+      <button class="mini-control-btn mini-move-btn" id="miniLeftBtn" type="button" aria-label="Nach links">←</button>
+      <button class="mini-control-btn mini-move-btn" id="miniRightBtn" type="button" aria-label="Nach rechts">→</button>
+    </div>
+    <div class="mini-controls is-hidden" id="miniGateControls" aria-label="Ausweis entscheiden">
+      <button class="mini-control-btn mini-decision-btn" id="miniApproveBtn" type="button">Durchlassen</button>
+      <button class="mini-control-btn mini-decision-btn stop" id="miniRejectBtn" type="button">Stopp</button>
     </div>
     <button class="menu-action" id="miniStartBtn" type="button">Mini Game starten</button>
     <div class="app-footer">#immerda</div>
@@ -2310,12 +2205,18 @@
       const miniGameTabs = Array.prototype.slice.call(document.querySelectorAll("[data-mini-game]"));
       const miniStage = document.getElementById("miniStage");
       const miniMessage = document.getElementById("miniMessage");
-      const miniTarget = document.getElementById("miniTarget");
+      const miniCanvas = document.getElementById("miniCanvas");
+      const miniCtx = miniCanvas.getContext("2d");
       const miniStartBtn = document.getElementById("miniStartBtn");
       const miniScoreLabel = document.getElementById("miniScoreLabel");
       const miniBestLabel = document.getElementById("miniBestLabel");
-      const miniTimeLabel = document.getElementById("miniTimeLabel");
-      const burgerStack = document.getElementById("burgerStack");
+      const miniLivesLabel = document.getElementById("miniLivesLabel");
+      const miniMoveControls = document.getElementById("miniMoveControls");
+      const miniGateControls = document.getElementById("miniGateControls");
+      const miniLeftBtn = document.getElementById("miniLeftBtn");
+      const miniRightBtn = document.getElementById("miniRightBtn");
+      const miniApproveBtn = document.getElementById("miniApproveBtn");
+      const miniRejectBtn = document.getElementById("miniRejectBtn");
       const settingsBtn = document.getElementById("settingsBtn");
       const settingsBackBtn = document.getElementById("settingsBackBtn");
       const settingsPasswordInput = document.getElementById("settingsPasswordInput");
@@ -2370,7 +2271,7 @@
         highscores: "sg8SpielHighscores",
         best: "sg8SpielBest",
         memorial: "sg8MemorialImages",
-        miniBests: "sg8MiniGameBests"
+        miniBests: "sg8MiniArcadeBestsV2"
       };
       const playerPalette = [
         { bg: "#ff7f6e", fg: "#32110e" },
@@ -2380,6 +2281,14 @@
         { bg: "#2f7aff", fg: "#ffffff" },
         { bg: "#d22630", fg: "#ffffff" }
       ];
+      const burgerOrder = ["bottom", "patty", "cheese", "salad", "top"];
+      const burgerLabels = {
+        bottom: "Boden",
+        patty: "Patty",
+        cheese: "Käse",
+        salad: "Salat",
+        top: "Deckel"
+      };
 
       const avatarSeed = [
         { id: "niki-gay-boy", name: "NikiGayBoy", initials: "NG", bg: "#ff7f6e", fg: "#32110e" },
@@ -2392,7 +2301,7 @@
         { id: "plenum", name: "Plenum", initials: "P", bg: "#15479a", fg: "#ffffff" }
       ];
 
-      if (!ctx) {
+      if (!ctx || !miniCtx) {
         document.body.classList.add("canvas-error");
         return;
       }
@@ -2409,12 +2318,17 @@
       let memorialSlideIndex = 0;
       let miniGameMode = "bollo";
       let miniRunning = false;
-      let miniReactionReady = false;
-      let miniReactionStartedAt = 0;
-      let miniGameDeadline = 0;
-      let miniTicker = 0;
-      let miniReactionTimer = 0;
       let miniScore = 0;
+      let miniLives = 3;
+      let miniLevel = 1;
+      let miniPlayerX = 160;
+      let miniMoveDirection = 0;
+      let miniItems = [];
+      let miniSpawnTimer = 0;
+      let miniStackStep = 0;
+      let miniGateCard = null;
+      let miniGateDelay = 0;
+      let miniEffectTimer = 0;
       let miniBests = loadMiniBests();
       let score = 0;
       let elapsed = 0;
@@ -2584,72 +2498,41 @@
         return saved && typeof saved === "object" ? saved : {};
       }
 
-      function miniGameDuration() {
-        return miniGameMode === "burger" ? 10 : 12;
-      }
-
       function miniBestText() {
         const value = Number(miniBests[miniGameMode]) || 0;
-        if (miniGameMode === "wach") return value ? `Best ${value} ms` : "Best --";
         return `Best ${value}`;
       }
 
       function updateMiniHud() {
-        miniScoreLabel.textContent = miniGameMode === "wach"
-          ? (miniScore ? `${miniScore} ms` : "Reaktion")
-          : `Punkte ${miniScore}`;
+        miniScoreLabel.textContent = `Punkte ${miniScore}`;
         miniBestLabel.textContent = miniBestText();
+        miniLivesLabel.textContent = `Leben ${miniLives}`;
       }
 
       function saveMiniBest() {
         if (miniScore <= 0) return;
         const previous = Number(miniBests[miniGameMode]) || 0;
-        const isBetter = miniGameMode === "wach"
-          ? previous === 0 || miniScore < previous
-          : miniScore > previous;
-        if (!isBetter) return;
+        if (miniScore <= previous) return;
         miniBests[miniGameMode] = miniScore;
         safeSave(storageKeys.miniBests, miniBests);
       }
 
-      function clearMiniTimers() {
-        clearInterval(miniTicker);
-        clearTimeout(miniReactionTimer);
-        miniTicker = 0;
-        miniReactionTimer = 0;
-      }
-
-      function renderBurgerStack() {
-        burgerStack.innerHTML = "";
-        const visibleLayers = Math.min(miniScore, 11);
-        for (let index = 0; index < visibleLayers; index += 1) {
-          const layer = document.createElement("span");
-          layer.className = "burger-layer";
-          burgerStack.appendChild(layer);
-        }
-      }
-
-      function moveBolloTarget() {
-        miniTarget.style.left = `${6 + Math.random() * 68}%`;
-        miniTarget.style.top = `${18 + Math.random() * 48}%`;
-      }
-
       function resetMiniStage() {
         miniStage.className = `mini-stage ${miniGameMode}`;
-        miniTarget.style.left = "";
-        miniTarget.style.top = "";
-        miniTarget.disabled = false;
-        burgerStack.innerHTML = "";
-        miniMessage.textContent = miniGameMode === "wach" ? "Werkscitz-Kontrolle" : "Bereit";
-        miniTarget.textContent = miniGameMode === "bollo"
-          ? "BOLLO"
-          : (miniGameMode === "burger" ? "STAPELN" : "WERKSCITZ");
+        miniPlayerX = 160;
+        miniMoveDirection = 0;
+        miniItems = [];
+        miniSpawnTimer = 0;
+        miniStackStep = 0;
+        miniGateCard = null;
+        miniGateDelay = 0;
+        miniEffectTimer = 0;
+        miniMessage.textContent = miniGameMode === "wach" ? "Werkscitz-Ausweiskontrolle" : "Bereit";
       }
 
       function stopMiniGame() {
-        clearMiniTimers();
         miniRunning = false;
-        miniReactionReady = false;
+        miniMoveDirection = 0;
         miniStartBtn.disabled = false;
       }
 
@@ -2661,9 +2544,13 @@
           tab.setAttribute("aria-selected", String(tab.dataset.miniGame === mode));
         });
         resetMiniStage();
-        miniTimeLabel.textContent = miniGameMode === "wach" ? "Zeit --" : `Zeit ${miniGameDuration()}`;
+        miniMoveControls.classList.toggle("is-hidden", miniGameMode === "wach");
+        miniGateControls.classList.toggle("is-hidden", miniGameMode !== "wach");
         miniStartBtn.textContent = "Mini Game starten";
+        miniLives = 3;
+        miniLevel = 1;
         updateMiniHud();
+        drawMiniGame();
       }
 
       function openMiniGames() {
@@ -2674,79 +2561,357 @@
 
       function finishMiniGame(message) {
         if (!miniRunning) return;
-        clearMiniTimers();
         miniRunning = false;
-        miniReactionReady = false;
+        miniMoveDirection = 0;
         saveMiniBest();
         updateMiniHud();
         miniMessage.textContent = message;
-        miniTarget.disabled = true;
         miniStartBtn.disabled = false;
         miniStartBtn.textContent = "Nochmal";
-      }
-
-      function updateMiniCountdown() {
-        const remaining = Math.max(0, Math.ceil((miniGameDeadline - Date.now()) / 1000));
-        miniTimeLabel.textContent = `Zeit ${remaining}`;
-        if (remaining <= 0) finishMiniGame(`${miniScore} Punkte`);
       }
 
       function startMiniGame() {
         stopMiniGame();
         miniScore = 0;
+        miniLives = 3;
+        miniLevel = 1;
         miniRunning = true;
         miniStartBtn.disabled = true;
         resetMiniStage();
         updateMiniHud();
-
+        if (miniGameMode === "bollo") miniMessage.textContent = "Fang Bollo - weich dem Topf aus";
+        if (miniGameMode === "burger") miniMessage.textContent = `Nächste Lage: ${burgerLabels[burgerOrder[0]]}`;
         if (miniGameMode === "wach") {
-          miniTimeLabel.textContent = "Zeit --";
-          miniMessage.textContent = "Werkscitz prüft...";
-          miniTarget.textContent = "WARTEN";
-          miniReactionTimer = setTimeout(() => {
-            if (!miniRunning) return;
-            miniReactionReady = true;
-            miniReactionStartedAt = performance.now();
-            miniStage.classList.add("is-ready");
-            miniMessage.textContent = "AUSWEIS OK";
-            miniTarget.textContent = "TOR AUF";
-          }, 1200 + Math.random() * 2200);
-          return;
+          miniMessage.textContent = "Werkscitz: Ausweis entscheiden";
+          spawnGateCard();
         }
-
-        miniMessage.textContent = miniGameMode === "bollo" ? "Spaghetti Bollo" : "Burger King";
-        if (miniGameMode === "bollo") moveBolloTarget();
-        miniGameDeadline = Date.now() + miniGameDuration() * 1000;
-        updateMiniCountdown();
-        miniTicker = setInterval(updateMiniCountdown, 200);
+        drawMiniGame();
       }
 
-      function handleMiniTarget() {
-        if (!miniRunning) return;
+      function loseMiniLife(message) {
+        miniLives = Math.max(0, miniLives - 1);
+        miniEffectTimer = 0.7;
+        miniMessage.textContent = message;
+        updateMiniHud();
+        if (miniLives <= 0) finishMiniGame(`Game Over - ${miniScore} Punkte`);
+      }
+
+      function spawnFallingItem() {
+        let type;
         if (miniGameMode === "bollo") {
-          miniScore += 1;
-          moveBolloTarget();
-          updateMiniHud();
+          const roll = Math.random();
+          type = roll < 0.48 ? "noodle" : (roll < 0.8 ? "tomato" : "pot");
+        } else {
+          const expected = burgerOrder[miniStackStep];
+          type = Math.random() < 0.42
+            ? expected
+            : burgerOrder[Math.floor(Math.random() * burgerOrder.length)];
+        }
+        miniItems.push({
+          x: 24 + Math.random() * 272,
+          y: -18,
+          speed: 76 + miniLevel * 13 + Math.random() * 24,
+          type,
+          radius: 13
+        });
+      }
+
+      function spawnGateCard() {
+        miniGateCard = {
+          x: 338,
+          permit: Math.random() >= 0.45,
+          speed: 48 + miniLevel * 7
+        };
+        miniGateDelay = 0;
+      }
+
+      function miniItemHitsPlayer(item) {
+        return item.x + item.radius > miniPlayerX - 34 &&
+          item.x - item.radius < miniPlayerX + 34 &&
+          item.y + item.radius > 218 &&
+          item.y - item.radius < 252;
+      }
+
+      function collectMiniItem(item) {
+        if (miniGameMode === "bollo") {
+          if (item.type === "pot") {
+            loseMiniLife("Topf erwischt");
+          } else {
+            miniScore += item.type === "tomato" ? 2 : 1;
+            miniMessage.textContent = item.type === "tomato" ? "Tomaten-Bonus" : "Spaghetti Bollo";
+          }
           return;
         }
+
+        const expected = burgerOrder[miniStackStep];
+        if (item.type !== expected) {
+          miniStackStep = 0;
+          loseMiniLife("Falsche Burgerlage");
+          if (miniRunning) miniMessage.textContent = `Neu: ${burgerLabels[burgerOrder[0]]}`;
+          return;
+        }
+        miniStackStep += 1;
+        miniScore += 2;
+        if (miniStackStep >= burgerOrder.length) {
+          miniScore += 10;
+          miniStackStep = 0;
+          miniMessage.textContent = "Burger fertig +10";
+        } else {
+          miniMessage.textContent = `Nächste Lage: ${burgerLabels[burgerOrder[miniStackStep]]}`;
+        }
+      }
+
+      function updateFallingMiniGame(dt) {
+        miniPlayerX += miniMoveDirection * (188 + miniLevel * 7) * dt;
+        miniPlayerX = Math.max(36, Math.min(284, miniPlayerX));
+        miniSpawnTimer += dt;
+        const spawnEvery = Math.max(0.36, 0.82 - miniLevel * 0.045);
+        if (miniSpawnTimer >= spawnEvery) {
+          miniSpawnTimer = 0;
+          spawnFallingItem();
+        }
+
+        miniItems.forEach((item) => {
+          item.y += item.speed * dt;
+          if (!item.collected && miniItemHitsPlayer(item)) {
+            item.collected = true;
+            collectMiniItem(item);
+          }
+        });
+        miniItems = miniItems.filter((item) => !item.collected && item.y < 286);
+      }
+
+      function updateGateMiniGame(dt) {
+        if (!miniGateCard) {
+          miniGateDelay -= dt;
+          if (miniGateDelay <= 0) spawnGateCard();
+          return;
+        }
+        miniGateCard.x -= miniGateCard.speed * dt;
+        if (miniGateCard.x < 72) {
+          miniGateCard = null;
+          miniGateDelay = 0.45;
+          loseMiniLife("Werkscitz: Entscheidung verpasst");
+        }
+      }
+
+      function updateMiniGame(dt) {
+        if (!miniRunning) return;
+        miniEffectTimer = Math.max(0, miniEffectTimer - dt);
+        if (miniGameMode === "wach") updateGateMiniGame(dt);
+        else updateFallingMiniGame(dt);
+        miniLevel = 1 + Math.floor(miniScore / 12);
+        updateMiniHud();
+      }
+
+      function decideGate(allow) {
+        if (!miniRunning || miniGameMode !== "wach" || !miniGateCard) return;
+        const correct = allow === miniGateCard.permit;
+        miniGateCard = null;
+        miniGateDelay = 0.42;
+        if (correct) {
+          miniScore += 2;
+          miniMessage.textContent = allow ? "Ausweis OK - Tor auf" : "Richtig gestoppt";
+        } else {
+          loseMiniLife("Werkscitz: Falsche Entscheidung");
+        }
+        updateMiniHud();
+      }
+
+      function moveMiniPlayer(direction) {
+        if (!miniRunning || miniGameMode === "wach") return;
+        miniPlayerX = Math.max(36, Math.min(284, miniPlayerX + direction * 34));
+      }
+
+      function drawMiniBackground() {
+        const gradient = miniCtx.createLinearGradient(0, 0, 0, 260);
+        gradient.addColorStop(0, "#9ddfff");
+        gradient.addColorStop(0.68, "#f7fafc");
+        gradient.addColorStop(1, "#dfe8f4");
+        miniCtx.fillStyle = gradient;
+        miniCtx.fillRect(0, 0, 320, 260);
+
+        miniCtx.fillStyle = "rgba(21, 71, 154, 0.1)";
+        for (let x = -260; x < 420; x += 42) {
+          miniCtx.save();
+          miniCtx.translate(x, 0);
+          miniCtx.rotate(-0.28);
+          miniCtx.fillRect(0, 0, 10, 310);
+          miniCtx.restore();
+        }
+        miniCtx.fillStyle = "#15479a";
+        miniCtx.fillRect(0, 0, 132, 7);
+        miniCtx.fillStyle = "#ffffff";
+        miniCtx.fillRect(132, 0, 56, 7);
+        miniCtx.fillStyle = "#d22630";
+        miniCtx.fillRect(188, 0, 132, 7);
+      }
+
+      function drawBolloPlayer() {
+        miniCtx.fillStyle = "rgba(24, 32, 51, 0.18)";
+        miniCtx.beginPath();
+        miniCtx.ellipse(miniPlayerX, 247, 42, 8, 0, 0, Math.PI * 2);
+        miniCtx.fill();
+        miniCtx.fillStyle = "#ffffff";
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 3;
+        miniCtx.beginPath();
+        miniCtx.ellipse(miniPlayerX, 232, 36, 16, 0, 0, Math.PI * 2);
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.strokeStyle = "#ffd85c";
+        miniCtx.lineWidth = 4;
+        for (let offset = -18; offset <= 18; offset += 9) {
+          miniCtx.beginPath();
+          miniCtx.arc(miniPlayerX + offset, 230, 9, 0.2, Math.PI * 1.7);
+          miniCtx.stroke();
+        }
+      }
+
+      function drawBurgerLayer(type, x, y, scale) {
+        miniCtx.save();
+        miniCtx.translate(x, y);
+        miniCtx.scale(scale, scale);
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 2.5;
+        if (type === "cheese") {
+          miniCtx.fillStyle = "#ffd85c";
+          miniCtx.beginPath();
+          miniCtx.moveTo(-18, -6);
+          miniCtx.lineTo(20, -2);
+          miniCtx.lineTo(14, 8);
+          miniCtx.lineTo(-20, 5);
+          miniCtx.closePath();
+        } else {
+          miniCtx.fillStyle = type === "patty" ? "#713c2c" : (type === "salad" ? "#4fbf74" : "#d99a43");
+          roundRect(miniCtx, -22, -7, 44, 14, type === "patty" ? 5 : 8);
+        }
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.restore();
+      }
+
+      function drawFallingItem(item) {
         if (miniGameMode === "burger") {
-          miniScore += 1;
-          renderBurgerStack();
-          updateMiniHud();
+          drawBurgerLayer(item.type, item.x, item.y, 0.72);
           return;
         }
-        if (!miniReactionReady) {
-          clearMiniTimers();
-          miniRunning = false;
-          miniStage.classList.add("is-false-start");
-          miniMessage.textContent = "Werkscitz: Fehlstart";
-          miniTarget.textContent = "ZU FRÜH";
-          miniStartBtn.disabled = false;
-          miniStartBtn.textContent = "Nochmal";
-          return;
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 2.5;
+        if (item.type === "pot") {
+          miniCtx.fillStyle = "#2f3747";
+          roundRect(miniCtx, item.x - 14, item.y - 10, 28, 22, 5);
+          miniCtx.fill();
+          miniCtx.stroke();
+          miniCtx.fillRect(item.x + 12, item.y - 4, 12, 5);
+        } else if (item.type === "tomato") {
+          miniCtx.fillStyle = "#d22630";
+          miniCtx.beginPath();
+          miniCtx.arc(item.x, item.y, 12, 0, Math.PI * 2);
+          miniCtx.fill();
+          miniCtx.stroke();
+          miniCtx.fillStyle = "#4fbf74";
+          miniCtx.fillRect(item.x - 2, item.y - 16, 4, 7);
+        } else {
+          miniCtx.strokeStyle = "#ffd85c";
+          miniCtx.lineWidth = 5;
+          miniCtx.beginPath();
+          miniCtx.arc(item.x, item.y, 12, 0, Math.PI * 1.75);
+          miniCtx.stroke();
+          miniCtx.strokeStyle = "#d22630";
+          miniCtx.lineWidth = 2;
+          miniCtx.stroke();
         }
-        miniScore = Math.max(1, Math.round(performance.now() - miniReactionStartedAt));
-        finishMiniGame(`${miniScore} ms - Werkscitz lässt dich rein`);
+      }
+
+      function drawBurgerPlayer() {
+        miniCtx.fillStyle = "#dfe8f4";
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 3;
+        roundRect(miniCtx, miniPlayerX - 38, 238, 76, 12, 5);
+        miniCtx.fill();
+        miniCtx.stroke();
+        for (let index = 0; index < miniStackStep; index += 1) {
+          drawBurgerLayer(burgerOrder[index], miniPlayerX, 230 - index * 12, 0.9);
+        }
+      }
+
+      function drawGateGame() {
+        miniCtx.fillStyle = "#2f3747";
+        miniCtx.fillRect(0, 132, 320, 128);
+        miniCtx.fillStyle = "rgba(255, 255, 255, 0.72)";
+        for (let x = 12; x < 320; x += 58) miniCtx.fillRect(x, 220, 30, 5);
+
+        miniCtx.fillStyle = "#15479a";
+        miniCtx.strokeStyle = "#182033";
+        miniCtx.lineWidth = 3;
+        roundRect(miniCtx, 18, 40, 112, 38, 6);
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.fillStyle = "#ffffff";
+        miniCtx.font = "900 15px Inter, sans-serif";
+        miniCtx.textAlign = "center";
+        miniCtx.textBaseline = "middle";
+        miniCtx.fillText("WERKSCITZ", 74, 59);
+
+        miniCtx.fillStyle = "#ffd85c";
+        roundRect(miniCtx, 51, 134, 18, 75, 4);
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.save();
+        miniCtx.translate(63, 145);
+        miniCtx.rotate(miniGateCard ? 0 : -0.75);
+        miniCtx.fillStyle = "#ffffff";
+        miniCtx.fillRect(0, -7, 118, 14);
+        miniCtx.fillStyle = "#d22630";
+        for (let x = 8; x < 112; x += 24) miniCtx.fillRect(x, -7, 12, 14);
+        miniCtx.strokeRect(0, -7, 118, 14);
+        miniCtx.restore();
+
+        if (!miniGateCard) return;
+        const x = miniGateCard.x;
+        miniCtx.fillStyle = "#f7fafc";
+        roundRect(miniCtx, x - 34, 165, 68, 38, 7);
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.fillStyle = "#15479a";
+        miniCtx.fillRect(x - 29, 181, 58, 8);
+        miniCtx.fillStyle = "#182033";
+        miniCtx.beginPath();
+        miniCtx.arc(x - 20, 204, 7, 0, Math.PI * 2);
+        miniCtx.arc(x + 20, 204, 7, 0, Math.PI * 2);
+        miniCtx.fill();
+
+        miniCtx.fillStyle = miniGateCard.permit ? "#20a464" : "#d22630";
+        roundRect(miniCtx, x - 29, 93, 58, 48, 6);
+        miniCtx.fill();
+        miniCtx.stroke();
+        miniCtx.fillStyle = "#ffffff";
+        miniCtx.font = "900 13px Inter, sans-serif";
+        miniCtx.fillText(miniGateCard.permit ? "AUSWEIS OK" : "STOP", x, 117);
+      }
+
+      function drawMiniGame() {
+        miniCtx.setTransform(1, 0, 0, 1, 0, 0);
+        miniCtx.clearRect(0, 0, 320, 260);
+        drawMiniBackground();
+        if (miniGameMode === "wach") {
+          drawGateGame();
+        } else {
+          miniItems.forEach(drawFallingItem);
+          if (miniGameMode === "bollo") drawBolloPlayer();
+          else drawBurgerPlayer();
+        }
+
+        if (!miniRunning) {
+          miniCtx.fillStyle = "rgba(24, 32, 51, 0.3)";
+          miniCtx.fillRect(0, 0, 320, 260);
+          miniCtx.fillStyle = "#ffffff";
+          miniCtx.font = "900 25px Inter, sans-serif";
+          miniCtx.textAlign = "center";
+          miniCtx.textBaseline = "middle";
+          miniCtx.fillText(miniStartBtn.textContent === "Nochmal" ? "GAME OVER" : "BEREIT", 160, 138);
+        }
       }
 
       function loadMemorialImages() {
@@ -3737,11 +3902,38 @@
         element.addEventListener("click", handler);
       }
 
+      function bindMiniHold(button, direction) {
+        const startMoving = (event) => {
+          event.preventDefault();
+          if (miniRunning && miniGameMode !== "wach") miniMoveDirection = direction;
+        };
+        const stopMoving = () => {
+          if (miniMoveDirection === direction) miniMoveDirection = 0;
+        };
+        button.addEventListener("pointerdown", startMoving);
+        button.addEventListener("pointerup", stopMoving);
+        button.addEventListener("pointercancel", stopMoving);
+        button.addEventListener("pointerleave", stopMoving);
+        button.addEventListener("touchstart", startMoving, false);
+        button.addEventListener("touchend", stopMoving, false);
+        button.addEventListener("click", () => moveMiniPlayer(direction));
+      }
+
+      function placeMiniPlayer(event) {
+        if (!miniRunning || miniGameMode === "wach") return;
+        const rect = miniCanvas.getBoundingClientRect();
+        const clientX = event.clientX || (event.touches && event.touches[0] && event.touches[0].clientX);
+        if (!clientX || rect.width <= 0) return;
+        miniPlayerX = Math.max(36, Math.min(284, (clientX - rect.left) / rect.width * 320));
+      }
+
       function loop(now) {
         const dt = Math.min(0.034, (now - lastFrame) / 1000 || 0);
         lastFrame = now;
         update(dt);
         draw();
+        updateMiniGame(dt);
+        drawMiniGame();
         requestAnimationFrame(loop);
       }
 
@@ -3758,7 +3950,25 @@
         tab.addEventListener("click", () => selectMiniGame(tab.dataset.miniGame));
       });
       miniStartBtn.addEventListener("click", startMiniGame);
-      miniTarget.addEventListener("click", handleMiniTarget);
+      bindMiniHold(miniLeftBtn, -1);
+      bindMiniHold(miniRightBtn, 1);
+      miniApproveBtn.addEventListener("click", () => decideGate(true));
+      miniRejectBtn.addEventListener("click", () => decideGate(false));
+      miniCanvas.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        placeMiniPlayer(event);
+      });
+      miniCanvas.addEventListener("pointermove", (event) => {
+        if (event.buttons === 1 || event.pointerType === "touch") placeMiniPlayer(event);
+      });
+      miniCanvas.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        placeMiniPlayer(event);
+      }, false);
+      miniCanvas.addEventListener("touchmove", (event) => {
+        event.preventDefault();
+        placeMiniPlayer(event);
+      }, false);
       newGameBtn.addEventListener("click", enterCharacterSelect);
       settingsBtn.addEventListener("click", openSettings);
       settingsBackBtn.addEventListener("click", showMenu);
@@ -3788,12 +3998,36 @@
       window.addEventListener("keydown", (event) => {
         const activeTag = document.activeElement && document.activeElement.tagName;
         if (activeTag === "INPUT") return;
+        if (!miniGamesScreen.classList.contains("is-hidden")) {
+          if (event.code === "ArrowLeft" || event.code === "KeyA") {
+            event.preventDefault();
+            miniMoveDirection = -1;
+          }
+          if (event.code === "ArrowRight" || event.code === "KeyD") {
+            event.preventDefault();
+            miniMoveDirection = 1;
+          }
+          if (miniGameMode === "wach" && event.code === "Enter") {
+            event.preventDefault();
+            decideGate(true);
+          }
+          if (miniGameMode === "wach" && event.code === "Space") {
+            event.preventDefault();
+            decideGate(false);
+          }
+          return;
+        }
         if (event.code === "Space" || event.code === "ArrowUp") {
           event.preventDefault();
           flap();
         }
         if (event.code === "KeyP") {
           togglePause();
+        }
+      });
+      window.addEventListener("keyup", (event) => {
+        if (event.code === "ArrowLeft" || event.code === "ArrowRight" || event.code === "KeyA" || event.code === "KeyD") {
+          miniMoveDirection = 0;
         }
       });
       window.addEventListener("resize", resizeCanvas);
