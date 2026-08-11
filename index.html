@@ -1056,6 +1056,24 @@
       opacity: 1;
     }
 
+    .overlay.is-gameover {
+      background:
+        repeating-linear-gradient(118deg, rgba(210, 38, 48, 0.14) 0 8px, transparent 8px 22px),
+        linear-gradient(180deg, rgba(24, 32, 51, 0.28), rgba(210, 38, 48, 0.38));
+    }
+
+    .overlay.is-gameover .overlay-card {
+      border-color: #d22630;
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.42) inset,
+        0 0 30px rgba(210, 38, 48, 0.52),
+        0 18px 42px rgba(24, 32, 51, 0.3);
+    }
+
+    .overlay.is-gameover .overlay-title {
+      color: #a5131c;
+    }
+
     .overlay.is-intro {
       background:
         radial-gradient(circle at 50% 26%, rgba(255, 216, 92, 0.24), transparent 28%),
@@ -2393,6 +2411,7 @@
       function updateOverlay() {
         const show = state !== "playing";
         overlay.classList.toggle("show", show);
+        overlay.classList.toggle("is-gameover", state === "gameover");
         playScreen.classList.toggle("is-selecting", state === "selecting");
         playScreen.classList.toggle("is-playing", state === "playing" || state === "paused" || state === "gameover");
         const selectedAvatar = currentAvatar();
@@ -2409,9 +2428,9 @@
           overlayScore.textContent = `Score ${score}`;
           overlayBtn.textContent = "Weiter";
         } else if (state === "gameover") {
-          overlayTitle.textContent = score > 0 && score >= best ? "Bestscore!" : "Nochmal?";
-          overlayScore.textContent = `Score ${score}`;
-          overlayBtn.textContent = "Restart";
+          overlayTitle.textContent = "Du hast verloren.";
+          overlayScore.textContent = "Du wirst in SG9 exekutiert";
+          overlayBtn.textContent = "Nochmal spielen";
         }
         const waitingForPlayer = state === "selecting" && !hasSelected;
         overlayBtn.disabled = waitingForPlayer;
